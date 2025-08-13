@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show welcome message
     setTimeout(() => {
         if (window.location.pathname.endsWith('read.html')) {
-        showNotification('Welcome to AutoBrief! Start by entering a book name to get an AI summary.', 'info');}
+        showNotification('Welcome to AutoBrief Reading Room! Start by entering a book name to get an AI summary.', 'info');}
     }, 1000);
 });
 
@@ -454,3 +454,4 @@ document.addEventListener('keydown', function(e) {
     }
 
 });
+
