@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBrief - Reading Interface</title>
+    <link rel="icon" type="image/png" href="Gemini_Generated_Image_xw8ozhxw8ozhxw8o.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="reading-body">
+    <!-- Navigation for Reading Page -->
+    <nav class="navbar reading-nav">
+        <div class="nav-container">
+            <div class="logo">AutoBrief</div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Reading Interface -->
+    <div class="reading-interface">
+        <div class="book-input-section">
+            <div class="input-container">
+                <input type="text" id="bookNameInput" placeholder="Name your book name" class="book-input">
+                <button class="summarise-button" onclick="summariseBook()">Summarise</button>
+            </div>
+        </div>
+
+        <div class="reading-area">
+            <div class="reading-container">
+                <h3 class="reading-title">Read your favourite book here!</h3>
+                <div class="reading-content" id="readingContent">
+                    <p>Enter a book name above and click "Summarise" to start reading your AI-generated summary...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="export-section">
+            <button class="export-button" onclick="exportToPDF()">
+                Export As PDF
+                <span class="arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 AutoBrief. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
