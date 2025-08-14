@@ -103,14 +103,40 @@ function displaySummaryWithEffect(summary, bookName) {
 }
 
 // Export to PDF functionality
+// REPLACE your old exportToPDF function with this new one
 function exportToPDF() {
     const readingContent = document.getElementById('readingContent');
-    const bookTitle = document.querySelector('.reading-title').textContent;
-    
-    if (!readingContent.textContent.trim() || readingContent.textContent.includes('Enter a book name')) {
+    const readingTitle = document.querySelector('.reading-title');
+
+    // Check if there is content to export
+    if (!readingContent.textContent.trim() || readingContent.innerText.includes('your favourite book here')) {
         showNotification('Please generate a summary first before exporting', 'error');
         return;
     }
+
+    // Get the title for the filename, or use a default
+    const fileName = (readingTitle.textContent.trim() || 'AutoBrief Summary') + '.pdf';
+
+    // Options for the PDF generation
+    const opt = {
+      margin:       [0.5, 0.5, 0.5, 0.5], // top, left, bottom, right in inches
+      filename:     fileName,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // Create a new element to hold both title and content for the PDF
+    const elementToPrint = document.createElement('div');
+    const titleElement = document.createElement('h1');
+    titleElement.innerText = readingTitle.textContent;
+    
+    // Append the title and the summary content to the new element
+    elementToPrint.appendChild(titleElement);
+    elementToPrint.innerHTML += readingContent.innerHTML;
+
+    // Use the html2pdf library to generate and save the PDF
+    html2pdf().from(elementToPrint).set(opt).save();
     
     // Create a new window for PDF generation
     const printWindow = window.open('', '_blank');
@@ -440,5 +466,6 @@ document.addEventListener('keydown', function(e) {
     }
 
 });
+
 
 
