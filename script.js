@@ -39,7 +39,7 @@ async function summariseBook() {
     
     try {
         // THIS IS THE NEW PART: Call your backend
-        const response = await fetch('http://localhost:3001/summarize', {
+        const response = await fetch('https://autobrief-backend-nyk6.onrender.com/summarize', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -263,7 +263,7 @@ function initFormHandler() {
             
             try {
                 // THIS IS THE NEW PART: Call your backend
-                const response = await fetch('http://localhost:3001/send-feedback', {
+                const response = await fetch('https://autobrief-backend-nyk6.onrender.com/send-feedback', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -398,3 +398,4 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
