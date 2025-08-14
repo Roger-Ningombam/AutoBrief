@@ -21,7 +21,7 @@ app.use(express.json()); // Allows the server to understand JSON data
  * Endpoint to generate a book summary.
  * Expects a POST request with a JSON body: { "bookName": "The Book Title" }
  */
-app.post('/api/summarize', async (req, res) => {
+app.post('/summarize', async (req, res) => {
     const { bookName } = req.body;
 
     if (!bookName) {
@@ -77,7 +77,7 @@ app.post('/api/summarize', async (req, res) => {
  * Endpoint to handle the contact form submission.
  * Expects a POST request with a JSON body: { "name": "...", "email": "...", "message": "..." }
  */
-app.post('/api/send-feedback', async (req, res) => {
+app.post('/send-feedback', async (req, res) => {
     const { name, email, message } = req.body;
 
     if (!name || !email || !message) {
@@ -110,4 +110,5 @@ app.post('/api/send-feedback', async (req, res) => {
 // --- Start Server ---
 app.listen(PORT, () => {
     console.log(`✅ Server is running on http://localhost:${PORT}`);
+
 });
