@@ -39,7 +39,7 @@ async function summariseBook() {
     
     try {
         // THIS IS THE NEW PART: Call your backend
-        const response = await fetch('/summarize', {
+        const response = await fetch('/api/summarize', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -304,7 +304,7 @@ function initFormHandler() {
             
             try {
                 // THIS IS THE NEW PART: Call your backend
-                const response = await fetch('/send-feedback', {
+                const response = await fetch('/api/send-feedback', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -440,3 +440,4 @@ document.addEventListener('keydown', function(e) {
     }
 
 });
+
