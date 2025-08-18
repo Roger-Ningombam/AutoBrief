@@ -124,28 +124,12 @@ function exportToPDF() {
         return;
     }
 
-    // Check if typewriter is still running
     if (window.isTyping) {
         showNotification('Please wait for the summary to finish loading before exporting', 'info');
         return;
     }
 
     console.log("Starting PDF generation...");
-
-    // Use the clean stored content instead of the potentially broken HTML
-    function exportToPDF() {
-    const readingContent = document.getElementById('readingContent');
-    const bookTitle = document.querySelector('.reading-title').textContent;
-
-    if (!readingContent.textContent.trim() || readingContent.innerText.includes('your favourite book here')) {
-        showNotification('Please generate a summary first before exporting', 'error');
-        return;
-    }
-
-    if (window.isTyping) {
-        showNotification('Please wait for the summary to finish loading before exporting', 'info');
-        return;
-    }
 
     // Clean and get ALL the content - this is the key fix
     const contentToExport = (window.cleanSummaryContent || readingContent.textContent)
@@ -498,8 +482,3 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
-
-
-
-
-
