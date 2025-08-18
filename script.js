@@ -133,7 +133,12 @@ function exportToPDF() {
     console.log("Starting PDF generation...");
 
     // Use the clean stored content instead of the potentially broken HTML
-    const contentToExport = window.cleanSummaryContent || readingContent.textContent;
+    const contentToExport = (window.cleanSummaryContent || readingContent.textContent)
+    .replace(/\*\*/g, '')  // Remove ** bold markers
+    .replace(/\*/g, '')    // Remove * italic markers  
+    .replace(/#{1,6}\s*/g, '') // Remove # headers
+    .replace(/\n\s*\n/g, '\n\n') // Clean up extra line breaks
+    .trim();
     const titleToExport = window.cleanSummaryTitle || bookTitle;
 
     console.log("Using clean content for export:", contentToExport);
@@ -469,6 +474,7 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
 
 
 
