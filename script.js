@@ -120,160 +120,97 @@ function exportToPDF() {
     const bookTitle = document.querySelector('.reading-title').textContent;
 
     if (!readingContent.textContent.trim() || readingContent.innerText.includes('your favourite book here')) {
-        showNotification('Please generate a summary first before exporting', 'error');
+        showNotification('Please enter a book name first', 'error');
         return;
     }
 
     if (window.isTyping) {
-        showNotification('Please wait for the summary to finish loading before exporting', 'info');
+        showNotification('Please wait for summary to finish', 'info');
         return;
     }
 
-    console.log("Starting PDF generation...");
-
-    // Get clean content and split into paragraphs for better formatting
-    const rawContent = window.cleanSummaryContent || readingContent.textContent;
-    const cleanContent = rawContent
-        .replace(/\*\*/g, '')  
-        .replace(/\*/g, '')    
-        .replace(/#{1,6}\s*/g, '') 
-        .trim();
-
-    // Split content into paragraphs and format properly
-    const paragraphs = cleanContent.split('\n\n').filter(p => p.trim().length > 0);
-    const formattedContent = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
-
-    const htmlContent = `
+    // Get the clean content
+    const content = window.cleanSummaryContent || readingContent.textContent;
+    
+    // Create a simple, clean HTML structure
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
         <!DOCTYPE html>
         <html>
         <head>
-            <meta charset="utf-8">
             <title>${bookTitle}</title>
             <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                
-                @page {
-                    margin: 0.75in;
-                    size: A4;
-                }
-                
-                html, body {
-                    width: 100%;
-                    height: auto;
-                    font-family: 'Times New Roman', serif;
-                    font-size: 14px;
-                    line-height: 1.6;
+                body { 
+                    font-family: Arial, sans-serif; 
+                    margin: 40px; 
+                    line-height: 1.6; 
                     color: #333;
-                    overflow-x: hidden;
                 }
-                
-                .container {
-                    width: 100%;
-                    max-width: none;
-                    margin: 0;
-                    padding: 0;
+                h1 { 
+                    color: #8b7355; 
+                    text-align: center; 
+                    border-bottom: 2px solid #8b7355; 
+                    padding-bottom: 10px; 
+                    margin-bottom: 30px;
                 }
-                
-                h1 {
-                    color: #8b7355;
-                    font-size: 24px;
-                    text-align: center;
-                    margin-bottom: 10px;
-                    padding-bottom: 10px;
-                    border-bottom: 2px solid #8b7355;
-                    page-break-after: avoid;
-                }
-                
-                .generated-by {
-                    text-align: center;
-                    margin-bottom: 25px;
-                    color: #666;
+                .subtitle { 
+                    text-align: center; 
+                    color: #666; 
+                    margin-bottom: 30px; 
                     font-style: italic;
+                }
+                .content { 
+                    white-space: pre-line; 
+                    text-align: justify;
+                    font-size: 14px;
+                }
+                .footer { 
+                    margin-top: 40px; 
+                    padding-top: 20px; 
+                    border-top: 1px solid #ccc; 
+                    text-align: center; 
+                    color: #888;
                     font-size: 12px;
                 }
-                
-                .content {
-                    width: 100%;
-                    overflow: visible;
-                }
-                
-                .content p {
-                    margin-bottom: 12px;
-                    text-align: justify;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    hyphens: auto;
-                    orphans: 2;
-                    widows: 2;
-                }
-                
-                .footer {
-                    margin-top: 30px;
-                    padding-top: 15px;
-                    border-top: 1px solid #ccc;
-                    text-align: center;
-                    color: #666;
-                    font-size: 10px;
+                @media print {
+                    body { margin: 20px; }
                 }
             </style>
         </head>
         <body>
-            <div class="container">
-                <h1>${bookTitle}</h1>
-                <div class="generated-by">Generated by AutoBrief AI</div>
-                <div class="content">
-                    ${formattedContent}
-                </div>
-                <div class="footer">
-                    Generated on ${new Date().toLocaleDateString()} | AutoBrief.com
-                </div>
-            </div>
+            <h1>${bookTitle}</h1>
+            <div class="subtitle">Generated by AutoBrief AI</div>
+            <div class="content">${content}</div>
+            <div class="footer">Generated on ${new Date().toLocaleDateString()} | AutoBrief.com</div>
         </body>
         </html>
-    `;
+    `);
+    
+    printWindow.document.close();
+    
+    // Wait a moment then trigger print dialog
+    setTimeout(() => {
+        printWindow.print();
+        showNotification('Print dialog opened - choose "Save as PDF"', 'info');
+    }, 500);
+}
 
-    console.log("Content being exported:", cleanContent.substring(0, 200) + "...");
-    console.log("Total content length:", cleanContent.length);
-
-    const opt = {
-        margin: 0,  // Let CSS handle margins
-        filename: `${bookTitle.replace(/[^a-z0-9\s]/gi, '_')}.pdf`,
-        image: { 
-            type: 'jpeg', 
-            quality: 0.95 
-        },
-        html2canvas: { 
-            scale: 1,
-            useCORS: false,
-            allowTaint: false,
-            backgroundColor: '#ffffff',
-            height: null,  // Let it auto-calculate
-            width: null,   // Let it auto-calculate
-            scrollX: 0,
-            scrollY: 0
-        },
-        jsPDF: { 
-            unit: 'mm', 
-            format: 'a4', 
-            orientation: 'portrait'
-        }
-    };
-
-    html2pdf()
-        .set(opt)
-        .from(htmlContent)
-        .save()
-        .then(() => {
-            showNotification('PDF exported successfully!', 'success');
-        })
-        .catch(err => {
-            console.error("PDF error:", err);
-            showNotification('PDF generation failed. Please try again.', 'error');
-        });
+// Alternative function using browser download (fallback)
+function downloadAsText() {
+    const content = window.cleanSummaryContent || document.getElementById('readingContent').textContent;
+    const bookTitle = document.querySelector('.reading-title').textContent;
+    
+    const textContent = `${bookTitle}\nGenerated by AutoBrief AI\n\n${content}\n\nGenerated on ${new Date().toLocaleDateString()} | AutoBrief.com`;
+    
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${bookTitle.replace(/[^a-z0-9\s]/gi, '_')}.txt`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    
+    showNotification('Summary downloaded as text file!', 'success');
 }
 // Notification System
 function showNotification(message, type = 'info') {
@@ -536,4 +473,5 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
 
