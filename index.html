@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoBrief - Transform Books into Brilliant Insights</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #F9F7F2;
+            --bg-secondary: #F0EDE5;
+            --text-primary: #2C2420;
+            --text-secondary: #5A4E47;
+            --accent: #9C6644;
+            --accent-hover: #7D5236;
+            --border: rgba(44, 36, 32, 0.1);
+            --shadow: rgba(44, 36, 32, 0.08);
+            --card-bg: #FFFFFF;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1A1512;
+            --bg-secondary: #252019;
+            --text-primary: #E6E0D4;
+            --text-secondary: #B8AFA0;
+            --accent: #C9956B;
+            --accent-hover: #D4A67D;
+            --border: rgba(230, 224, 212, 0.15);
+            --shadow: rgba(201, 149, 107, 0.15);
+            --card-bg: #211C17;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: var(--bg-primary);
+            backdrop-filter: blur(10px);
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-custom.scrolled {
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: var(--accent);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            transform: rotate(180deg);
+        }
+
+        /* Buttons */
+        .btn-primary-hero {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.75rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .btn-primary-hero:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--shadow);
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary-hero {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+            padding: 0.75rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-hero:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 0 0 2rem;
+            position: relative;
+            background-color: var(--bg-primary);
+            /* Ensure opacity for curtain effect */
+            z-index: 2;
+            /* Sit above the fixed image */
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .hero-cta {
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        /* 3D Canvas Preserved */
+        .hero-visual {
+            height: 800px;
+            width: 100%;
+            position: relative;
+        }
+
+        #heroCanvas {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Curtain Reveal Logic */
+        .reveal-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* Behind Hero (2) and Features (2) */
+            background-image: url('image.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+
+        .reveal-spacer {
+            height: 80vh;
+            /* Adjust for amount of image to reveal */
+            width: 100%;
+            pointer-events: none;
+            /* Let scroll pass through if needed */
+            background: transparent;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 0;
+            background-color: var(--bg-secondary);
+            position: relative;
+            z-index: 2;
+            /* Sit above image */
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px var(--shadow);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px var(--shadow);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 4rem 0 8rem;
+            background-color: var(--bg-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-header {
+            margin-bottom: 4rem;
+        }
+
+        .about-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .about-underline {
+            width: 180px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .about-glass-box {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 3.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease;
+        }
+
+        [data-theme="dark"] .about-glass-box {
+            background: rgba(37, 32, 25, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-glass-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .about-text {
+            font-size: 1.45rem;
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .about-illustration-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .about-illustration {
+            max-width: 100%;
+            height: auto;
+            transform: scale(1.1);
+            margin-bottom: 2.5rem;
+        }
+
+        .about-cta-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-sample {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.75rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            display: inline-block;
+        }
+
+        .btn-sample:hover {
+            background-color: var(--accent-hover);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--shadow);
+        }
+
+        @media (max-width: 992px) {
+            .about-glass-box {
+                padding: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            .about-text {
+                font-size: 1.25rem;
+                text-align: center;
+            }
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 6rem 0;
+            background-color: var(--bg-secondary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .author-info h5 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 6rem 0;
+            background-color: var(--bg-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-control {
+            background-color: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background-color: var(--card-bg);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(156, 102, 68, 0.25);
+            color: var(--text-primary);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-secondary);
+            padding: 3rem 0 2rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+
+            /* Tablet Layout: Keep side-by-side but shrink content */
+            .hero-content h1 {
+                font-size: 2.5rem;
+                /* Shrink title */
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+                /* Shrink text */
+            }
+
+            .hero-visual {
+                height: 400px;
+                width: 100%;
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Phone Layout: Stack and Hide Canvas */
+            .hero-section {
+                text-align: center;
+                padding-top: 6rem;
+                padding-bottom: 4rem;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2.5rem auto;
+            }
+
+            .hero-visual {
+                display: none;
+                /* Hide 3D canvas on mobile */
+            }
+
+            @media (max-width: 576px) {
+                .hero-content h1 {
+                    font-size: 2.5rem;
+                }
+            }
+        }
+
+        /* Testimonials Slider */
+        .testimonial-slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        .testimonial-card-slide {
+            width: 400px;
+            flex-shrink: 0;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-400px * 5 - 2rem * 5));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-card-slide {
+                width: 300px;
+                padding: 1.5rem;
+            }
+
+            @keyframes scroll {
+                0% {
+                    transform: translateX(0);
+                }
+
+                100% {
+                    transform: translateX(calc(-300px * 5 - 2rem * 5));
+                }
+            }
+        }
+
+        /* Modal Styles */
+        [data-theme="dark"] .modal-content .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        .modal-content {
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-book-open"></i>
+                AutoBrief
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="reveal-image"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="hero-content text-center text-md-start">
+                        <h1>Turn Books<br>into Bite-Sized<br>Brilliance.</h1>
+                        <p class="mx-auto mx-md-0">Get key insights from any book in minutes.<br>AI-powered summaries
+                            for the modern reader.</p>
+                        <div class="hero-cta">
+                            <a href="read.html" class="btn btn-primary-hero">Start Reading</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
+                    <div class="hero-visual">
+                        <canvas id="heroCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Reveal Spacer -->
+    <div class="reveal-spacer"></div>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Improve Your Reading Experience</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Deep Context</h3>
+                        <p>We go beyond simple summaries. It understands the context, captures the heart of each
+                            argument, and reflects the author’s voice with care and precision.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Core Understanding</h3>
+                        <p>Get past long chapters and focus on the insights that matter. Clear, thoughtful summaries
+                            save you time without losing the depth of the original work.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                        <h3>Clean Export</h3>
+                        <p>Beautiful summaries deserve beautiful presentation. Export to PDF with elegant typography,
+                            perfect for your personal library or professional reference.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="read.html" class="btn btn-primary-hero btn-lg">Begin your Journey</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-header" data-aos="fade-up">
+                <h2>About</h2>
+                <div class="about-underline"></div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-glass-box">
+                        <p class="about-text">"We believe reading is something everyone should enjoy, not just those
+                            with extra time. Books hold ideas, stories, and lessons that deserve to be shared and
+                            understood by all. AutoBrief was created to make that possible — by turning books into
+                            simple, clear summaries anyone can read and enjoy. No complicated tools, no distractions.
+                            Just an easier way to keep the habit of reading alive, so more people can discover and
+                            understand the world through books."</p>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="about-illustration-container">
+                        <img src="about-img.png" alt="Person Reading" class="about-illustration">
+                        <div class="about-cta-wrapper">
+                            <a href="read.html" class="btn btn-sample">Try a sample summary</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Trusted by Thinkers Worldwide</h2>
+            <div class="testimonial-slider-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-track">
+                    <!-- Original Set -->
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
+                            manageable. I can now engage with dozens of sources in the time it used to take me to read
+                            three chapters."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SJ</div>
+                            <div class="author-info">
+                                <h5>Sarah Jenkins</h5>
+                                <p>PhD Candidate, Literature</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"As a founder, I need to absorb business strategies fast. AutoBrief
+                            gives me the competitive intelligence without the time sink. It's become indispensable."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div class="author-info">
+                                <h5>Marcus Rivera</h5>
+                                <p>Startup Founder</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"The summaries are beautifully formatted and genuinely insightful. I
+                            use them for client presentations and personal learning. Worth every penny."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EM</div>
+                            <div class="author-info">
+                                <h5>Elena Martinez</h5>
+                                <p>Brand Strategist</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I missed on
+                            my first read-through. A true game changer for serious researchers."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JC</div>
+                            <div class="author-info">
+                                <h5>James Chen</h5>
+                                <p>Research Analyst</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving me
+                            hours of work. It captures the heart of complex historical arguments perfectly."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AK</div>
+                            <div class="author-info">
+                                <h5>Dr. Alisha Khan</h5>
+                                <p>Historian</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate Set for Loop -->
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
+                            manageable. I can now engage with dozens of sources in the time it used to take me to read
+                            three chapters."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SJ</div>
+                            <div class="author-info">
+                                <h5>Sarah Jenkins</h5>
+                                <p>PhD Candidate, Literature</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"As a founder, I need to absorb business strategies fast. AutoBrief
+                            gives me the competitive intelligence without the time sink. It's become indispensable."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div class="author-info">
+                                <h5>Marcus Rivera</h5>
+                                <p>Startup Founder</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"The summaries are beautifully formatted and genuinely insightful. I
+                            use them for client presentations and personal learning. Worth every penny."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EM</div>
+                            <div class="author-info">
+                                <h5>Elena Martinez</h5>
+                                <p>Brand Strategist</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I missed on
+                            my first read-through. A true game changer for serious researchers."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JC</div>
+                            <div class="author-info">
+                                <h5>James Chen</h5>
+                                <p>Research Analyst</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card-slide">
+                        <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving me
+                            hours of work. It captures the heart of complex historical arguments perfectly."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AK</div>
+                            <div class="author-info">
+                                <h5>Dr. Alisha Khan</h5>
+                                <p>Historian</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Get in Touch</h2>
+            <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                <div class="mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <input type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <input type="email" class="form-control" placeholder="Your Email" required>
+                </div>
+                <div class="mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <textarea class="form-control" placeholder="Your Message" required></textarea>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+                    <button type="submit" class="btn btn-primary-hero btn-lg">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2024 AutoBrief. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ==========================================
+        // USER CONFIGURATION
+        // ==========================================
+        const userImageURL = 'mock-up-image 1.svg';
+        // ==========================================
+
+        // --- Scene Setup ---
+        const canvas = document.getElementById('heroCanvas');
+        const scene = new THREE.Scene();
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 16); // Moved back for larger orbits
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
+        // --- 1. Tablet & Image Texture ---
+        const mainGroup = new THREE.Group();
+        scene.add(mainGroup);
+
+        // Texture
+        const textureLoader = new THREE.TextureLoader();
+        const paperTexture = textureLoader.load(userImageURL);
+        paperTexture.encoding = THREE.sRGBEncoding;
+        paperTexture.minFilter = THREE.LinearFilter;
+
+        // Tablet Body
+        const tabletGeometry = new THREE.BoxGeometry(4.2, 5.8, 0.15);
+        const tabletMaterial = new THREE.MeshStandardMaterial({
+            color: 0xF9F7F2,
+            roughness: 0.2,
+            metalness: 0.1
+        });
+        const tablet = new THREE.Mesh(tabletGeometry, tabletMaterial);
+        tablet.castShadow = true;
+        tablet.receiveShadow = true;
+        mainGroup.add(tablet);
+
+        // Screen
+        const screenGeometry = new THREE.PlaneGeometry(3.8, 5.2);
+        const screenMaterial = new THREE.MeshBasicMaterial({
+            map: paperTexture,
+            transparent: true
+        });
+        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+        screen.position.z = 0.08;
+        mainGroup.add(screen);
+
+
+        // --- 2. The Gold Atom Rings (React Logo Style) ---
+
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0x8B5A3A,
+            roughness: 0.2,
+            metalness: 0.5
+        });
+
+        const animatedOrbits = [];
+
+        function createFlatOrbit(radius, zRot, speed, startAngle) {
+            // We use a nested group structure to handle the specific "Atom" tilt
+            const orbitPivot = new THREE.Group(); // Handles the Z-rotation (Diagonal alignment)
+            const ringTilt = new THREE.Group();   // Handles the X-rotation (Flattening)
+
+            // 1. The Ring
+            const lineGeo = new THREE.TorusGeometry(radius, 0.005, 64, 100);
+            const line = new THREE.Mesh(lineGeo, goldMaterial);
+            ringTilt.add(line);
+
+            // 2. The Ball
+            const ballGeo = new THREE.SphereGeometry(0.1, 32, 32);
+            const ball = new THREE.Mesh(ballGeo, goldMaterial);
+            ringTilt.add(ball);
+
+            // Apply Flattening Tilt (The key to center intersection)
+            ringTilt.rotation.x = 1.3; // ~75 degrees flat
+
+            orbitPivot.add(ringTilt);
+
+            // Apply Diagonal Angle
+            orbitPivot.rotation.z = zRot;
+
+            mainGroup.add(orbitPivot);
+
+            animatedOrbits.push({
+                ball: ball,
+                radius: radius,
+                speed: speed,
+                angle: startAngle
+            });
+        }
+
+        // CREATE ORBITS
+        // Radius 5.5: Large enough to wrap around.
+        // X-Tilt 1.3: Flattens them so they cross in the middle.
+
+        // Orbit 1 (Diagonal /)
+        createFlatOrbit(3, 0.7, 0.004, 0);
+
+        // Orbit 2 (Diagonal \)
+        createFlatOrbit(3, -0.7, -0.005, 3);
+
+
+        // --- 3. Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        dirLight.position.set(5, 5, 10);
+        scene.add(dirLight);
+
+        const backLight = new THREE.DirectionalLight(0xFFD700, 0.5);
+        backLight.position.set(-5, 0, -10);
+        scene.add(backLight);
+
+
+        // --- 4. Animation ---
+
+        // Tablet Angle (Tilted Right)
+        const baseRotZ = -0.35;
+        const baseRotX = 0.1;
+        const baseRotY = -0.1;
+
+        let time = 0;
+        let baseY = 0;
+
+        // Entrance variables
+        let entranceProgress = 0;
+        const entranceSpeed = 0.012; // Controls reveal duration
+        mainGroup.scale.set(0.01, 0.01, 0.01); // Start nearly invisible
+
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            if (entranceProgress < 1) {
+                entranceProgress += entranceSpeed;
+                // Smooth easing
+                const p = 1 - Math.pow(1 - entranceProgress, 3);
+
+                // 1. Rotation: Rise from flat 90 degrees
+                const startRotX = -Math.PI / 1.5;
+                mainGroup.rotation.x = startRotX + (baseRotX - startRotX) * p;
+                mainGroup.rotation.y = baseRotY * p;
+                mainGroup.rotation.z = baseRotZ * p;
+
+                // 2. Scale: Pop in effect
+                const s = 0.01 + 0.99 * p;
+                mainGroup.scale.set(s, s, s);
+
+                // 3. Position: Emerge from below
+                mainGroup.position.y = (baseY - 4) + 4 * p;
+            } else {
+                // Regular floating animation after entrance
+                const swingSpeed = 1.0;
+                const swingAmp = 0.02;
+
+                mainGroup.rotation.z = baseRotZ;
+                mainGroup.rotation.x = baseRotX + Math.sin(time * swingSpeed) * swingAmp;
+                mainGroup.rotation.y = baseRotY + Math.cos(time * swingSpeed) * swingAmp;
+                mainGroup.position.y = baseY + Math.sin(time * 0.5) * 0.08;
+            }
+
+            // Move Pearls
+            animatedOrbits.forEach(orbit => {
+                orbit.angle += orbit.speed;
+                orbit.ball.position.x = orbit.radius * Math.cos(orbit.angle);
+                orbit.ball.position.y = orbit.radius * Math.sin(orbit.angle);
+                orbit.ball.position.z = 0;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- 5. Resize ---
+        function updateCamera() {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+            // Adjust camera distance for smaller screens to keep object in view
+            if (window.innerWidth < 992) {
+                camera.position.set(0, 0, 20); // Slightly adjusted distance
+                baseY = 1.5; // Lift the object up significantly on mobile
+            } else {
+                camera.position.set(0, 0, 16); // Default position
+                baseY = 0; // Default height
+            }
+        }
+
+        window.addEventListener('resize', updateCamera);
+
+        // Call once on load to ensure correct initial state
+        updateCamera();
+
+        // --- 6. Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.body.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeIcon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+    </script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    </script>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content"
+                style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text-primary);">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border); padding: 2rem;">
+                    <h5 class="modal-title" id="privacyModalLabel"
+                        style="font-family: 'Playfair Display', serif; font-size: 2rem;">Privacy Policy & Website
+                        Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 2.5rem; line-height: 1.6;">
+                    <h4 style="color: var(--accent); margin-bottom: 1.5rem;">How AutoBrief Works</h4>
+                    <p>AutoBrief uses advanced Large Language Models powered by the <strong>Gemini API</strong> to
+                        analyze and
+                        summarize books. Our system focuses on understanding meaning and key arguments—not just
+                        keywords—so summaries stay true to the author’s intent.</p>
+
+                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Your Privacy Comes First
+                    </h4>
+                    <ul class="ms-3 mb-0">
+                        <li class="mb-2"><strong>No storage:</strong> Your searches and inputs are processed in real
+                            time and
+                            immediately discarded.</li>
+                        <li class="mb-2"><strong>No training on your data:</strong> We do not store, reuse, or train our
+                            models on
+                            your personal queries.</li>
+                        <li class="mb-2"><strong>No tracking:</strong> AutoBrief is cookie-free and does not use ads or
+                            third-party trackers.</li>
+                    </ul>
+
+                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Accuracy & Similar Book
+                        Titles</h4>
+                    <p>Many books share the same title. For best results, we recommend searching using <strong>“Title by
+                            Author.”</strong> If only a title is provided, AutoBrief defaults to the most well-known
+                        version—but adding the author ensures accuracy.</p>
+
+                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">AI Limitations</h4>
+                    <p>AutoBrief summaries are designed as study aids, not replacements for reading the full book. While
+                        we strive for accuracy, occasional errors can occur—please verify important details with the
+                        original text.</p>
+
+                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Usage Terms</h4>
+                    <p>AutoBrief is for personal and educational use only. Generated summaries may not be resold or
+                        presented as the original author’s work.</p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--border); padding: 1.5rem;">
+                    <button type="button" class="btn btn-primary-hero" data-bs-dismiss="modal">I Understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
