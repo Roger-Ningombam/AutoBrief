@@ -791,15 +791,48 @@
             transform: none !important;
             display: flex !important;
             flex-direction: column !important;
-            border-bottom: 1px solid #eee !important;
-            padding: 40px !important;
+            justify-content: flex-start !important;
+            padding: 30px 40px !important;
             margin: 0 !important;
             width: 100% !important;
-            height: 5.4in !important;
+            min-height: 5.5in !important;
+            /* Half of US Letter height */
+            height: auto !important;
             box-sizing: border-box !important;
             background-color: #FFFFFF !important;
+            border: none !important;
             page-break-inside: avoid !important;
-            justify-content: center !important;
+        }
+
+        /* Pull odd slides to the absolute top of the page */
+        .pdf-viewer.export-mode .pdf-page:nth-child(odd) {
+            padding-top: 0 !important;
+            border-bottom: none !important;
+        }
+
+        /* Ensure even slides start close to the first one but don't break early */
+        .pdf-viewer.export-mode .pdf-page:nth-child(even) {
+            border-bottom: none !important;
+            padding-top: 0 !important;
+        }
+
+        .pdf-viewer.export-mode .pdf-page p {
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+        }
+
+        .pdf-viewer.export-mode .pdf-badge {
+            margin-bottom: 5px !important;
+        }
+
+        .pdf-viewer.export-mode h2 {
+            margin-bottom: 10px !important;
+            font-size: 20px !important;
+        }
+
+        .pdf-viewer.export-mode li {
+            margin-bottom: 5px !important;
+            font-size: 14px !important;
         }
 
         .pdf-viewer.export-mode .pdf-page:nth-child(2n):not(:last-child) {
