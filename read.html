@@ -550,19 +550,20 @@
         }
 
         .pdf-viewer {
-            background-color: #FFFFFF;
+            background-color: var(--card-bg);
             height: 75vh;
             aspect-ratio: 1 / 1.4;
             margin: 0 auto;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
-            border-radius: 8px;
+            box-shadow: 0 30px 70px var(--shadow);
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            color: #2C2420;
+            color: var(--text-primary);
             z-index: 10;
+            border: 1px solid var(--border);
         }
 
         .pdf-page {
@@ -571,14 +572,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 4vh;
-            background: #FFFFFF;
+            padding: 5vh;
+            background: var(--card-bg);
             opacity: 0;
             visibility: hidden;
             transform: translateX(30px);
             transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
             overflow: hidden;
-            /* Lock scrollbar */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -772,6 +772,8 @@
             display: block !important;
             box-shadow: none !important;
             overflow: visible !important;
+            background-color: #FFFFFF !important;
+            color: #2C2420 !important;
         }
 
         .pdf-viewer.export-mode .pdf-page {
@@ -780,12 +782,13 @@
             visibility: visible !important;
             transform: none !important;
             display: flex !important;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid #eee !important;
             padding: 40px !important;
             margin-bottom: 0;
             width: 100% !important;
             min-height: 50vh !important;
             height: auto !important;
+            background-color: #FFFFFF !important;
         }
 
         .pdf-viewer.export-mode .pdf-page:nth-child(2n) {
