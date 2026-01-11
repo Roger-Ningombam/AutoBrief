@@ -578,10 +578,17 @@
             visibility: hidden;
             transform: translateX(30px);
             transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            overflow: hidden;
+            overflow-y: auto;
+            /* Allow scrolling if content is too long */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            /* Start from top to avoid cutting off */
+            scrollbar-width: none;
+        }
+
+        .pdf-page::-webkit-scrollbar {
+            display: none;
         }
 
         .pdf-page.active {
@@ -713,9 +720,10 @@
         }
 
         .pdf-title {
-            font-size: clamp(2rem, 4.5vh, 3.5rem);
+            font-size: clamp(1.6rem, 3.5vh, 2.5rem);
             font-family: 'Playfair Display', serif;
-            margin-bottom: 2vh;
+            margin-bottom: 1.5vh;
+            line-height: 1.2;
         }
 
         .pdf-key-insight {
@@ -782,17 +790,20 @@
             visibility: visible !important;
             transform: none !important;
             display: flex !important;
-            border-bottom: 2px solid #eee !important;
+            flex-direction: column !important;
+            border-bottom: 1px solid #eee !important;
             padding: 40px !important;
-            margin-bottom: 0;
+            margin: 0 !important;
             width: 100% !important;
-            min-height: 50vh !important;
-            height: auto !important;
+            height: 5.4in !important;
+            box-sizing: border-box !important;
             background-color: #FFFFFF !important;
+            page-break-inside: avoid !important;
+            justify-content: center !important;
         }
 
-        .pdf-viewer.export-mode .pdf-page:nth-child(2n) {
-            page-break-after: always;
+        .pdf-viewer.export-mode .pdf-page:nth-child(2n):not(:last-child) {
+            page-break-after: always !important;
         }
     </style>
 </head>
