@@ -983,7 +983,16 @@
                     body: JSON.stringify({ bookTitle: title }),
                 });
 
-                const data = await response.json();
+                const contentType = response.headers.get("content-type");
+                let data;
+
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    data = await response.json();
+                } else {
+                    const errorText = await response.text();
+                    console.error("Server returned non-JSON response:", errorText);
+                    throw new Error("Server returned an invalid response. This usually happens if the backend crashes or the API key is missing on Vercel.");
+                }
 
                 clearInterval(progressInterval);
                 components.loadingBar.style.width = '100%';
@@ -1007,8 +1016,8 @@
 
             } catch (error) {
                 clearInterval(progressInterval);
-                console.error(error);
-                alert('Connection failed. Please check your network.');
+                console.error("Detailed Error:", error);
+                alert(`Error: ${error.message}`);
                 components.loading.classList.add('hidden');
                 components.idle.classList.remove('hidden');
             }

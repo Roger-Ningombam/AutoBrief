@@ -32,9 +32,13 @@ export default async function handler(request, response) {
         }
 
         if (!process.env.GROQ_API_KEY) {
-            console.error("Error: GROQ_API_KEY is missing in environment variables.");
-            return response.status(500).json({ error: 'Server misconfigured: API Key missing' });
+            console.error("DEBUG: GROQ_API_KEY is missing in environment variables.");
+            return response.status(500).json({
+                error: 'Server misconfigured: API Key missing',
+                tip: 'Ensure GROQ_API_KEY is added to Vercel Environment Variables.'
+            });
         }
+        console.log(`DEBUG: Processing summary for "${bookTitle}"`);
 
         const prompt = `
       You are an elite literary analyst. I will give you a book title: "${bookTitle}".
@@ -104,10 +108,11 @@ export default async function handler(request, response) {
         return response.status(200).json(jsonResponse);
 
     } catch (error) {
-        console.error("Error generating summary:", error);
+        console.error("CRITICAL ERROR generating summary:", error);
         return response.status(500).json({
             error: 'Failed to generate summary',
-            details: error.message
+            details: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 }
