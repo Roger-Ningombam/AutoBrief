@@ -774,69 +774,80 @@
             }
         }
 
-        /* PDF Export Styling */
-        .pdf-viewer.export-mode {
-            height: auto !important;
-            display: block !important;
-            box-shadow: none !important;
-            overflow: visible !important;
-            background-color: #FFFFFF !important;
-            color: #2C2420 !important;
+        /* PDF Export Styling (Strict 2-Slides-Per-Page) */
+        #pdf-export-zone {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            width: 210mm;
+            background: white;
+            z-index: -1;
         }
 
-        .pdf-viewer.export-mode .pdf-page {
+        .pdf-page-wrapper {
+            width: 210mm;
+            height: 297mm;
+            /* Full A4 */
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+            background: white;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .pdf-page-wrapper .pdf-page {
             position: relative !important;
             opacity: 1 !important;
             visibility: visible !important;
             transform: none !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-start !important;
-            padding: 30px 40px !important;
-            margin: 0 !important;
             width: 100% !important;
-            min-height: 5.5in !important;
-            /* Half of US Letter height */
-            height: auto !important;
+            height: 148.5mm !important;
+            /* Exactly half A4 height */
+            padding: 40px !important;
+            margin: 0 !important;
             box-sizing: border-box !important;
-            background-color: #FFFFFF !important;
+            background: white !important;
+            color: #2C2420 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
             border: none !important;
-            page-break-inside: avoid !important;
+            border-bottom: 1px solid #eee !important;
+            overflow: hidden !important;
         }
 
-        /* Pull odd slides to the absolute top of the page */
-        .pdf-viewer.export-mode .pdf-page:nth-child(odd) {
-            padding-top: 0 !important;
+        .pdf-page-wrapper .pdf-page:last-child {
             border-bottom: none !important;
         }
 
-        /* Ensure even slides start close to the first one but don't break early */
-        .pdf-viewer.export-mode .pdf-page:nth-child(even) {
-            border-bottom: none !important;
-            padding-top: 0 !important;
+        .pdf-page-wrapper .pdf-page h1.pdf-title {
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+            color: #2C2420 !important;
         }
 
-        .pdf-viewer.export-mode .pdf-page p {
-            margin-bottom: 8px !important;
-            font-size: 14px !important;
-        }
-
-        .pdf-viewer.export-mode .pdf-badge {
-            margin-bottom: 5px !important;
-        }
-
-        .pdf-viewer.export-mode h2 {
+        .pdf-page-wrapper .pdf-page h2 {
             margin-bottom: 10px !important;
             font-size: 20px !important;
+            color: var(--accent) !important;
         }
 
-        .pdf-viewer.export-mode li {
+        .pdf-page-wrapper .pdf-page p {
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            color: #2C2420 !important;
+        }
+
+        .pdf-page-wrapper .pdf-page li {
             margin-bottom: 5px !important;
             font-size: 14px !important;
-        }
-
-        .pdf-viewer.export-mode .pdf-page:nth-child(2n):not(:last-child) {
-            page-break-after: always !important;
+            color: #2C2420 !important;
         }
     </style>
 </head>
@@ -935,6 +946,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
+        let lastData = null;
         // Initialize AOS
         AOS.init({
             duration: 800,
@@ -1049,6 +1061,7 @@
                 }
 
                 // Populate Data
+                lastData = data;
                 populateSlides(data);
 
                 // Show Success
@@ -1134,7 +1147,6 @@
 
         // PDF Viewer Logic
         let currentPage = 0;
-        // Navigation buttons are already in the DOM
         const prevBtn = document.getElementById('prevPage');
         const nextBtn = document.getElementById('nextPage');
 
@@ -1174,12 +1186,8 @@
             });
         }
 
-        // Dots are handled dynamically in populateSlides
-
-        // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if (components.success.classList.contains('hidden')) return;
-
             const pages = document.querySelectorAll('.pdf-page');
             if (pages.length === 0) return;
 
@@ -1204,14 +1212,38 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- NEW PDF EXPORT LOGIC (Grouping Strategy) ---
         async function exportPDF() {
-            const viewer = document.getElementById('pdfViewer');
-            const bookTitle = document.querySelector('.pdf-title')?.textContent || 'Book_Summary';
+            if (!lastData) return alert("No data to export.");
 
-            // 1. Enter Export Mode
-            viewer.classList.add('export-mode');
+            const bookTitle = lastData.book_title || 'Book_Summary';
 
-            // 2. Configuration for html2pdf
+            // 1. Create a Temporary Print Container
+            const exportZone = document.createElement('div');
+            exportZone.id = 'pdf-export-zone';
+            document.body.appendChild(exportZone);
+
+            // 2. The Grouping Loop
+            // Iterate through the slides array in steps of 2
+            for (let i = 0; i < lastData.slides.length; i += 2) {
+                // Create a wrapper for the pair (one A4 page)
+                const pageWrapper = document.createElement('div');
+                pageWrapper.className = 'pdf-page-wrapper';
+
+                // Add the first slide of the pair (Odd)
+                const slide1 = createSlideElement(lastData, i);
+                pageWrapper.appendChild(slide1);
+
+                // Add the second slide of the pair if it exists (Even)
+                if (i + 1 < lastData.slides.length) {
+                    const slide2 = createSlideElement(lastData, i + 1);
+                    pageWrapper.appendChild(slide2);
+                }
+
+                exportZone.appendChild(pageWrapper);
+            }
+
+            // 3. Configuration for html2pdf
             const opt = {
                 margin: 0,
                 filename: `${bookTitle.replace(/\s+/g, '_')}_Summary.pdf`,
@@ -1222,25 +1254,53 @@
                     logging: false,
                     letterRendering: true
                 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // 3. Generate PDF
+            // 4. Execution
             try {
                 components.exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
                 components.exportBtn.disabled = true;
 
-                await html2pdf().set(opt).from(viewer).save();
+                await html2pdf().set(opt).from(exportZone).save();
 
             } catch (error) {
                 console.error("PDF Generation failed:", error);
                 alert("Failed to generate PDF. Please try again.");
             } finally {
-                // 4. Cleanup
-                viewer.classList.remove('export-mode');
+                // 5. Cleanup
+                document.body.removeChild(exportZone);
                 components.exportBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
                 components.exportBtn.disabled = false;
             }
+        }
+
+        // Helper to create a slide element for export
+        function createSlideElement(data, index) {
+            const slide = data.slides[index];
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'pdf-page';
+
+            let slideHtml = '';
+            if (index === 0) {
+                slideHtml = `
+                    <div class="pdf-badge">Introduction</div>
+                    <h1 class="pdf-title">${data.book_title || slide.title || 'Book Title'}</h1>
+                    <p style="font-size: 1.1rem; margin-bottom: 5px;">by <b>${data.author || 'Author'}</b></p>
+                    <h2 style="font-size: 18px !important; margin-bottom: 5px !important;">${slide.title}</h2>
+                    <div class="content-body" style="font-size: 13px !important;">${slide.content}</div>
+                `;
+            } else {
+                slideHtml = `
+                    <h2 class="serif-heading">${slide.title}</h2>
+                    <div class="content-body">
+                        ${slide.content}
+                    </div>
+                `;
+            }
+
+            slideDiv.innerHTML = slideHtml;
+            return slideDiv;
         }
 
         components.exportBtn.addEventListener('click', exportPDF);
