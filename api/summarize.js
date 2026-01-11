@@ -85,24 +85,38 @@ export default async function handler(request, response) {
 
         const chatCompletion = await groq.chat.completions.create({
             messages: [
-                { role: "system", content: "You are a specialized book summarizer that outputs only valid JSON." },
+                { role: "system", content: "You are a specialized book summarizer that outputs ONLY raw valid JSON. Do not include any intro text, markdown formatting, or explanations." },
                 { role: "user", content: prompt }
             ],
             model: "llama-3.3-70b-versatile",
-            temperature: 0.3, // Lower temperature for more consistent JSON
+            temperature: 0.1, // Even lower for maximum consistency
+            max_tokens: 4000, // Ensure long summaries don't get cut off
         });
 
         const text = chatCompletion.choices[0]?.message?.content || "";
+        console.log("DEBUG: Raw response received from Groq");
 
-        // Clean up the text just in case the model adds markdown code blocks
-        const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        // Advanced JSON extraction: Find the first '{' and the last '}'
+        let cleanedText = "";
+        const firstBracket = text.indexOf('{');
+        const lastBracket = text.lastIndexOf('}');
+
+        if (firstBracket !== -1 && lastBracket !== -1) {
+            cleanedText = text.substring(firstBracket, lastBracket + 1);
+        } else {
+            cleanedText = text.trim(); // Fallback
+        }
 
         let jsonResponse;
         try {
             jsonResponse = JSON.parse(cleanedText);
         } catch (e) {
-            console.error("Failed to parse JSON from Groq:", text);
-            return response.status(500).json({ error: 'Failed to parse AI response', rawResponse: text });
+            console.error("Failed to parse JSON from Groq. Raw text starting with:", text.substring(0, 100));
+            return response.status(500).json({
+                error: 'AI formatting error: The summary was generated but the format was slightly off.',
+                tip: 'Try clicking summarize again. Large models occasionally add conversational text.',
+                rawResponse: text.substring(0, 500) // Send a snippet to help debug
+            });
         }
 
         return response.status(200).json(jsonResponse);
