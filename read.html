@@ -817,57 +817,7 @@
                     <!-- Main Content (PDF Viewer) -->
                     <div class="pdf-viewer-container" data-aos="fade-up">
                         <div class="pdf-viewer" id="pdfViewer">
-                            <!-- Slide 1: Introduction -->
-                            <div class="pdf-page active" data-page="0">
-                                <div class="pdf-badge">Self-Improvement</div>
-                                <h1 id="pdfTitle" class="pdf-title">Atomic Habits</h1>
-                                <h2>The Core Foundation</h2>
-                                <p><em>Atomic Habits</em> presents a systematic framework for building good habits and
-                                    breaking
-                                    bad ones through the power of small, incremental changes. James Clear argues that
-                                    success is
-                                    not the result of massive transformations, but rather the compound effect of tiny
-                                    improvements made consistently over time.</p>
-                                <div class="pdf-key-insight">
-                                    "If you get 1% better each day for a year, you'll end up 37
-                                    times better by the end. Small habits don't add up—they compound."
-                                </div>
-                            </div>
-
-                            <!-- Slide 2: Key Lessons -->
-                            <div class="pdf-page" data-page="1">
-                                <h2 class="serif-heading">The 4 Laws of Change</h2>
-                                <p>To build lasting habits, you must master the four pillars of behavioral psychology:
-                                </p>
-                                <ul>
-                                    <li><strong>Make It Obvious:</strong> Design your environment so cues for good
-                                        habits are visible.</li>
-                                    <li><strong>Make It Attractive:</strong> Use temptation bundling to pair actions you
-                                        want to do with actions you need to do.</li>
-                                    <li><strong>Make It Easy:</strong> Follow the two-minute rule—any new habit should
-                                        take less than two minutes to start.</li>
-                                    <li><strong>Make It Satisfying:</strong> Ensure your habits provide immediate
-                                        gratification to reinforce the loop.</li>
-                                </ul>
-                            </div>
-
-                            <!-- Slide 3: Action Plan -->
-                            <div class="pdf-page" data-page="2">
-                                <h2 class="serif-heading">Your Action Plan</h2>
-                                <p>Transformation begins with identity, not outcomes. Here is how to apply these
-                                    insights today:</p>
-                                <ul>
-                                    <li><strong>Identity Shift:</strong> Don't say "I'm trying to quit smoking," say "I
-                                        am a non-smoker."</li>
-                                    <li><strong>Habit Stacking:</strong> Pair a new habit with an old one: "After my
-                                        morning coffee, I will meditate for 2 minutes."</li>
-                                    <li><strong>System Over Goals:</strong> Stop focusing on the finish line and start
-                                        focusing on the daily process.</li>
-                                </ul>
-                                <h2 class="mt-5 serif-heading">Conclusion</h2>
-                                <p>You do not rise to the level of your goals; you fall to the level of your systems.
-                                    Build better systems, and the results will follow.</p>
-                            </div>
+                            <!-- Slides will be injected here -->
                         </div>
 
                         <!-- PDF Controls -->
@@ -876,9 +826,7 @@
                                 <i class="fas fa-chevron-left"></i>
                             </button>
                             <div class="pdf-dots" id="pdfDots">
-                                <div class="pdf-dot active" data-dot="0"></div>
-                                <div class="pdf-dot" data-dot="1"></div>
-                                <div class="pdf-dot" data-dot="2"></div>
+                                <!-- Dots will be injected here -->
                             </div>
                             <button class="pdf-nav-btn" id="nextPage">
                                 <i class="fas fa-chevron-right"></i>
@@ -1012,10 +960,6 @@
                 // Populate Data
                 populateSlides(data);
 
-                if (data.is_mock) {
-                    alert("⚠️ Showing DEMO MODE data.\n\nWhy? Your Google API Key works, but the AI Model caused a 404 error (Account permissions issue). The app fell back to demo data so you can see the UI.");
-                }
-
                 // Show Success
                 setTimeout(() => {
                     showSuccess();
@@ -1033,73 +977,91 @@
         }
 
         function populateSlides(data) {
-            // Slide 1: Big Idea
-            const page0 = pages[0];
-            page0.querySelector('#pdfTitle').textContent = data.title;
-            const h2_0 = page0.querySelector('h2');
-            if (h2_0) h2_0.textContent = data.slide1_title;
-            const p_0 = page0.querySelector('p');
-            if (p_0) p_0.textContent = data.slide1_content;
+            const viewer = document.getElementById('pdfViewer');
+            const dotsContainer = document.getElementById('pdfDots');
+            viewer.innerHTML = '';
+            dotsContainer.innerHTML = '';
 
-            // Use the quote box for the author or a generated tagline
-            const quoteBox = page0.querySelector('.pdf-key-insight');
-            if (quoteBox) {
-                quoteBox.innerHTML = `Authored by <span style="color:var(--accent); font-weight:bold;">${data.author}</span>`;
+            // Apply theme color if provided
+            if (data.theme_color) {
+                document.documentElement.style.setProperty('--accent', data.theme_color);
             }
 
-            // Slide 2: Key Insights
-            const page1 = pages[1];
-            const h2_1 = page1.querySelector('h2');
-            if (h2_1) h2_1.textContent = data.slide2_title;
+            if (!data.slides || !Array.isArray(data.slides)) {
+                console.error("No slides array found in response");
+                return;
+            }
 
-            // Replace list. The API returns <ul>...</ul> so we can inject it directly or replace the existing list.
-            // Let's find the current list and replace it.
-            const existingList1 = page1.querySelector('ul');
-            if (existingList1) {
-                // If data.slide2_content is just the list items `<li>...</li>` or a full `<ul>`, we need to handle it.
-                // The prompt said "An HTML bulleted list (<ul><li>...</li></ul>)".
-                // So we can replace the outerHTML of the existing ul, or set innerHTML of a container.
-                // Safest is to replace the existing UL with the new string.
-                if (data.slide2_content.trim().startsWith('<ul')) {
-                    existingList1.outerHTML = data.slide2_content;
+            data.slides.forEach((slide, index) => {
+                // Create Slide
+                const slideDiv = document.createElement('div');
+                slideDiv.className = `pdf-page ${index === 0 ? 'active' : ''}`;
+                slideDiv.setAttribute('data-page', index);
+
+                let slideHtml = '';
+
+                if (index === 0) {
+                    // First slide has title/author
+                    slideHtml = `
+                        <div class="pdf-badge">Introduction</div>
+                        <h1 class="pdf-title">${data.book_title || slide.title || 'Book Title'}</h1>
+                        <p style="font-size: 1.2rem; margin-top: -1rem;">by <b>${data.author || 'Author'}</b></p>
+                        <h2>${slide.title}</h2>
+                        <p>${slide.content}</p>
+                    `;
                 } else {
-                    // Fallback if it just returns LIs
-                    existingList1.innerHTML = data.slide2_content;
+                    slideHtml = `
+                        <h2 class="serif-heading">${slide.title}</h2>
+                        <div class="content-body">
+                            ${slide.content}
+                        </div>
+                    `;
                 }
-            }
 
-            // Slide 3: Action Plan
-            const page2 = pages[2];
-            // We'll rewrite the inner content of page 2 to match the structure we want
-            page2.innerHTML = `
-                <h2 class="serif-heading">${data.slide3_title}</h2>
-                <div class="content-body">
-                    ${data.slide3_content}
-                </div>
-                <div class="pdf-key-insight" style="margin-top: 2rem; font-size: 1rem;">
-                    "Knowledge is only potential power. Action is power."
-                </div>
-            `;
+                slideDiv.innerHTML = slideHtml;
+                viewer.appendChild(slideDiv);
+
+                // Create Dot
+                const dot = document.createElement('div');
+                dot.className = `pdf-dot ${index === 0 ? 'active' : ''}`;
+                dot.setAttribute('data-dot', index);
+                dot.addEventListener('click', () => {
+                    currentPage = index;
+                    updateViewer();
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            // Update global state for navigation
+            window.totalPages = data.slides.length;
+            window.pages = document.querySelectorAll('.pdf-page');
+            window.dots = document.querySelectorAll('.pdf-dot');
+
+            currentPage = 0;
+            updateViewer();
         }
 
         // PDF Viewer Logic
         let currentPage = 0;
-        const totalPages = 3;
-        const pdfViewer = document.getElementById('pdfViewer');
+        // Navigation buttons are already in the DOM
         const prevBtn = document.getElementById('prevPage');
         const nextBtn = document.getElementById('nextPage');
-        const dots = document.querySelectorAll('.pdf-dot');
-        const pages = document.querySelectorAll('.pdf-page');
 
         function updateViewer() {
+            const pages = document.querySelectorAll('.pdf-page');
+            const dots = document.querySelectorAll('.pdf-dot');
+
+            if (pages.length === 0) return;
+
             pages.forEach((page, idx) => {
                 page.classList.toggle('active', idx === currentPage);
             });
             dots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === currentPage);
             });
+
             if (prevBtn) prevBtn.disabled = currentPage === 0;
-            if (nextBtn) nextBtn.disabled = currentPage === totalPages - 1;
+            if (nextBtn) nextBtn.disabled = currentPage === (pages.length - 1);
         }
 
         if (prevBtn) {
@@ -1113,26 +1075,25 @@
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                if (currentPage < totalPages - 1) {
+                const pages = document.querySelectorAll('.pdf-page');
+                if (currentPage < pages.length - 1) {
                     currentPage++;
                     updateViewer();
                 }
             });
         }
 
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                currentPage = parseInt(dot.dataset.dot);
-                updateViewer();
-            });
-        });
+        // Dots are handled dynamically in populateSlides
 
         // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if (components.success.classList.contains('hidden')) return;
 
+            const pages = document.querySelectorAll('.pdf-page');
+            if (pages.length === 0) return;
+
             if (e.key === 'ArrowRight' || e.key === 'Right') {
-                if (currentPage < totalPages - 1) {
+                if (currentPage < pages.length - 1) {
                     currentPage++;
                     updateViewer();
                 }

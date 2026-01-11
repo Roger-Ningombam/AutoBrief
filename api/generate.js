@@ -1,11 +1,13 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 import dotenv from 'dotenv';
 
 // Load environment variables
 dotenv.config();
 
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
 export default async function handler(request, response) {
-    // Add CORS headers to allow requests from any origin (or specify your frontend URL)
+    // Add CORS headers to allow requests from any origin
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -27,13 +29,13 @@ export default async function handler(request, response) {
             return response.status(400).json({ error: 'Prompt is required' });
         }
 
-        // Initialize Gemini API
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        // Generate content using Groq
+        const chatCompletion = await groq.chat.completions.create({
+            messages: [{ role: "user", content: prompt }],
+            model: "llama-3.3-70b-versatile",
+        });
 
-        // Generate content
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
+        const responseText = chatCompletion.choices[0]?.message?.content || "";
 
         return response.status(200).json({ result: responseText });
     } catch (error) {
@@ -41,3 +43,4 @@ export default async function handler(request, response) {
         return response.status(500).json({ error: 'Failed to generate content', details: error.message });
     }
 }
+
