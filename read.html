@@ -20,6 +20,9 @@
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         :root {
             --bg-primary: #F9F7F2;
@@ -599,7 +602,13 @@
             font-size: clamp(0.85rem, 1.6vh, 1.1rem);
             line-height: 1.6;
             margin-bottom: 1.5vh;
-            color: #4A3F35;
+            color: var(--text-primary);
+        }
+
+        .content-body strong,
+        .content-body b {
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .pdf-page ul {
@@ -755,6 +764,32 @@
                 width: 100%;
                 justify-content: center;
             }
+        }
+
+        /* PDF Export Styling */
+        .pdf-viewer.export-mode {
+            height: auto !important;
+            display: block !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+        }
+
+        .pdf-viewer.export-mode .pdf-page {
+            position: relative !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            display: flex !important;
+            border-bottom: 2px solid #eee;
+            padding: 40px !important;
+            margin-bottom: 0;
+            width: 100% !important;
+            min-height: 50vh !important;
+            height: auto !important;
+        }
+
+        .pdf-viewer.export-mode .pdf-page:nth-child(2n) {
+            page-break-after: always;
         }
     </style>
 </head>
@@ -1113,7 +1148,46 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        components.exportBtn.addEventListener('click', () => alert('Premium PDF Export logic would trigger here.'));
+        async function exportPDF() {
+            const viewer = document.getElementById('pdfViewer');
+            const bookTitle = document.querySelector('.pdf-title')?.textContent || 'Book_Summary';
+
+            // 1. Enter Export Mode
+            viewer.classList.add('export-mode');
+
+            // 2. Configuration for html2pdf
+            const opt = {
+                margin: 0,
+                filename: `${bookTitle.replace(/\s+/g, '_')}_Summary.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // 3. Generate PDF
+            try {
+                components.exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                components.exportBtn.disabled = true;
+
+                await html2pdf().set(opt).from(viewer).save();
+
+            } catch (error) {
+                console.error("PDF Generation failed:", error);
+                alert("Failed to generate PDF. Please try again.");
+            } finally {
+                // 4. Cleanup
+                viewer.classList.remove('export-mode');
+                components.exportBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
+                components.exportBtn.disabled = false;
+            }
+        }
+
+        components.exportBtn.addEventListener('click', exportPDF);
 
         components.newBtn.addEventListener('click', () => {
             components.success.classList.add('hidden');
