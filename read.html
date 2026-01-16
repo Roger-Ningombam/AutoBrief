@@ -23,6 +23,9 @@
     <!-- html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root {
             --bg-primary: #F9F7F2;
@@ -216,6 +219,14 @@
             padding: 8px;
             border-radius: 18px;
             border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .search-group:focus-within {
+            transform: scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(156, 102, 68, 0.15);
+            background: var(--card-bg);
         }
 
         .search-input {
@@ -236,16 +247,20 @@
             border-radius: 14px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 15px var(--shadow);
             white-space: nowrap;
         }
 
         .btn-primary-custom:hover {
             background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--shadow);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 30px rgba(156, 102, 68, 0.3);
             color: var(--bg-primary);
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.98);
         }
 
         .floating-shape {
@@ -508,7 +523,7 @@
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -523,10 +538,14 @@
         }
 
         .btn-export:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 35px var(--shadow);
+            transform: scale(1.05) translateY(-4px);
+            box-shadow: 0 15px 40px rgba(156, 102, 68, 0.3);
             background-color: var(--accent-hover);
             color: var(--bg-primary);
+        }
+
+        .btn-export:active {
+            transform: scale(0.98);
         }
 
         .btn-new-summary {
@@ -538,7 +557,8 @@
         .btn-new-summary:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-4px);
+            transform: scale(1.05) translateY(-4px);
+            box-shadow: 0 10px 30px var(--shadow);
         }
 
         /* PDF Viewer */
@@ -849,6 +869,64 @@
             font-size: 14px !important;
             color: #2C2420 !important;
         }
+
+        /* 8. Summary Unfold Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUpSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUpSlide {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 1.5 Error State Empathy */
+        .error-message {
+            background: rgba(255, 200, 200, 0.15);
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            color: #d32f2f;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        [data-theme="dark"] .error-message {
+            background: rgba(255, 100, 100, 0.1);
+            color: #ff8a80;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
     </style>
 </head>
 
@@ -886,6 +964,10 @@
                         <button class="btn btn-primary-custom" id="summarizeBtn">
                             <i class="fas fa-magic"></i> Summarize Now
                         </button>
+                    </div>
+                    <div id="errorMessage" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="errorText">Unable to find that book. Try adding the author's name!</span>
                     </div>
                 </div>
             </div>
@@ -1074,11 +1156,45 @@
             } catch (error) {
                 clearInterval(progressInterval);
                 console.error("Detailed Error:", error);
-                alert(`Error: ${error.message}`);
+
+                // Show friendly error
                 components.loading.classList.add('hidden');
                 components.idle.classList.remove('hidden');
+
+                const errEl = document.getElementById('errorMessage');
+                const errText = document.getElementById('errorText');
+                errText.textContent = error.message || "We couldn't reach the bookshelf. Please try again.";
+                errEl.style.display = 'flex';
+
+                // Hide error after 5s
+                setTimeout(() => {
+                    errEl.style.display = 'none';
+                }, 5000);
             }
         }
+
+        // --- 2.3 Search Input Placeholder Carousel ---
+        const placeholders = [
+            "e.g., Atomic Habits by James Clear",
+            "e.g., Sapiens by Yuval Noah Harari",
+            "e.g., Deep Work by Cal Newport",
+            "e.g., The Psychology of Money",
+            "e.g., 1984 by George Orwell"
+        ];
+        let phIndex = 0;
+        const inputEl = components.input;
+
+        setInterval(() => {
+            // Only rotate if user isn't typing/focused and input is empty
+            if (document.activeElement !== inputEl && !inputEl.value) {
+                phIndex = (phIndex + 1) % placeholders.length;
+                inputEl.style.opacity = '0.5';
+                setTimeout(() => {
+                    inputEl.placeholder = placeholders[phIndex];
+                    inputEl.style.opacity = '1';
+                }, 300);
+            }
+        }, 3000);
 
         function populateSlides(data) {
             const viewer = document.getElementById('pdfViewer');
@@ -1100,6 +1216,10 @@
                 // Create Slide
                 const slideDiv = document.createElement('div');
                 slideDiv.className = `pdf-page ${index === 0 ? 'active' : ''}`;
+                // Add Unfold Animation
+                slideDiv.classList.add('fade-in-up');
+                slideDiv.style.animationDelay = `${index * 0.1}s`;
+
                 slideDiv.setAttribute('data-page', index);
 
                 let slideHtml = '';
@@ -1210,6 +1330,15 @@
             currentPage = 0;
             updateViewer();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 3.2 Signature "Insight Spark" Celebration
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#9C6644', '#7D5236', '#F0EDE5'],
+                disableForReducedMotion: true
+            });
         }
 
         // --- NEW PDF EXPORT LOGIC (Grouping Strategy) ---

@@ -34,6 +34,7 @@
             --border: rgba(44, 36, 32, 0.1);
             --shadow: rgba(44, 36, 32, 0.08);
             --card-bg: #FFFFFF;
+            --bg-glass: rgba(249, 247, 242, 0.85);
         }
 
         [data-theme="dark"] {
@@ -46,6 +47,7 @@
             --border: rgba(230, 224, 212, 0.15);
             --shadow: rgba(201, 149, 107, 0.15);
             --card-bg: #211C17;
+            --bg-glass: rgba(26, 21, 18, 0.85);
         }
 
         * {
@@ -81,14 +83,33 @@
         /* Navbar */
         .navbar-custom {
             background-color: var(--bg-primary);
+            /* Initial State */
             backdrop-filter: blur(10px);
-            padding: 0.7rem 0;
-            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 1.5rem;
+            /* Pill Padding */
+            border: 1px solid var(--border);
+            /* Full border */
             transition: all 0.3s ease;
+
+            /* Permanent Floating Pill */
+            border-radius: 100px;
+            width: 90%;
+            max-width: 1000px;
+            top: 1.5rem;
+
+            /* Centering (AOS Safe) */
+            left: 0;
+            right: 0;
+            margin: 0 auto;
         }
 
         .navbar-custom.scrolled {
-            box-shadow: 0 4px 20px var(--shadow);
+            background-color: var(--bg-glass);
+            /* Glass Effect */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 40px var(--shadow);
+            /* Shape properties inherited from base */
         }
 
         .navbar-brand {
@@ -161,17 +182,24 @@
             border-radius: 50px;
             font-weight: 700;
             font-size: 1.15rem;
-            transition: all 0.3s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 15px var(--shadow);
             display: inline-block;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary-hero:hover {
             background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px var(--shadow);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 40px rgba(156, 102, 68, 0.3);
             color: var(--bg-primary);
+        }
+
+        .btn-primary-hero:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px var(--shadow);
         }
 
         .btn-secondary-hero {
@@ -188,6 +216,30 @@
         .btn-secondary-hero:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+
+        .btn-secondary-hero:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-nav-cta {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .btn-nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(156, 102, 68, 0.3);
+            color: var(--bg-primary);
         }
 
         /* Hero Section */
@@ -241,6 +293,34 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        @keyframes fadeInUpWord {
+            from {
+                opacity: 0;
+                transform: translateY(40px) skewY(10deg);
+                filter: blur(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) skewY(0);
+                filter: blur(0);
+            }
+        }
+
+        .reveal-word {
+            display: inline-block;
+            opacity: 0;
+            will-change: transform, opacity;
+            animation: fadeInUpWord 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: var(--delay);
+            margin-right: 0.2em;
+            /* Spacing for inline-blocks */
+        }
+
+        .reveal-word:last-child {
+            margin-right: 0;
         }
 
         /* Curtain Reveal Logic */
@@ -321,75 +401,168 @@
         }
 
         /* About Section */
+        /* About Section - Bento Grid Remodel with Parallax */
         .about-section {
-            padding: 4rem 0 8rem;
-            background-color: var(--bg-primary);
+            padding: 8rem 0;
+            background-image: url('library_bg.png');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
             position: relative;
             z-index: 2;
         }
 
+        /* Dark Overlay for Readability */
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            /* Darken the library background */
+            z-index: 1;
+        }
+
+        .about-section .container {
+            position: relative;
+            z-index: 2;
+            /* Sit above the overlay */
+        }
+
         .about-header {
             margin-bottom: 4rem;
+            text-align: center;
         }
 
         .about-header h2 {
             font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            text-align: center;
+            color: #FFFFFF;
+            /* White text for better contrast on background */
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .about-underline {
-            width: 180px;
+            width: 100px;
             height: 4px;
             background-color: var(--accent);
             margin: 0 auto;
             border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent);
         }
 
-        .about-glass-box {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            padding: 3.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-            transition: transform 0.3s ease;
+        /* Bento Grid Layout */
+        .bento-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, minmax(280px, auto));
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        [data-theme="dark"] .about-glass-box {
-            background: rgba(37, 32, 25, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .about-glass-box:hover {
-            transform: translateY(-5px);
-        }
-
-        .about-text {
-            font-size: 1.45rem;
-            color: var(--text-primary);
-            line-height: 1.8;
-            font-family: 'Playfair Display', serif;
-            font-weight: 500;
-            font-style: italic;
-            margin: 0;
-        }
-
-        .about-illustration-container {
+        /* Glassmorphism Cards - High Transparency */
+        .bento-box {
+            background: rgba(255, 255, 255, 0.1);
+            /* Very subtle translucent layer */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100%;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        .about-illustration {
-            max-width: 100%;
-            height: auto;
-            transform: scale(1.1);
-            margin-bottom: 2.5rem;
+        [data-theme="dark"] .bento-box {
+            background: rgba(0, 0, 0, 0.4);
+            /* Darker tint for dark mode coherence */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .bento-box:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        /* Gradient Glass for Large Box */
+        .bento-large {
+            grid-column: 1 / span 2;
+            grid-row: 1 / span 2;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        [data-theme="dark"] .bento-large {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.2) 100%);
+        }
+
+        .bento-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #FFFFFF;
+            /* Force White Text */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .bento-large h3 {
+            font-size: 2.5rem;
+        }
+
+        .bento-box p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            /* Light Gray Text */
+            margin-bottom: 0;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .bento-large p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        .bento-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--accent);
+            /* Accent remains */
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+
+
+        @media (max-width: 992px) {
+            .bento-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .bento-large {
+                grid-column: auto;
+                grid-row: auto;
+            }
+        }
+
+        /* Interactive Parallax Hint */
+        .hero-section:hover .hero-visual canvas {
+            cursor: default;
+            /* Will update to interactive later */
         }
 
         .about-cta-wrapper {
@@ -405,7 +578,7 @@
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 15px var(--shadow);
             border: none;
             font-family: 'Inter', sans-serif;
@@ -415,8 +588,12 @@
         .btn-sample:hover {
             background-color: var(--accent-hover);
             color: var(--bg-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px var(--shadow);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 30px rgba(156, 102, 68, 0.25);
+        }
+
+        .btn-sample:active {
+            transform: scale(0.98);
         }
 
         @media (max-width: 992px) {
@@ -520,18 +697,26 @@
             padding: 1rem;
             color: var(--text-primary);
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .form-control:focus {
             background-color: var(--card-bg);
             border-color: var(--accent);
-            box-shadow: 0 0 0 0.2rem rgba(156, 102, 68, 0.25);
+            box-shadow: 0 0 0 4px rgba(156, 102, 68, 0.15);
             color: var(--text-primary);
+            transform: scale(1.01);
+            outline: none;
         }
 
         .form-control::placeholder {
             color: var(--text-secondary);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-control:focus::placeholder {
+            opacity: 0.4;
         }
 
         textarea.form-control {
@@ -576,6 +761,11 @@
         @media (max-width: 992px) {
 
             /* Tablet Layout: Keep side-by-side but shrink content */
+            .hero-section {
+                padding-top: 8rem;
+                /* Fix navbar exclusion on tablet */
+            }
+
             .hero-content h1 {
                 font-size: 2.5rem;
                 /* Shrink title */
@@ -611,8 +801,10 @@
             }
 
             .hero-visual {
-                display: none;
-                /* Hide 3D canvas on mobile */
+                display: block;
+                height: 350px;
+                width: 100%;
+                margin-top: 1rem;
             }
 
             @media (max-width: 576px) {
@@ -689,12 +881,117 @@
         .modal-content {
             transition: background-color 0.4s ease, color 0.4s ease;
         }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 8rem 0;
+            background-color: var(--bg-secondary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--border);
+            /* Inactive Gray */
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+
+        .timeline-line-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--accent);
+            /* Active Color */
+            border-radius: 4px;
+            /* No transition for direct scroll binding - smoother */
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background-color: var(--bg-primary);
+            border: 4px solid var(--border);
+            border-radius: 50%;
+            z-index: 3;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-dot.active {
+            border-color: var(--accent);
+            background-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(156, 102, 68, 0.2);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .timeline-img {
+            transition: transform 0.3s ease;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .timeline-img:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+                transform: translateX(-50%);
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            /* Adjust content to sit to the right of the line */
+            .timeline-row .col-md-6 {
+                padding-left: 70px !important;
+                /* Override bootstrap spacing if needed */
+                padding-right: 0;
+                text-align: left !important;
+            }
+
+            /* Ensure images fit nicely */
+            .timeline-img {
+                margin-top: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            /* Remove alternating order effect for mobile cleanliness */
+            .timeline-row {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .order-md-1,
+            .order-md-2 {
+                order: initial !important;
+            }
+
+            /* Specifically fix text alignment for first and last item which are right-aligned on desktop */
+            .text-md-end {
+                text-align: left !important;
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" data-aos="fade-down" data-aos-delay="100">
         <div class="container">
             <a class="navbar-brand" href="#home">
                 <i class="fas fa-book-open"></i>
@@ -704,30 +1001,33 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item ms-3">
+                <div class="mx-auto d-flex flex-column flex-lg-row align-items-center gap-4">
+                    <ul class="navbar-nav align-items-center mb-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-3">
                         <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                             <i class="fas fa-moon"></i>
                         </button>
-                    </li>
-                </ul>
+                        <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="reveal-image"></div>
+
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
@@ -735,15 +1035,19 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="hero-content text-center text-md-start">
-                        <h1>Turn Books<br>into Bite-Sized<br>Brilliance.</h1>
-                        <p class="mx-auto mx-md-0">Get key insights from any book in minutes.<br>AI-powered summaries
-                            for the modern reader.</p>
-                        <div class="hero-cta">
+                        <h1 data-aos="fade-up">
+                            Turn Books<br>
+                            into Bite-Sized<br>
+                            <span style="color: var(--accent);">Brilliance.</span>
+                        </h1>
+                        <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Get key insights from any
+                            book in minutes.<br>AI-powered summaries for the modern reader.</p>
+                        <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
                             <a href="read.html" class="btn btn-primary-hero">Start Reading</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6" data-aos="fade-left" data-aos-delay="400">
+                <div class="col-md-6" data-aos="fade-left" data-aos-delay="300">
                     <div class="hero-visual">
                         <canvas id="heroCanvas"></canvas>
                     </div>
@@ -752,15 +1056,64 @@
         </div>
     </section>
 
-    <!-- Parallax Reveal Spacer -->
-    <div class="reveal-spacer"></div>
+    <!-- Timeline Storytelling Section -->
+    <section class="timeline-section" id="story">
+        <div class="container position-relative">
+            <!-- Central Line -->
+            <div class="timeline-line">
+                <div class="timeline-line-progress"></div>
+            </div>
+
+            <!-- Step 1: The Problem -->
+            <div class="row align-items-center mb-5 pb-5 position-relative timeline-row">
+                <div class="timeline-dot"></div>
+                <div class="col-md-6 order-2 order-md-1 text-md-end pe-md-5" data-aos="fade-right">
+                    <h2 class="mb-3">The Loss of the Art of Reading</h2>
+                    <p class="text-secondary fs-5">In today's fast-paced world, finding time to sit down with a good
+                        book
+                        feels impossible. Between busy work days and endless distractions, the joy of reading often gets
+                        left behind.</p>
+                </div>
+                <div class="col-md-6 order-1 order-md-2 ps-md-5 mb-4 mb-md-0" data-aos="fade-left">
+                    <img src="./timeline1.png" alt="Busy lifestyle" class="shadow-lg timeline-img">
+                </div>
+            </div>
+
+            <!-- Step 2: The Solution -->
+            <div class="row align-items-center mb-5 pb-5 position-relative timeline-row">
+                <div class="timeline-dot"></div>
+                <div class="col-md-6 order-1 pe-md-5 mb-4 mb-md-0" data-aos="fade-right">
+                    <img src="./timeline2.png" alt="Discover AutoBrief" class="shadow-lg timeline-img">
+                </div>
+                <div class="col-md-6 order-2 ps-md-5" data-aos="fade-left">
+                    <h2 class="mb-3">Discover AutoBrief</h2>
+                    <p class="text-secondary fs-5">Your smart reading companion that transforms lengthy books into
+                        bite-sized insights. Read anywhere, anytime directly from your mobile phone—no more excuses.</p>
+                </div>
+            </div>
+
+            <!-- Step 3: The Result -->
+            <div class="row align-items-center position-relative timeline-row">
+                <div class="timeline-dot"></div>
+                <div class="col-md-6 order-2 order-md-1 text-md-end pe-md-5" data-aos="fade-right">
+                    <h2 class="mb-3">Enjoy Your Reading</h2>
+                    <p class="text-secondary fs-5">Rediscover the pleasure of learning. Dive into key takeaways
+                        instantly and
+                        export your summaries to read later. Reading is no longer a chore—it's a joy.</p>
+                </div>
+                <div class="col-md-6 order-1 order-md-2 ps-md-5 mb-4 mb-md-0" data-aos="fade-left">
+                    <img src="./timeline3.png" alt="Enjoy reading" class="shadow-lg timeline-img">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Features Section -->
     <section class="features-section" id="features">
         <div class="container">
             <h2 class="section-title" data-aos="fade-up">Improve Your Reading Experience</h2>
-            <div class="row g-4">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-brain"></i>
@@ -770,7 +1123,7 @@
                             argument, and reflects the author’s voice with care and precision.</p>
                     </div>
                 </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-bolt"></i>
@@ -780,7 +1133,7 @@
                             save you time without losing the depth of the original work.</p>
                     </div>
                 </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-file-export"></i>
@@ -798,31 +1151,44 @@
     </section>
 
     <!-- About Section -->
+
     <section class="about-section" id="about">
         <div class="container">
             <div class="about-header" data-aos="fade-up">
-                <h2>About</h2>
+                <h2>Our Mission</h2>
                 <div class="about-underline"></div>
             </div>
 
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="about-glass-box">
-                        <p class="about-text">"We believe reading is something everyone should enjoy, not just those
-                            with extra time. Books hold ideas, stories, and lessons that deserve to be shared and
-                            understood by all. AutoBrief was created to make that possible — by turning books into
-                            simple, clear summaries anyone can read and enjoy. No complicated tools, no distractions.
-                            Just an easier way to keep the habit of reading alive, so more people can discover and
-                            understand the world through books."</p>
-                    </div>
+            <div class="bento-container">
+                <!-- Large Box: Philosophy -->
+                <div class="bento-box bento-large" data-aos="fade-right">
+
+                    <span class="bento-label">The Faith</span>
+                    <h3>Knowledge Belongs to Everyone</h3>
+                    <p>Reading shouldn’t feel like a luxury only for people with extra time.
+                        Books carry ideas, stories, and lessons that shape the way we think — and everyone deserves
+                        access to that value.
+                        We believe knowledge should feel simple to reach, easy to absorb, and naturally fit into daily
+                        life.</p>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="about-illustration-container">
-                        <img src="about-img.png" alt="Person Reading" class="about-illustration">
-                        <div class="about-cta-wrapper">
-                            <a href="read.html" class="btn btn-sample">Try a sample summary</a>
-                        </div>
-                    </div>
+
+                <!-- Box 2: The Logic -->
+                <div class="bento-box" data-aos="fade-up" data-aos-delay="100">
+
+                    <span class="bento-label">The Friction</span>
+                    <h3>Modern Barriers</h3>
+                    <p>In a fast-paced world, distractions are endless. The desire to read is there, but the time is
+                        often missing.</p>
+                </div>
+
+                <!-- Box 3: The Solution -->
+                <div class="bento-box" data-aos="fade-left" data-aos-delay="200">
+
+                    <span class="bento-label">The AutoBrief Way</span>
+                    <h3>Essence & Clarity</h3>
+                    <p>We take out the extra stuff and focus on what matters most. You get the heart of the book —
+                        clear, simple, and easy to
+                        understand.</p>
                 </div>
             </div>
         </div>
@@ -1148,6 +1514,20 @@
         const baseRotX = 0.1;
         const baseRotY = -0.1;
 
+        // Interactive Parallax Targets
+        let targetRotX = baseRotX;
+        let targetRotY = baseRotY;
+
+        document.addEventListener('mousemove', (e) => {
+            // Normalized coordinates (-1 to 1)
+            const x = (e.clientX / window.innerWidth) * 2 - 1;
+            const y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            // Parallax strength (0.15 radians)
+            targetRotY = baseRotY + (x * 0.15);
+            targetRotX = baseRotX - (y * 0.15);
+        });
+
         let time = 0;
         let baseY = 0;
 
@@ -1178,13 +1558,12 @@
                 // 3. Position: Emerge from below
                 mainGroup.position.y = (baseY - 4) + 4 * p;
             } else {
-                // Regular floating animation after entrance
-                const swingSpeed = 1.0;
-                const swingAmp = 0.02;
+                // Interactive Parallax + Float
+                // Smoothly interpolate to mouse target (Linear Interpolation)
+                mainGroup.rotation.x += (targetRotX - mainGroup.rotation.x) * 0.05;
+                mainGroup.rotation.y += (targetRotY - mainGroup.rotation.y) * 0.05;
 
                 mainGroup.rotation.z = baseRotZ;
-                mainGroup.rotation.x = baseRotX + Math.sin(time * swingSpeed) * swingAmp;
-                mainGroup.rotation.y = baseRotY + Math.cos(time * swingSpeed) * swingAmp;
                 mainGroup.position.y = baseY + Math.sin(time * 0.5) * 0.08;
             }
 
@@ -1206,14 +1585,24 @@
             camera.updateProjectionMatrix();
             renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-            // Adjust camera distance for smaller screens to keep object in view
-            if (window.innerWidth < 992) {
-                camera.position.set(0, 0, 20); // Slightly adjusted distance
-                baseY = 1.5; // Lift the object up significantly on mobile
+            // Responsive Camera Adjustment
+            // SETTINGS: Adjust the 3rd number (Z) to change Size/Zoom. Higher = Smaller.
+            if (window.innerWidth < 768) {
+                // Mobile Portrait
+                camera.position.set(0, 0, 10);
+                baseY = 0; // 0 = Center Aligned Vertically
+            } else if (window.innerWidth < 992) {
+                // Tablet
+                camera.position.set(0, 0, 12);
+                baseY = 0;
             } else {
-                camera.position.set(0, 0, 16); // Default position
-                baseY = 0; // Default height
+                // Desktop
+                camera.position.set(0, 0, 16);
+                baseY = 0;
             }
+
+            // Force re-render just in case
+            renderer.render(scene, camera);
         }
 
         window.addEventListener('resize', updateCamera);
@@ -1243,6 +1632,66 @@
             document.body.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
             themeIcon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // --- 7. Parallax & Scroll Effects (New) ---
+        const aboutBox = document.querySelector('.about-glass-box');
+        const aboutImg = document.querySelector('.about-illustration');
+
+        window.addEventListener('scroll', () => {
+            // About Section Parallax
+            if (aboutBox && aboutImg && window.innerWidth > 992) {
+                const rect = aboutBox.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+
+                // If section is in view
+                if (rect.top < viewHeight && rect.bottom > 0) {
+                    const scrollProgress = (viewHeight - rect.top) / viewHeight;
+                    // Slower movement for image for depth
+                    const moveY = scrollProgress * -30;
+                    aboutImg.style.transform = `scale(1.1) translateY(${moveY}px)`;
+                    // Faster/Slower for box
+                    aboutBox.style.transform = `translateY(${moveY * 0.5}px)`;
+                }
+            }
+
+            // --- 8. Timeline Animation ---
+            const timelineSection = document.querySelector('.timeline-section');
+            const timelineLine = document.querySelector('.timeline-line');
+            const progressLine = document.querySelector('.timeline-line-progress');
+            const dots = document.querySelectorAll('.timeline-dot');
+
+            if (timelineSection && progressLine && timelineLine) {
+                const lineRect = timelineLine.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // "Drawing Point" - logical pen tip fixed on screen (55% from top)
+                const drawPoint = windowHeight * 0.55;
+
+                // Calculate height of line to draw
+                // It is the distance from the Top of the Line container to the Draw Point
+                let drawHeight = drawPoint - lineRect.top;
+
+                // Clamp
+                drawHeight = Math.max(0, Math.min(drawHeight, lineRect.height));
+
+                // Set CSS Height
+                const progressPercent = (drawHeight / lineRect.height) * 100;
+                progressLine.style.height = `${progressPercent}%`;
+
+                // Animate Dots
+                dots.forEach(dot => {
+                    const dotRect = dot.getBoundingClientRect();
+                    const dotCenterY = dotRect.top + (dotRect.height / 2);
+
+                    // Activate if Dot Center is at or above Draw Point (line passed it)
+                    if (dotCenterY <= drawPoint) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
         });
     </script>
 
@@ -1310,6 +1759,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
