@@ -23,6 +23,9 @@
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <style>
         :root {
             --bg-primary: #F9F7F2;
@@ -151,6 +154,21 @@
 
         .navbar-brand:hover {
             color: var(--accent);
+        }
+
+        .navbar-brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            overflow: hidden;
+            object-fit: cover;
+            margin-right: 12px;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: rotate(15deg) scale(1.1);
         }
 
         .nav-link {
@@ -396,11 +414,17 @@
             margin-bottom: 5rem;
         }
 
-        .section-header h2 {
+        .section-header h2,
+        .section-title {
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.2rem;
             color: var(--text-primary);
+            text-align: center;
+        }
+
+        .section-title {
+            margin-bottom: 4rem;
         }
 
         .header-underline {
@@ -1035,106 +1059,139 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Timeline Section */
+        /* Timeline Section - Curtain Reveal Remodel */
         .timeline-section {
-            padding: 8rem 0;
-            background-color: var(--bg-secondary);
+            padding: 0;
+            background-color: transparent;
             position: relative;
             z-index: 2;
         }
 
-        .timeline-line {
-            position: absolute;
-            left: 50%;
+        .timeline-step {
+            position: sticky;
             top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--border);
-            /* Inactive Gray */
-            transform: translateX(-50%);
-            border-radius: 4px;
-        }
-
-        .timeline-line-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
+            height: 100vh;
             width: 100%;
-            height: 0%;
-            background: var(--accent);
-            /* Active Color */
-            border-radius: 4px;
-            /* No transition for direct scroll binding - smoother */
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             background-color: var(--bg-primary);
-            border: 4px solid var(--border);
-            border-radius: 50%;
-            z-index: 3;
-            transition: all 0.4s ease;
+            transition: transform 0.1s ease-out;
+            /* Smooth transition if needed */
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 -20px 50px rgba(44, 36, 32, 0.05);
+            /* Soft shadow for curtain edge */
         }
 
-        .timeline-dot.active {
-            border-color: var(--accent);
-            background-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(156, 102, 68, 0.2);
-            transform: translate(-50%, -50%) scale(1.2);
+        /* Distinct Backgrounds for each curtain */
+        .timeline-step:nth-child(1) {
+            background-color: #F9F7F2;
+            /* Cream Light */
+            z-index: 10;
+        }
+
+        .timeline-step:nth-child(2) {
+            background-color: #F0EDE5;
+            /* Paper Gray */
+            z-index: 20;
+            box-shadow: 0 -30px 60px rgba(44, 36, 32, 0.1);
+        }
+
+        .timeline-step:nth-child(3) {
+            background-color: #E8E4D9;
+            /* Deep Paper */
+            z-index: 30;
+            box-shadow: 0 -30px 80px rgba(44, 36, 32, 0.15);
+        }
+
+        [data-theme="dark"] .timeline-step:nth-child(1) {
+            background-color: #1A1512;
+        }
+
+        [data-theme="dark"] .timeline-step:nth-child(2) {
+            background-color: #252019;
+        }
+
+        [data-theme="dark"] .timeline-step:nth-child(3) {
+            background-color: #1A1512;
+        }
+
+
+        .timeline-step .container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-content-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .timeline-text-side {
+            flex: 1;
+        }
+
+        .timeline-image-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .timeline-img {
-            transition: transform 0.3s ease;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        .timeline-img:hover {
-            transform: scale(1.02);
+        .timeline-step:hover .timeline-img {
+            transform: scale(1.05) rotate(1deg);
+        }
+
+        .timeline-step h2 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .timeline-step p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+
+
+
+        @media (max-width: 992px) {
+            .timeline-content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .timeline-step h2 {
+                font-size: 2.5rem;
+            }
+
+            .timeline-step p {
+                font-size: 1.1rem;
+                margin: 0 auto;
+            }
+
+            .timeline-img {
+                max-height: 300px;
+            }
         }
 
         @media (max-width: 768px) {
-            .timeline-line {
-                left: 30px;
-                transform: translateX(-50%);
-            }
-
-            .timeline-dot {
-                left: 30px;
-            }
-
-            /* Adjust content to sit to the right of the line */
-            .timeline-row .col-md-6 {
-                padding-left: 70px !important;
-                /* Override bootstrap spacing if needed */
-                padding-right: 0;
-                text-align: left !important;
-            }
-
-            /* Ensure images fit nicely */
-            .timeline-img {
-                margin-top: 1rem;
-                margin-bottom: 2rem;
-            }
-
-            /* Remove alternating order effect for mobile cleanliness */
-            .timeline-row {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .order-md-1,
-            .order-md-2 {
-                order: initial !important;
-            }
-
-            /* Specifically fix text alignment for first and last item which are right-aligned on desktop */
             .text-md-end {
                 text-align: left !important;
             }
@@ -1216,13 +1273,23 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top" data-aos="fade-down" data-aos-delay="100">
         <div class="container">
-            <a class="navbar-brand" href="#home">
-                <i class="fas fa-book-open"></i>
-                AutoBrief
+            <a class="navbar-brand d-flex align-items-center" href="#home">
+                <img src="favicon.png" alt="AutoBrief Logo">
+                <span>AutoBrief</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <!-- Theme Toggle & CTA (Always Visible) -->
+            <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
+            </div>
+
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="mx-auto d-flex flex-column flex-lg-row align-items-center gap-4">
                     <ul class="navbar-nav align-items-center mb-0">
@@ -1239,8 +1306,9 @@
                             <a class="nav-link" href="#faq">FAQs</a>
                         </li>
                     </ul>
-                    <div class="d-flex align-items-center gap-3">
-                        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <!-- Theme Toggle & CTA (Desktop Only) -->
+                    <div class="d-none d-lg-flex align-items-center gap-3">
+                        <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
                             <i class="fas fa-moon"></i>
                         </button>
                         <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
@@ -1279,53 +1347,53 @@
         </div>
     </section>
 
-    <!-- Timeline Storytelling Section -->
+    <!-- Timeline Storytelling Section - Curtain Reveal -->
     <section class="timeline-section" id="story">
-        <div class="container position-relative">
-            <!-- Central Line -->
-            <div class="timeline-line">
-                <div class="timeline-line-progress"></div>
-            </div>
-
-            <!-- Step 1: The Problem -->
-            <div class="row align-items-center mb-5 pb-5 position-relative timeline-row">
-                <div class="timeline-dot"></div>
-                <div class="col-md-6 order-2 order-md-1 text-md-end pe-md-5" data-aos="fade-right">
-                    <h2 class="mb-3">The Loss of the Art of Reading</h2>
-                    <p class="text-secondary fs-5">In today's fast-paced world, finding time to sit down with a good
-                        book
-                        feels impossible. Between busy work days and endless distractions, the joy of reading often gets
-                        left behind.</p>
-                </div>
-                <div class="col-md-6 order-1 order-md-2 ps-md-5 mb-4 mb-md-0" data-aos="fade-left">
-                    <img src="./timeline1.png" alt="Busy lifestyle" class="shadow-lg timeline-img">
+        <!-- Step 1 -->
+        <div class="timeline-step">
+            <div class="container">
+                <div class="timeline-content-wrapper" data-aos="fade-up">
+                    <div class="timeline-text-side">
+                        <h2>The Loss of the Art of Reading</h2>
+                        <p>In today's fast-paced world, finding time to sit down with a good book feels impossible.
+                            Between busy work days and endless distractions, the joy of reading often gets left behind.
+                        </p>
+                    </div>
+                    <div class="timeline-image-side">
+                        <img src="./timeline1.png" alt="Busy lifestyle" class="timeline-img">
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Step 2: The Solution -->
-            <div class="row align-items-center mb-5 pb-5 position-relative timeline-row">
-                <div class="timeline-dot"></div>
-                <div class="col-md-6 order-1 pe-md-5 mb-4 mb-md-0" data-aos="fade-right">
-                    <img src="./timeline2.png" alt="Discover AutoBrief" class="shadow-lg timeline-img">
-                </div>
-                <div class="col-md-6 order-2 ps-md-5" data-aos="fade-left">
-                    <h2 class="mb-3">Discover AutoBrief</h2>
-                    <p class="text-secondary fs-5">Your smart reading companion that transforms lengthy books into
-                        bite-sized insights. Read anywhere, anytime directly from your mobile phone—no more excuses.</p>
+        <!-- Step 2 -->
+        <div class="timeline-step">
+            <div class="container">
+                <div class="timeline-content-wrapper" data-aos="fade-up">
+                    <div class="timeline-image-side">
+                        <img src="./timeline2.png" alt="Discover AutoBrief" class="timeline-img">
+                    </div>
+                    <div class="timeline-text-side">
+                        <h2>Discover AutoBrief</h2>
+                        <p>Your smart reading companion that transforms lengthy books into bite-sized insights. Read
+                            anywhere, anytime directly from your mobile phone—no more excuses.</p>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Step 3: The Result -->
-            <div class="row align-items-center position-relative timeline-row">
-                <div class="timeline-dot"></div>
-                <div class="col-md-6 order-2 order-md-1 text-md-end pe-md-5" data-aos="fade-right">
-                    <h2 class="mb-3">Enjoy Your Reading</h2>
-                    <p class="text-secondary fs-5">Rediscover the pleasure of learning. Dive into key takeaways
-                        instantly and
-                        export your summaries to read later. Reading is no longer a chore—it's a joy.</p>
-                </div>
-                <div class="col-md-6 order-1 order-md-2 ps-md-5 mb-4 mb-md-0" data-aos="fade-left">
-                    <img src="./timeline3.png" alt="Enjoy reading" class="shadow-lg timeline-img">
+        <!-- Step 3 -->
+        <div class="timeline-step">
+            <div class="container">
+                <div class="timeline-content-wrapper" data-aos="fade-up">
+                    <div class="timeline-text-side">
+                        <h2>Enjoy Your Reading</h2>
+                        <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export your
+                            summaries to read later. Reading is no longer a chore—it's a joy.</p>
+                    </div>
+                    <div class="timeline-image-side">
+                        <img src="./timeline3.png" alt="Enjoy reading" class="timeline-img">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1634,6 +1702,56 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Q4 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="600">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Can I export summaries to PDF?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolutely! Every summary includes a clean, beautifully formatted PDF export option.
+                                Perfect for offline reading, printing, or building your digital library.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="700">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                What types of books does AutoBrief cover?
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                AutoBrief works best with non-fiction books including business, self-help, psychology,
+                                history, and science. We're constantly expanding our capabilities to include more genres
+                                and complex literary works.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="800">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Can I use AutoBrief on my phone or tablet?
+                            </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! AutoBrief is fully responsive and optimized for all devices. Whether you're on
+                                desktop, tablet, or mobile, you'll get the same premium reading experience with seamless
+                                navigation and beautiful typography.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1890,19 +2008,34 @@
             }
         });
 
+        // Theme Toggle (Mobile + Desktop)
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
+        const themeToggleDesktop = document.getElementById('themeToggleDesktop');
         const savedTheme = localStorage.getItem('theme') || 'light';
-        document.body.setAttribute('data-theme', savedTheme);
-        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 
-        themeToggle.addEventListener('click', () => {
+        // Set initial theme
+        document.body.setAttribute('data-theme', savedTheme);
+        if (themeToggle) {
+            themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+        if (themeToggleDesktop) {
+            themeToggleDesktop.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Toggle handler
+        function toggleTheme() {
             const current = document.body.getAttribute('data-theme');
             const next = current === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
-            themeIcon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        });
+
+            const iconClass = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            if (themeToggle) themeToggle.querySelector('i').className = iconClass;
+            if (themeToggleDesktop) themeToggleDesktop.querySelector('i').className = iconClass;
+        }
+
+        if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+        if (themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
 
         // --- 7. Parallax & Scroll Effects (New) ---
         const aboutBox = document.querySelector('.about-glass-box');
@@ -1925,43 +2058,22 @@
                 }
             }
 
-            // --- 8. Timeline Animation ---
-            const timelineSection = document.querySelector('.timeline-section');
-            const timelineLine = document.querySelector('.timeline-line');
-            const progressLine = document.querySelector('.timeline-line-progress');
-            const dots = document.querySelectorAll('.timeline-dot');
-
-            if (timelineSection && progressLine && timelineLine) {
-                const lineRect = timelineLine.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-
-                // "Drawing Point" - logical pen tip fixed on screen (55% from top)
-                const drawPoint = windowHeight * 0.55;
-
-                // Calculate height of line to draw
-                // It is the distance from the Top of the Line container to the Draw Point
-                let drawHeight = drawPoint - lineRect.top;
-
-                // Clamp
-                drawHeight = Math.max(0, Math.min(drawHeight, lineRect.height));
-
-                // Set CSS Height
-                const progressPercent = (drawHeight / lineRect.height) * 100;
-                progressLine.style.height = `${progressPercent}%`;
-
-                // Animate Dots
-                dots.forEach(dot => {
-                    const dotRect = dot.getBoundingClientRect();
-                    const dotCenterY = dotRect.top + (dotRect.height / 2);
-
-                    // Activate if Dot Center is at or above Draw Point (line passed it)
-                    if (dotCenterY <= drawPoint) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
+            // --- 8. Timeline Curtain Reveal Enhancement (Optional) ---
+            // The sticky positioning handles the core reveal. 
+            // We can add a slight opacity/parallax effect here if needed.
+            const steps = document.querySelectorAll('.timeline-step');
+            steps.forEach((step, index) => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top <= 0 && rect.bottom > 0) {
+                    const progress = Math.abs(rect.top) / rect.height;
+                    // Optional: scale or fade out the content as it gets covered
+                    const content = step.querySelector('.timeline-content-wrapper');
+                    if (content) {
+                        content.style.opacity = 1 - (progress * 0.5);
+                        content.style.transform = `translateY(${progress * 50}px)`;
                     }
-                });
-            }
+                }
+            });
         });
     </script>
 
