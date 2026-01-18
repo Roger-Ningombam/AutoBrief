@@ -20,9 +20,6 @@
     <!-- AOS (Animate On Scroll) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- html2pdf.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -64,6 +61,35 @@
             line-height: 1.7;
             transition: background-color 0.4s ease, color 0.4s ease;
             min-height: 100vh;
+            position: relative;
+        }
+
+        /* Noise & Paper Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            filter: contrast(150%) brightness(100%);
+        }
+
+        [data-theme="dark"] body::before {
+            opacity: 0.05;
+            filter: invert(1) contrast(150%);
+        }
+
+        /* Paper-like subtle gradient */
+        body {
+            background-image:
+                radial-gradient(at 0% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%);
+            background-attachment: fixed;
         }
 
         h1,
@@ -178,9 +204,11 @@
         }
 
         .idle-state h1 {
-            font-size: 3.8rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
+            font-size: 4.8rem;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            font-weight: 800;
+            line-height: 1.1;
         }
 
         .idle-state p {
@@ -243,13 +271,14 @@
             background-color: var(--accent);
             color: var(--bg-primary);
             border: none;
-            padding: 1rem 2.5rem;
+            padding: 1.2rem 3rem;
             border-radius: 14px;
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 800;
+            font-size: 1.25rem;
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 15px var(--shadow);
             white-space: nowrap;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary-custom:hover {
@@ -618,11 +647,13 @@
         }
 
         .pdf-page h2 {
-            font-size: clamp(1.4rem, 3vh, 2rem);
-            margin-bottom: 2vh;
+            font-size: clamp(2rem, 4vh, 2.8rem);
+            margin-bottom: 3vh;
             color: var(--accent);
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 1vh;
+            padding-bottom: 1.5vh;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .pdf-page p {
@@ -740,19 +771,25 @@
         }
 
         .pdf-title {
-            font-size: clamp(1.6rem, 3.5vh, 2.5rem);
+            font-size: clamp(2.5rem, 6vh, 4rem);
             font-family: 'Playfair Display', serif;
-            margin-bottom: 1.5vh;
-            line-height: 1.2;
+            margin-bottom: 2vh;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -1.5px;
         }
 
         .pdf-key-insight {
             background: #FDF9F0;
-            padding: clamp(1rem, 2vh, 2rem);
-            border-left: 4px solid var(--accent);
+            padding: clamp(2rem, 4vh, 3.5rem);
+            border-left: 8px solid var(--accent);
             font-style: italic;
-            font-size: clamp(0.9rem, 1.8vh, 1.25rem);
-            margin-top: 2vh;
+            font-size: clamp(1.4rem, 2.8vh, 2.2rem);
+            margin-top: 4vh;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
         .serif-heading {
@@ -794,30 +831,26 @@
             }
         }
 
-        /* PDF Export Styling (Strict 2-Slides-Per-Page) */
         #pdf-export-zone {
             position: absolute;
-            left: -9999px;
-            top: -9999px;
+            top: 0;
+            left: -99999px;
             width: 210mm;
             background: white;
-            z-index: -1;
+            z-index: 99999;
+            visibility: visible;
         }
 
         .pdf-page-wrapper {
+            background: #ffffff !important;
             width: 210mm;
             height: 297mm;
-            /* Full A4 */
             page-break-after: always;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding: 0;
-            margin: 0;
-            background: white;
-            overflow: hidden;
-            box-sizing: border-box;
+            display: block !important;
+            /* Avoid flex for capture safety */
+            position: relative;
         }
+
 
         .pdf-page-wrapper .pdf-page {
             position: relative !important;
@@ -837,7 +870,7 @@
             box-shadow: none !important;
             border-radius: 0 !important;
             border: none !important;
-            border-bottom: 1px solid #eee !important;
+            border-bottom: 2px solid #F0EDE5 !important;
             overflow: hidden !important;
         }
 
@@ -925,6 +958,174 @@
             40%,
             60% {
                 transform: translate3d(4px, 0, 0);
+            }
+        }
+
+        /* Print Styles for PDF Export */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /* Hide everything except print content */
+            body>*:not(#print-content) {
+                display: none !important;
+            }
+
+            .navbar-custom,
+            header,
+            nav,
+            .theme-toggle,
+            .pdf-nav-btn,
+            .pdf-dots,
+            .pdf-controls,
+            .export-section,
+            .btn-export,
+            .btn-new-summary,
+            .bg-blob,
+            .floating-shape,
+            .pdf-viewer-container,
+            .pdf-viewer,
+            .pdf-page,
+            .main-container,
+            .container {
+                display: none !important;
+            }
+
+            /* Reset body and html for print */
+            html {
+                width: 100%;
+                height: 100%;
+            }
+
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            body::before,
+            body::after {
+                display: none !important;
+            }
+
+            /* Show only print container */
+            #print-content {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            /* Each slide = exactly one page, vertically centered */
+            .pdf-page-print {
+                break-after: page !important;
+                break-inside: avoid !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                width: 100% !important;
+                height: 100vh !important;
+                min-height: 100vh !important;
+                max-height: 100vh !important;
+                padding: 15vh 10vw !important;
+                background: white !important;
+                color: #2C2420 !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: flex-start !important;
+                position: relative !important;
+                orphans: 3;
+                widows: 3;
+            }
+
+            /* Last slide should not create a new page */
+            .pdf-page-print:last-child {
+                break-after: avoid !important;
+                page-break-after: avoid !important;
+            }
+
+            /* Typography for print */
+            .pdf-page-print h1 {
+                font-size: 36px !important;
+                color: #2C2420 !important;
+                margin: 0 0 16px 0 !important;
+                padding: 0 !important;
+                font-family: 'Playfair Display', serif !important;
+                font-weight: 700 !important;
+                line-height: 1.2 !important;
+            }
+
+            .pdf-page-print h2 {
+                font-size: 26px !important;
+                color: #9C6644 !important;
+                margin: 0 0 16px 0 !important;
+                padding: 0 !important;
+                font-family: 'Playfair Display', serif !important;
+                font-weight: 700 !important;
+                line-height: 1.3 !important;
+            }
+
+            .pdf-page-print p {
+                font-size: 15px !important;
+                color: #2C2420 !important;
+                line-height: 1.7 !important;
+                margin: 0 0 12px 0 !important;
+                padding: 0 !important;
+            }
+
+            .pdf-page-print div {
+                color: #2C2420 !important;
+            }
+
+            .pdf-page-print ul {
+                margin: 8px 0 12px 20px !important;
+                padding: 0 !important;
+                list-style-type: disc !important;
+            }
+
+            .pdf-page-print li {
+                font-size: 15px !important;
+                color: #2C2420 !important;
+                margin-bottom: 8px !important;
+                line-height: 1.6 !important;
+                padding: 0 !important;
+            }
+
+            .pdf-page-print li::marker {
+                color: #9C6644 !important;
+            }
+
+            .pdf-page-print strong,
+            .pdf-page-print b {
+                color: #2C2420 !important;
+                font-weight: 700 !important;
+            }
+
+            /* Badge styling for print */
+            .print-badge {
+                background: #9C6644 !important;
+                color: white !important;
+                padding: 8px 16px !important;
+                border-radius: 20px !important;
+                display: inline-block !important;
+                font-size: 12px !important;
+                font-weight: 600 !important;
+                margin: 0 0 20px 0 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+            }
+
+            /* Page setup */
+            @page {
+                size: A4 portrait;
+                margin: 0;
             }
         }
     </style>
@@ -1341,70 +1542,89 @@
             });
         }
 
-        // --- NEW PDF EXPORT LOGIC (Grouping Strategy) ---
-        async function exportPDF() {
-            if (!lastData) return alert("No data to export.");
-
-            const bookTitle = lastData.book_title || 'Book_Summary';
-
-            // 1. Create a Temporary Print Container
-            const exportZone = document.createElement('div');
-            exportZone.id = 'pdf-export-zone';
-            document.body.appendChild(exportZone);
-
-            // 2. The Grouping Loop
-            // Iterate through the slides array in steps of 2
-            for (let i = 0; i < lastData.slides.length; i += 2) {
-                // Create a wrapper for the pair (one A4 page)
-                const pageWrapper = document.createElement('div');
-                pageWrapper.className = 'pdf-page-wrapper';
-
-                // Add the first slide of the pair (Odd)
-                const slide1 = createSlideElement(lastData, i);
-                pageWrapper.appendChild(slide1);
-
-                // Add the second slide of the pair if it exists (Even)
-                if (i + 1 < lastData.slides.length) {
-                    const slide2 = createSlideElement(lastData, i + 1);
-                    pageWrapper.appendChild(slide2);
-                }
-
-                exportZone.appendChild(pageWrapper);
+        // --- NEW PDF EXPORT LOGIC (Browser Print-Based) ---
+        function exportPDF() {
+            if (!lastData) {
+                alert("No summary data available to export.");
+                return;
             }
 
-            // 3. Configuration for html2pdf
-            const opt = {
-                margin: 0,
-                filename: `${bookTitle.replace(/\s+/g, '_')}_Summary.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    letterRendering: true
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
+            const button = components.exportBtn;
+            button.innerHTML = '\u003ci class="fas fa-spinner fa-spin"\u003e\u003c/i\u003e Preparing Print...';
+            button.disabled = true;
 
-            // 4. Execution
             try {
-                components.exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-                components.exportBtn.disabled = true;
+                // Create a temporary container for printing
+                const printContainer = document.createElement('div');
+                printContainer.id = 'print-content';
+                printContainer.style.cssText = 'display: none;';
 
-                await html2pdf().set(opt).from(exportZone).save();
+                // Add all slides to print container
+                lastData.slides.forEach((slide, index) => {
+                    const slideElement = createPrintSlideElement(lastData, index);
+                    printContainer.appendChild(slideElement);
+                });
+
+                // Add to DOM
+                document.body.appendChild(printContainer);
+
+                // Wait a brief moment for rendering, then trigger print
+                setTimeout(() => {
+                    // Show print content
+                    printContainer.style.display = 'block';
+
+                    // Trigger browser print dialog
+                    window.print();
+
+                    // Clean up after print dialog closes
+                    // Using a longer timeout to ensure print dialog has fully processed
+                    setTimeout(() => {
+                        if (printContainer.parentNode) {
+                            document.body.removeChild(printContainer);
+                        }
+                        button.innerHTML = '\u003ci class="fas fa-file-pdf"\u003e\u003c/i\u003e Export PDF';
+                        button.disabled = false;
+                    }, 500);
+                }, 100);
 
             } catch (error) {
-                console.error("PDF Generation failed:", error);
-                alert("Failed to generate PDF. Please try again.");
-            } finally {
-                // 5. Cleanup
-                document.body.removeChild(exportZone);
-                components.exportBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
-                components.exportBtn.disabled = false;
+                console.error('Print preparation error:', error);
+                button.innerHTML = '\u003ci class="fas fa-file-pdf"\u003e\u003c/i\u003e Export PDF';
+                button.disabled = false;
+                alert('Failed to prepare print preview. Please try again.');
             }
         }
 
-        // Helper to create a slide element for export
+        // Helper function to create print-optimized slide elements
+        function createPrintSlideElement(data, index) {
+            const slide = data.slides[index];
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'pdf-page-print';
+
+            let slideHtml = '';
+
+            if (index === 0) {
+                // Title slide
+                slideHtml = `
+                    \u003cdiv class="print-badge"\u003eIntroduction\u003c/div\u003e
+                    \u003ch1\u003e${data.book_title || slide.title || 'Book Summary'}\u003c/h1\u003e
+                    \u003cp style="font-size: 16px; margin-bottom: 30px;"\u003eby \u003cb\u003e${data.author || 'Author'}\u003c/b\u003e\u003c/p\u003e
+                    \u003ch2\u003e${slide.title}\u003c/h2\u003e
+                    \u003cdiv\u003e${slide.content}\u003c/div\u003e
+                `;
+            } else {
+                // Content slides
+                slideHtml = `
+                    \u003ch2\u003e${slide.title}\u003c/h2\u003e
+                    \u003cdiv\u003e${slide.content}\u003c/div\u003e
+                `;
+            }
+
+            slideDiv.innerHTML = slideHtml;
+            return slideDiv;
+        }
+
+        // Keep the old helper for backward compatibility (not used in new print approach)
         function createSlideElement(data, index) {
             const slide = data.slides[index];
             const slideDiv = document.createElement('div');
@@ -1413,18 +1633,18 @@
             let slideHtml = '';
             if (index === 0) {
                 slideHtml = `
-                    <div class="pdf-badge">Introduction</div>
-                    <h1 class="pdf-title">${data.book_title || slide.title || 'Book Title'}</h1>
-                    <p style="font-size: 1.1rem; margin-bottom: 5px;">by <b>${data.author || 'Author'}</b></p>
-                    <h2 style="font-size: 18px !important; margin-bottom: 5px !important;">${slide.title}</h2>
-                    <div class="content-body" style="font-size: 13px !important;">${slide.content}</div>
+                    \u003cdiv style="background: #9C6644; color: white; padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; margin-bottom: 10px;"\u003eIntroduction\u003c/div\u003e
+                    \u003ch1 style="font-size: 28px; color: #000000; margin-bottom: 10px; font-family: 'Playfair Display', serif;"\u003e${data.book_title || slide.title || 'Book Title'}\u003c/h1\u003e
+                    \u003cp style="font-size: 14px; color: #000000; margin-bottom: 10px;"\u003eby \u003cb\u003e${data.author || 'Author'}\u003c/b\u003e\u003c/p\u003e
+                    \u003ch2 style="font-size: 18px; color: #9C6644; margin-bottom: 10px;"\u003e${slide.title}\u003c/h2\u003e
+                    \u003cdiv style="font-size: 13px; color: #000000; line-height: 1.6;"\u003e${slide.content}\u003c/div\u003e
                 `;
             } else {
                 slideHtml = `
-                    <h2 class="serif-heading">${slide.title}</h2>
-                    <div class="content-body">
+                    \u003ch2 style="font-size: 20px; color: #9C6644; margin-bottom: 15px; font-family: 'Playfair Display', serif;"\u003e${slide.title}\u003c/h2\u003e
+                    \u003cdiv style="font-size: 14px; color: #000000; line-height: 1.6;"\u003e
                         ${slide.content}
-                    </div>
+                    \u003c/div\u003e
                 `;
             }
 
@@ -1444,6 +1664,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
+    <svg style="display: none;">
+        <filter id="paper-texture">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" stitchTiles="stitch" />
+            <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="2">
+                <feDistantLight azimuth="45" elevation="60" />
+                </feDistantLight>
+        </filter>
+    </svg>
 </body>
 
 </html>
