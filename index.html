@@ -67,6 +67,35 @@
             line-height: 1.7;
             transition: background-color 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Noise & Paper Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.035;
+            filter: contrast(150%) brightness(100%);
+        }
+
+        [data-theme="dark"] body::before {
+            opacity: 0.05;
+            filter: invert(1) contrast(150%);
+        }
+
+        /* Paper-like subtle gradient */
+        body {
+            background-image:
+                radial-gradient(at 0% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%);
+            background-attachment: fixed;
         }
 
         h1,
@@ -178,16 +207,17 @@
             background-color: var(--accent);
             color: var(--bg-primary);
             border: none;
-            padding: 1rem 3.5rem;
+            padding: 1.25rem 4.5rem;
             border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.15rem;
+            font-weight: 800;
+            font-size: 1.35rem;
             transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 4px 15px var(--shadow);
             display: inline-block;
             text-decoration: none;
             position: relative;
             overflow: hidden;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary-hero:hover {
@@ -253,17 +283,21 @@
         }
 
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: 5.5rem;
+            font-weight: 800;
             margin-bottom: 1.5rem;
             animation: fadeInUp 0.8s ease;
+            letter-spacing: -2px;
+            line-height: 1.1;
         }
 
         .hero-content p {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-            max-width: 600px;
+            margin-bottom: 3.5rem;
+            max-width: 650px;
             animation: fadeInUp 0.8s ease 0.2s backwards;
+            line-height: 1.6;
         }
 
         .hero-cta {
@@ -272,7 +306,7 @@
 
         /* 3D Canvas Preserved */
         .hero-visual {
-            height: 800px;
+            height: 850px;
             width: 100%;
             position: relative;
         }
@@ -357,47 +391,166 @@
             /* Sit above image */
         }
 
-        .section-title {
+        .section-header {
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
         }
 
-        .feature-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 20px var(--shadow);
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .header-underline {
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        .features-bento {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: rgba(253, 249, 240, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(156, 102, 68, 0.1);
+            border-radius: 32px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(156, 102, 68, 0.05);
             height: 100%;
         }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px var(--shadow);
+        [data-theme="dark"] .feature-item {
+            background: rgba(30, 25, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+        .feature-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(156, 102, 68, 0.1);
         }
 
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
+        .feature-vertical {
+            grid-row: span 2;
+            padding: 4rem 3rem;
+            justify-content: space-between;
         }
 
-        .feature-card h3 {
+        .feature-horizontal {
+            flex-direction: row;
+            align-items: center;
+            padding: 2.5rem 3rem;
+            gap: 2.5rem;
+        }
+
+        .feature-img-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-vertical .feature-img-container {
+            margin-bottom: 3rem;
+        }
+
+        .feature-img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(156, 102, 68, 0.1));
+            transition: transform 0.5s ease;
+        }
+
+        .feature-item:hover .feature-img {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .feature-vertical .feature-img {
+            max-height: 280px;
+        }
+
+        .feature-horizontal .feature-img {
+            max-height: 140px;
+            width: 160px;
+            object-fit: contain;
+        }
+
+        .feature-text-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .feature-horizontal h3 {
             font-size: 1.8rem;
-            margin-bottom: 1rem;
         }
 
-        .feature-card p {
+        .feature-text-content p {
+            font-size: 1.15rem;
+            line-height: 1.6;
             color: var(--text-secondary);
-            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        .features-cta-container {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .btn-journey {
+            background-color: #9C6644;
+            color: #fff;
+            padding: 1.2rem 3.5rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(156, 102, 68, 0.3);
+            border: none;
+        }
+
+        .btn-journey:hover {
+            background-color: #7E5135;
+            transform: translateY(-3px);
+            color: #fff;
+            box-shadow: 0 15px 40px rgba(156, 102, 68, 0.4);
+        }
+
+        @media (max-width: 992px) {
+            .features-bento {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-vertical,
+            .feature-horizontal {
+                grid-row: auto;
+                flex-direction: column;
+                text-align: center;
+                padding: 3rem 2rem;
+            }
+
+            .feature-horizontal .feature-img {
+                width: auto;
+                max-height: 180px;
+                margin-bottom: 2rem;
+            }
         }
 
         /* About Section */
@@ -767,7 +920,7 @@
             }
 
             .hero-content h1 {
-                font-size: 2.5rem;
+                font-size: 4rem;
                 /* Shrink title */
             }
 
@@ -793,7 +946,7 @@
             }
 
             .hero-content h1 {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
 
             .hero-content p {
@@ -986,6 +1139,76 @@
                 text-align: left !important;
             }
         }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 8rem 0;
+            background-color: var(--bg-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px !important;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 30px var(--shadow);
+        }
+
+        .accordion-button {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 1.5rem 2rem;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: var(--card-bg);
+            color: var(--accent);
+        }
+
+        .accordion-button::after {
+            background-image: none;
+            content: '\f067';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            background-image: none;
+            content: '\f068';
+            color: var(--accent);
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            padding: 0 2rem 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            background-color: var(--card-bg);
+        }
     </style>
 </head>
 
@@ -1013,7 +1236,7 @@
                             <a class="nav-link" href="#about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#contact">Contact</a>
+                            <a class="nav-link" href="#faq">FAQs</a>
                         </li>
                     </ul>
                     <div class="d-flex align-items-center gap-3">
@@ -1111,41 +1334,49 @@
     <!-- Features Section -->
     <section class="features-section" id="features">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Improve Your Reading Experience</h2>
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
+            <div class="section-header" data-aos="fade-up">
+                <h2>Improve Your Reading Experience</h2>
+                <div class="header-underline"></div>
+            </div>
+
+            <div class="features-bento">
+                <!-- Large Vertical Card -->
+                <div class="feature-item feature-vertical" data-aos="fade-right">
+                    <div class="feature-img-container">
+                        <img src="deep_context.png" alt="Deep Context" class="feature-img">
+                    </div>
+                    <div class="feature-text-content">
                         <h3>Deep Context</h3>
-                        <p>We go beyond simple summaries. It understands the context, captures the heart of each
-                            argument, and reflects the author’s voice with care and precision.</p>
+                        <p>We go beyond simple summaries. Our AI understands the nuance, captures the heart of each
+                            argument, and reflects the author’s voice with precision.</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
+
+                <!-- Horizontal Card 1 -->
+                <div class="feature-item feature-horizontal" data-aos="fade-left">
+                    <div class="feature-img-container">
+                        <img src="core_understanding.png" alt="Core Understanding" class="feature-img">
+                    </div>
+                    <div class="feature-text-content">
                         <h3>Core Understanding</h3>
-                        <p>Get past long chapters and focus on the insights that matter. Clear, thoughtful summaries
-                            save you time without losing the depth of the original work.</p>
+                        <p>Focus on insights that matter. Thoughtful summaries save you time without losing depth.</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-file-export"></i>
-                        </div>
+
+                <!-- Horizontal Card 2 -->
+                <div class="feature-item feature-horizontal" data-aos="fade-left" data-aos-delay="200">
+                    <div class="feature-img-container">
+                        <img src="clean_export.png" alt="Clean Export" class="feature-img">
+                    </div>
+                    <div class="feature-text-content">
                         <h3>Clean Export</h3>
-                        <p>Beautiful summaries deserve beautiful presentation. Export to PDF with elegant typography,
-                            perfect for your personal library or professional reference.</p>
+                        <p>Export to PDF with elegant typography, perfect for your personal library or reference.</p>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-5" data-aos="fade-up">
-                <a href="read.html" class="btn btn-primary-hero btn-lg">Begin your Journey</a>
+
+            <div class="features-cta-container" data-aos="fade-up">
+                <a href="read.html" class="btn-journey">Begin your Journey</a>
             </div>
         </div>
     </section>
@@ -1348,24 +1579,63 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Get in Touch</h2>
-            <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
-                <div class="mb-4" data-aos="fade-up" data-aos-delay="300">
-                    <input type="text" class="form-control" placeholder="Your Name" required>
+            <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+            <div class="faq-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="accordion" id="faqAccordion">
+                    <!-- Q1 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                I searched for a book but got a different one?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our AI reads thousands of titles. For the best accuracy, try typing "Book Title by
+                                Author
+                                Name" (e.g., "Atomic Habits by James Clear").
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Is this really free? What's the catch?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! AutoBrief is currently in a public beta. We believe knowledge should be free, so
+                                there are no paywalls or logins required right now.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="500">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Why does the summary take a moment to load?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We generate every summary fresh using a real-time AI engine rather than pulling from a
+                                database. This ensures you get deep, specific insights, but it takes about 10-15
+                                seconds.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-4" data-aos="fade-up" data-aos-delay="400">
-                    <input type="email" class="form-control" placeholder="Your Email" required>
-                </div>
-                <div class="mb-4" data-aos="fade-up" data-aos-delay="500">
-                    <textarea class="form-control" placeholder="Your Message" required></textarea>
-                </div>
-                <div class="text-center" data-aos="fade-up" data-aos-delay="600">
-                    <button type="submit" class="btn btn-primary-hero btn-lg">Send Message</button>
-                </div>
-            </form>
+            </div>
         </div>
     </section>
 
@@ -1376,7 +1646,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#faq">FAQs</a></li>
                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
             </ul>
             <p class="footer-copyright">&copy; 2024 AutoBrief. All rights reserved.</p>
@@ -1760,6 +2030,16 @@
         </div>
     </div>
 
+    </div>
+
+    <svg style="display: none;">
+        <filter id="paper-texture">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" stitchTiles="stitch" />
+            <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="2">
+                <feDistantLight azimuth="45" elevation="60" />
+            </feDiffuseLighting>
+        </filter>
+    </svg>
 </body>
 
 </html>
