@@ -5,6 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoBrief - Transform Books into Brilliant Insights</title>
+    <meta name="description"
+        content="AutoBrief uses AI to transform lengthy books into bite-sized, brilliant insights. Get key takeaways in seconds and improve your reading experience.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://autobrief.ai/">
+    <meta property="og:title" content="AutoBrief - Transform Books into Brilliant Insights">
+    <meta property="og:description"
+        content="Get key insights from any book in minutes. AI-powered summaries for the modern reader.">
+    <meta property="og:image" content="https://autobrief.ai/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://autobrief.ai/">
+    <meta property="twitter:title" content="AutoBrief - Transform Books into Brilliant Insights">
+    <meta property="twitter:description"
+        content="Get key insights from any book in minutes. AI-powered summaries for the modern reader.">
+    <meta property="twitter:image" content="https://autobrief.ai/og-image.png">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +50,7 @@
             --bg-secondary: #F0EDE5;
             --text-primary: #2C2420;
             --text-secondary: #5A4E47;
-            --accent: #9C6644;
+            --accent: #8F5C3B;
             --accent-hover: #7D5236;
             --border: rgba(44, 36, 32, 0.1);
             --shadow: rgba(44, 36, 32, 0.08);
@@ -1286,7 +1304,8 @@
                 <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
             </div>
 
-            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -1320,442 +1339,478 @@
 
 
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="hero-content text-center text-md-start">
-                        <h1 data-aos="fade-up">
-                            Turn Books<br>
-                            into Bite-Sized<br>
-                            <span style="color: var(--accent);">Brilliance.</span>
-                        </h1>
-                        <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Get key insights from any
-                            book in minutes.<br>AI-powered summaries for the modern reader.</p>
-                        <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
-                            <a href="read.html" class="btn btn-primary-hero">Start Reading</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-left" data-aos-delay="300">
-                    <div class="hero-visual">
-                        <canvas id="heroCanvas"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Timeline Storytelling Section - Curtain Reveal -->
-    <section class="timeline-section" id="story">
-        <!-- Step 1 -->
-        <div class="timeline-step">
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
             <div class="container">
-                <div class="timeline-content-wrapper" data-aos="fade-up">
-                    <div class="timeline-text-side">
-                        <h2>The Loss of the Art of Reading</h2>
-                        <p>In today's fast-paced world, finding time to sit down with a good book feels impossible.
-                            Between busy work days and endless distractions, the joy of reading often gets left behind.
-                        </p>
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="hero-content text-center text-md-start">
+                            <h1 data-aos="fade-up">
+                                Turn Books<br>
+                                into Bite-Sized<br>
+                                <span style="color: var(--accent);">Brilliance.</span>
+                            </h1>
+                            <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Get key insights from any
+                                book in minutes.<br>AI-powered summaries for the modern reader.</p>
+                            <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
+                                <a href="read.html" class="btn btn-primary-hero">Start Reading</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="timeline-image-side">
-                        <img src="./timeline1.png" alt="Busy lifestyle" class="timeline-img">
+                    <div class="col-md-6" data-aos="fade-left" data-aos-delay="300">
+                        <div class="hero-visual">
+                            <canvas id="heroCanvas"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Step 2 -->
-        <div class="timeline-step">
+        <!-- Timeline Storytelling Section - Curtain Reveal -->
+        <section class="timeline-section" id="story">
+            <!-- Step 1 -->
+            <div class="timeline-step">
+                <div class="container">
+                    <div class="timeline-content-wrapper" data-aos="fade-up">
+                        <div class="timeline-text-side">
+                            <h2>The Loss of the Art of Reading</h2>
+                            <p>In today's fast-paced world, finding time to sit down with a good book feels impossible.
+                                Between busy work days and endless distractions, the joy of reading often gets left
+                                behind.
+                            </p>
+                        </div>
+                        <div class="timeline-image-side">
+                            <img src="./timeline1.png"
+                                alt="Person overwhelmed by a tall stack of books, representing a busy modern lifestyle"
+                                class="timeline-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-step">
+                <div class="container">
+                    <div class="timeline-content-wrapper" data-aos="fade-up">
+                        <div class="timeline-image-side">
+                            <img src="./timeline2.png"
+                                alt="Smartphone displaying the AutoBrief app interface with a book summary"
+                                class="timeline-img">
+                        </div>
+                        <div class="timeline-text-side">
+                            <h2>Discover AutoBrief</h2>
+                            <p>Your smart reading companion that transforms lengthy books into bite-sized insights. Read
+                                anywhere, anytime directly from your mobile phone—no more excuses.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-step">
+                <div class="container">
+                    <div class="timeline-content-wrapper" data-aos="fade-up">
+                        <div class="timeline-text-side">
+                            <h2>Enjoy Your Reading</h2>
+                            <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export your
+                                summaries to read later. Reading is no longer a chore—it's a joy.</p>
+                        </div>
+                        <div class="timeline-image-side">
+                            <img src="./timeline3.png"
+                                alt="Relaxed person enjoying a focused reading session with AutoBrief insights"
+                                class="timeline-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section" id="features">
             <div class="container">
-                <div class="timeline-content-wrapper" data-aos="fade-up">
-                    <div class="timeline-image-side">
-                        <img src="./timeline2.png" alt="Discover AutoBrief" class="timeline-img">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Improve Your Reading Experience</h2>
+                    <div class="header-underline"></div>
+                </div>
+
+                <div class="features-bento">
+                    <!-- Large Vertical Card -->
+                    <div class="feature-item feature-vertical" data-aos="fade-right">
+                        <div class="feature-img-container">
+                            <img src="deep_context.png"
+                                alt="Illustration representing AI deep context analysis of literature"
+                                class="feature-img">
+                        </div>
+                        <div class="feature-text-content">
+                            <h3>Deep Context</h3>
+                            <p>We go beyond simple summaries. Our AI understands the nuance, captures the heart of each
+                                argument, and reflects the author’s voice with precision.</p>
+                        </div>
                     </div>
-                    <div class="timeline-text-side">
-                        <h2>Discover AutoBrief</h2>
-                        <p>Your smart reading companion that transforms lengthy books into bite-sized insights. Read
-                            anywhere, anytime directly from your mobile phone—no more excuses.</p>
+
+                    <!-- Horizontal Card 1 -->
+                    <div class="feature-item feature-horizontal" data-aos="fade-left">
+                        <div class="feature-img-container">
+                            <img src="core_understanding.png"
+                                alt="Icon depicting the extraction of core concepts from a book" class="feature-img">
+                        </div>
+                        <div class="feature-text-content">
+                            <h3>Core Understanding</h3>
+                            <p>Focus on insights that matter. Thoughtful summaries save you time without losing depth.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Horizontal Card 2 -->
+                    <div class="feature-item feature-horizontal" data-aos="fade-left" data-aos-delay="200">
+                        <div class="feature-img-container">
+                            <img src="clean_export.png" alt="Preview of an elegant PDF export document from AutoBrief"
+                                class="feature-img">
+                        </div>
+                        <div class="feature-text-content">
+                            <h3>Clean Export</h3>
+                            <p>Export to PDF with elegant typography, perfect for your personal library or reference.
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Step 3 -->
-        <div class="timeline-step">
+                <div class="features-cta-container" data-aos="fade-up">
+                    <a href="read.html" class="btn-journey">Begin your Journey</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+
+        <section class="about-section" id="about">
             <div class="container">
-                <div class="timeline-content-wrapper" data-aos="fade-up">
-                    <div class="timeline-text-side">
-                        <h2>Enjoy Your Reading</h2>
-                        <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export your
-                            summaries to read later. Reading is no longer a chore—it's a joy.</p>
+                <div class="about-header" data-aos="fade-up">
+                    <h2>Our Mission</h2>
+                    <div class="about-underline"></div>
+                </div>
+
+                <div class="bento-container">
+                    <!-- Large Box: Philosophy -->
+                    <div class="bento-box bento-large" data-aos="fade-right">
+
+                        <span class="bento-label">The Faith</span>
+                        <h3>Knowledge Belongs to Everyone</h3>
+                        <p>Reading shouldn’t feel like a luxury only for people with extra time.
+                            Books carry ideas, stories, and lessons that shape the way we think — and everyone deserves
+                            access to that value.
+                            We believe knowledge should feel simple to reach, easy to absorb, and naturally fit into
+                            daily
+                            life.</p>
                     </div>
-                    <div class="timeline-image-side">
-                        <img src="./timeline3.png" alt="Enjoy reading" class="timeline-img">
+
+                    <!-- Box 2: The Logic -->
+                    <div class="bento-box" data-aos="fade-up" data-aos-delay="100">
+
+                        <span class="bento-label">The Friction</span>
+                        <h3>Modern Barriers</h3>
+                        <p>In a fast-paced world, distractions are endless. The desire to read is there, but the time is
+                            often missing.</p>
+                    </div>
+
+                    <!-- Box 3: The Solution -->
+                    <div class="bento-box" data-aos="fade-left" data-aos-delay="200">
+
+                        <span class="bento-label">The AutoBrief Way</span>
+                        <h3>Essence & Clarity</h3>
+                        <p>We take out the extra stuff and focus on what matters most. You get the heart of the book —
+                            clear, simple, and easy to
+                            understand.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Improve Your Reading Experience</h2>
-                <div class="header-underline"></div>
-            </div>
-
-            <div class="features-bento">
-                <!-- Large Vertical Card -->
-                <div class="feature-item feature-vertical" data-aos="fade-right">
-                    <div class="feature-img-container">
-                        <img src="deep_context.png" alt="Deep Context" class="feature-img">
-                    </div>
-                    <div class="feature-text-content">
-                        <h3>Deep Context</h3>
-                        <p>We go beyond simple summaries. Our AI understands the nuance, captures the heart of each
-                            argument, and reflects the author’s voice with precision.</p>
-                    </div>
-                </div>
-
-                <!-- Horizontal Card 1 -->
-                <div class="feature-item feature-horizontal" data-aos="fade-left">
-                    <div class="feature-img-container">
-                        <img src="core_understanding.png" alt="Core Understanding" class="feature-img">
-                    </div>
-                    <div class="feature-text-content">
-                        <h3>Core Understanding</h3>
-                        <p>Focus on insights that matter. Thoughtful summaries save you time without losing depth.</p>
-                    </div>
-                </div>
-
-                <!-- Horizontal Card 2 -->
-                <div class="feature-item feature-horizontal" data-aos="fade-left" data-aos-delay="200">
-                    <div class="feature-img-container">
-                        <img src="clean_export.png" alt="Clean Export" class="feature-img">
-                    </div>
-                    <div class="feature-text-content">
-                        <h3>Clean Export</h3>
-                        <p>Export to PDF with elegant typography, perfect for your personal library or reference.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="features-cta-container" data-aos="fade-up">
-                <a href="read.html" class="btn-journey">Begin your Journey</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="about-header" data-aos="fade-up">
-                <h2>Our Mission</h2>
-                <div class="about-underline"></div>
-            </div>
-
-            <div class="bento-container">
-                <!-- Large Box: Philosophy -->
-                <div class="bento-box bento-large" data-aos="fade-right">
-
-                    <span class="bento-label">The Faith</span>
-                    <h3>Knowledge Belongs to Everyone</h3>
-                    <p>Reading shouldn’t feel like a luxury only for people with extra time.
-                        Books carry ideas, stories, and lessons that shape the way we think — and everyone deserves
-                        access to that value.
-                        We believe knowledge should feel simple to reach, easy to absorb, and naturally fit into daily
-                        life.</p>
-                </div>
-
-                <!-- Box 2: The Logic -->
-                <div class="bento-box" data-aos="fade-up" data-aos-delay="100">
-
-                    <span class="bento-label">The Friction</span>
-                    <h3>Modern Barriers</h3>
-                    <p>In a fast-paced world, distractions are endless. The desire to read is there, but the time is
-                        often missing.</p>
-                </div>
-
-                <!-- Box 3: The Solution -->
-                <div class="bento-box" data-aos="fade-left" data-aos-delay="200">
-
-                    <span class="bento-label">The AutoBrief Way</span>
-                    <h3>Essence & Clarity</h3>
-                    <p>We take out the extra stuff and focus on what matters most. You get the heart of the book —
-                        clear, simple, and easy to
-                        understand.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Trusted by Thinkers Worldwide</h2>
-            <div class="testimonial-slider-container" data-aos="fade-up" data-aos-delay="200">
-                <div class="testimonial-track">
-                    <!-- Original Set -->
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
-                            manageable. I can now engage with dozens of sources in the time it used to take me to read
-                            three chapters."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_sarah.png" alt="Sarah Jenkins">
-                            </div>
-                            <div class="author-info">
-                                <h5>Sarah Jenkins</h5>
-                                <p>PhD Candidate, Literature</p>
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Trusted by Thinkers Worldwide</h2>
+                <div class="testimonial-slider-container" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-track">
+                        <!-- Original Set -->
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
+                                manageable. I can now engage with dozens of sources in the time it used to take me to
+                                read
+                                three chapters."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_sarah.png" alt="Sarah Jenkins">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Sarah Jenkins</h3>
+                                    <p>PhD Candidate, Literature</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"As a founder, I need to absorb business strategies fast. AutoBrief
-                            gives me the competitive intelligence without the time sink. It's become indispensable."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_marcus.png" alt="Marcus Rivera">
-                            </div>
-                            <div class="author-info">
-                                <h5>Marcus Rivera</h5>
-                                <p>Startup Founder</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"As a founder, I need to absorb business strategies fast.
+                                AutoBrief
+                                gives me the competitive intelligence without the time sink. It's become indispensable."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_marcus.png" alt="Marcus Rivera">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Marcus Rivera</h3>
+                                    <p>Startup Founder</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"The summaries are beautifully formatted and genuinely insightful. I
-                            use them for client presentations and personal learning. Worth every penny."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_elena.png" alt="Elena Martinez">
-                            </div>
-                            <div class="author-info">
-                                <h5>Elena Martinez</h5>
-                                <p>Brand Strategist</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"The summaries are beautifully formatted and genuinely
+                                insightful. I
+                                use them for client presentations and personal learning. Worth every penny."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_elena.png" alt="Elena Martinez">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Elena Martinez</h3>
+                                    <p>Brand Strategist</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I missed on
-                            my first read-through. A true game changer for serious researchers."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_james.png" alt="James Chen">
-                            </div>
-                            <div class="author-info">
-                                <h5>James Chen</h5>
-                                <p>Research Analyst</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I
+                                missed on
+                                my first read-through. A true game changer for serious researchers."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_james.png" alt="James Chen">
+                                </div>
+                                <div class="author-info">
+                                    <h3>James Chen</h3>
+                                    <p>Research Analyst</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving me
-                            hours of work. It captures the heart of complex historical arguments perfectly."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_alisha.png" alt="Dr. Alisha Khan">
-                            </div>
-                            <div class="author-info">
-                                <h5>Dr. Alisha Khan</h5>
-                                <p>Historian</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving
+                                me
+                                hours of work. It captures the heart of complex historical arguments perfectly."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_alisha.png" alt="Dr. Alisha Khan">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Dr. Alisha Khan</h3>
+                                    <p>Historian</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Duplicate Set for Loop -->
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
-                            manageable. I can now engage with dozens of sources in the time it used to take me to read
-                            three chapters."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_sarah.png" alt="Sarah Jenkins">
-                            </div>
-                            <div class="author-info">
-                                <h5>Sarah Jenkins</h5>
-                                <p>PhD Candidate, Literature</p>
+                        <!-- Duplicate Set for Loop -->
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"AutoBrief turned my thesis research from overwhelming to
+                                manageable. I can now engage with dozens of sources in the time it used to take me to
+                                read
+                                three chapters."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_sarah.png" alt="Sarah Jenkins">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Sarah Jenkins</h3>
+                                    <p>PhD Candidate, Literature</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"As a founder, I need to absorb business strategies fast. AutoBrief
-                            gives me the competitive intelligence without the time sink. It's become indispensable."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_marcus.png" alt="Marcus Rivera">
-                            </div>
-                            <div class="author-info">
-                                <h5>Marcus Rivera</h5>
-                                <p>Startup Founder</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"As a founder, I need to absorb business strategies fast.
+                                AutoBrief
+                                gives me the competitive intelligence without the time sink. It's become indispensable."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_marcus.png" alt="Marcus Rivera">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Marcus Rivera</h3>
+                                    <p>Startup Founder</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"The summaries are beautifully formatted and genuinely insightful. I
-                            use them for client presentations and personal learning. Worth every penny."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_elena.png" alt="Elena Martinez">
-                            </div>
-                            <div class="author-info">
-                                <h5>Elena Martinez</h5>
-                                <p>Brand Strategist</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"The summaries are beautifully formatted and genuinely
+                                insightful. I
+                                use them for client presentations and personal learning. Worth every penny."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_elena.png" alt="Elena Martinez">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Elena Martinez</h3>
+                                    <p>Brand Strategist</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I missed on
-                            my first read-through. A true game changer for serious researchers."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_james.png" alt="James Chen">
-                            </div>
-                            <div class="author-info">
-                                <h5>James Chen</h5>
-                                <p>Research Analyst</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"The depth of analysis is astounding. It catches nuances I
+                                missed on
+                                my first read-through. A true game changer for serious researchers."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_james.png" alt="James Chen">
+                                </div>
+                                <div class="author-info">
+                                    <h3>James Chen</h3>
+                                    <p>Research Analyst</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="testimonial-card-slide">
-                        <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving me
-                            hours of work. It captures the heart of complex historical arguments perfectly."</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="avatar_alisha.png" alt="Dr. Alisha Khan">
-                            </div>
-                            <div class="author-info">
-                                <h5>Dr. Alisha Khan</h5>
-                                <p>Historian</p>
+                        <div class="testimonial-card-slide">
+                            <p class="testimonial-text">"Finally, a tool that respects the author's intent while saving
+                                me
+                                hours of work. It captures the heart of complex historical arguments perfectly."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="avatar_alisha.png" alt="Dr. Alisha Khan">
+                                </div>
+                                <div class="author-info">
+                                    <h3>Dr. Alisha Khan</h3>
+                                    <p>Historian</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FAQ Section -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
-            <div class="faq-container" data-aos="fade-up" data-aos-delay="200">
-                <div class="accordion" id="faqAccordion">
-                    <!-- Q1 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                I searched for a book but got a different one?
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Our AI reads thousands of titles. For the best accuracy, try typing "Book Title by
-                                Author
-                                Name" (e.g., "Atomic Habits by James Clear").
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Frequently Asked Questions</h2>
+                <div class="faq-container" data-aos="fade-up" data-aos-delay="200">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Q1 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    I searched for a book but got a different one?
+                                </button>
+                            </h3>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Our AI reads thousands of titles. For the best accuracy, try typing "Book Title by
+                                    Author
+                                    Name" (e.g., "Atomic Habits by James Clear").
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Q2 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Is this really free? What's the catch?
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes! AutoBrief is currently in a public beta. We believe knowledge should be free, so
-                                there are no paywalls or logins required right now.
+                        <!-- Q2 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Is this really free? What's the catch?
+                                </button>
+                            </h3>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! AutoBrief is currently in a public beta. We believe knowledge should be free,
+                                    so
+                                    there are no paywalls or logins required right now.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Q3 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="500">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Why does the summary take a moment to load?
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                We generate every summary fresh using a real-time AI engine rather than pulling from a
-                                database. This ensures you get deep, specific insights, but it takes about 10-15
-                                seconds.
+                        <!-- Q3 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="500">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Why does the summary take a moment to load?
+                                </button>
+                            </h3>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We generate every summary fresh using a real-time AI engine rather than pulling from
+                                    a
+                                    database. This ensures you get deep, specific insights, but it takes about 10-15
+                                    seconds.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Q4 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="600">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Can I export summaries to PDF?
-                            </button>
-                        </h2>
-                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Absolutely! Every summary includes a clean, beautifully formatted PDF export option.
-                                Perfect for offline reading, printing, or building your digital library.
+                        <!-- Q4 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="600">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Can I export summaries to PDF?
+                                </button>
+                            </h3>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely! Every summary includes a clean, beautifully formatted PDF export option.
+                                    Perfect for offline reading, printing, or building your digital library.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Q5 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="700">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                What types of books does AutoBrief cover?
-                            </button>
-                        </h2>
-                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                AutoBrief works best with non-fiction books including business, self-help, psychology,
-                                history, and science. We're constantly expanding our capabilities to include more genres
-                                and complex literary works.
+                        <!-- Q5 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="700">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    What types of books does AutoBrief cover?
+                                </button>
+                            </h3>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    AutoBrief works best with non-fiction books including business, self-help,
+                                    psychology,
+                                    history, and science. We're constantly expanding our capabilities to include more
+                                    genres
+                                    and complex literary works.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Q6 -->
-                    <div class="accordion-item" data-aos="fade-up" data-aos-delay="800">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                Can I use AutoBrief on my phone or tablet?
-                            </button>
-                        </h2>
-                        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes! AutoBrief is fully responsive and optimized for all devices. Whether you're on
-                                desktop, tablet, or mobile, you'll get the same premium reading experience with seamless
-                                navigation and beautiful typography.
+                        <!-- Q6 -->
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="800">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    Can I use AutoBrief on my phone or tablet?
+                                </button>
+                            </h3>
+                            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! AutoBrief is fully responsive and optimized for all devices. Whether you're on
+                                    desktop, tablet, or mobile, you'll get the same premium reading experience with
+                                    seamless
+                                    navigation and beautiful typography.
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -2093,45 +2148,52 @@
             <div class="modal-content"
                 style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; color: var(--text-primary);">
                 <div class="modal-header" style="border-bottom: 1px solid var(--border); padding: 2rem;">
-                    <h5 class="modal-title" id="privacyModalLabel"
+                    <h2 class="modal-title" id="privacyModalLabel"
                         style="font-family: 'Playfair Display', serif; font-size: 2rem;">Privacy Policy & Website
                         Details
-                    </h5>
+                    </h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="padding: 2.5rem; line-height: 1.6;">
-                    <h4 style="color: var(--accent); margin-bottom: 1.5rem;">How AutoBrief Works</h4>
+                    <h3 style="color: var(--accent); margin-bottom: 1.5rem;">How AutoBrief Works</h3>
                     <p>AutoBrief uses advanced Large Language Models powered by high-performance <strong>Groq
                             API</strong> to
                         analyze and
                         summarize books. Our system focuses on understanding meaning and key arguments—not just
                         keywords—so summaries stay true to the author’s intent.</p>
 
-                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Your Privacy Comes First
-                    </h4>
+                    <h3 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Your Privacy Comes
+                        First
+                    </h3>
                     <ul class="ms-3 mb-0">
                         <li class="mb-2"><strong>No storage:</strong> Your searches and inputs are processed in real
                             time and
                             immediately discarded.</li>
-                        <li class="mb-2"><strong>No training on your data:</strong> We do not store, reuse, or train our
+                        <li class="mb-2"><strong>No training on your data:</strong> We do not store, reuse, or train
+                            our
                             models on
                             your personal queries.</li>
-                        <li class="mb-2"><strong>No tracking:</strong> AutoBrief is cookie-free and does not use ads or
+                        <li class="mb-2"><strong>No tracking:</strong> AutoBrief is cookie-free and does not use ads
+                            or
                             third-party trackers.</li>
                     </ul>
 
-                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Accuracy & Similar Book
-                        Titles</h4>
-                    <p>Many books share the same title. For best results, we recommend searching using <strong>“Title by
+                    <h3 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Accuracy & Similar
+                        Book
+                        Titles</h3>
+                    <p>Many books share the same title. For best results, we recommend searching using
+                        <strong>“Title by
                             Author.”</strong> If only a title is provided, AutoBrief defaults to the most well-known
-                        version—but adding the author ensures accuracy.</p>
+                        version—but adding the author ensures accuracy.
+                    </p>
 
-                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">AI Limitations</h4>
-                    <p>AutoBrief summaries are designed as study aids, not replacements for reading the full book. While
+                    <h3 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">AI Limitations</h3>
+                    <p>AutoBrief summaries are designed as study aids, not replacements for reading the full book.
+                        While
                         we strive for accuracy, occasional errors can occur—please verify important details with the
                         original text.</p>
 
-                    <h4 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Usage Terms</h4>
+                    <h3 style="color: var(--accent); margin-top: 2rem; margin-bottom: 1.5rem;">Usage Terms</h3>
                     <p>AutoBrief is for personal and educational use only. Generated summaries may not be resold or
                         presented as the original author’s work.</p>
                 </div>
