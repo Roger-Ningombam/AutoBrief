@@ -393,31 +393,6 @@
             margin-right: 0;
         }
 
-        /* Curtain Reveal Logic */
-        .reveal-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            /* Behind Hero (2) and Features (2) */
-            background-image: url('image.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            pointer-events: none;
-        }
-
-        .reveal-spacer {
-            height: 80vh;
-            /* Adjust for amount of image to reveal */
-            width: 100%;
-            pointer-events: none;
-            /* Let scroll pass through if needed */
-            background: transparent;
-        }
-
         /* Features Section */
         .features-section {
             padding: 6rem 0;
@@ -453,12 +428,11 @@
             border-radius: 10px;
         }
 
-        .features-bento {
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -467,9 +441,12 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(156, 102, 68, 0.1);
             border-radius: 32px;
-            padding: 2.5rem;
+            padding: 4rem 2.5rem;
             display: flex;
             flex-direction: column;
+            /* Vertical cards as per image */
+            align-items: center;
+            text-align: center;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             box-shadow: 0 10px 30px rgba(156, 102, 68, 0.05);
             height: 100%;
@@ -485,61 +462,37 @@
             box-shadow: 0 20px 50px rgba(156, 102, 68, 0.1);
         }
 
-        .feature-vertical {
-            grid-row: span 2;
-            padding: 4rem 3rem;
-            justify-content: space-between;
-        }
-
-        .feature-horizontal {
-            flex-direction: row;
-            align-items: center;
-            padding: 2.5rem 3rem;
-            gap: 2.5rem;
-        }
-
         .feature-img-container {
-            flex-shrink: 0;
+            width: 100%;
+            height: 160px;
+            margin-bottom: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .feature-vertical .feature-img-container {
-            margin-bottom: 3rem;
-        }
-
         .feature-img {
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 10px 20px rgba(156, 102, 68, 0.1));
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: contain;
             transition: transform 0.5s ease;
         }
 
         .feature-item:hover .feature-img {
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.1);
         }
 
-        .feature-vertical .feature-img {
-            max-height: 280px;
-        }
-
-        .feature-horizontal .feature-img {
-            max-height: 140px;
-            width: 160px;
-            object-fit: contain;
+        .feature-text-content {
+            width: 100%;
         }
 
         .feature-text-content h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.4rem;
+            font-size: 2rem;
             font-weight: 800;
             margin-bottom: 1.2rem;
             color: var(--text-primary);
-        }
-
-        .feature-horizontal h3 {
-            font-size: 1.8rem;
+            white-space: nowrap;
         }
 
         .feature-text-content p {
@@ -575,23 +528,79 @@
             box-shadow: 0 15px 40px rgba(156, 102, 68, 0.4);
         }
 
+        @media (max-width: 1200px) {
+            .feature-text-content h3 {
+                font-size: 1.9rem;
+                /* Slightly smaller to help fit on one line */
+                white-space: nowrap;
+                /* Keep on one line as requested */
+            }
+        }
+
         @media (max-width: 992px) {
-            .features-bento {
-                grid-template-columns: 1fr;
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(380px, 480px));
+                /* Wider cards to avoid squeezing */
+                justify-content: center;
+                gap: 2.5rem;
+                max-width: 100%;
             }
 
-            .feature-vertical,
-            .feature-horizontal {
-                grid-row: auto;
+            .feature-item {
                 flex-direction: column;
                 text-align: center;
-                padding: 3rem 2rem;
+                padding: 3.5rem 2rem;
+                width: 100%;
+                max-width: 480px;
+                margin: 0 auto;
             }
 
-            .feature-horizontal .feature-img {
-                width: auto;
-                max-height: 180px;
-                margin-bottom: 2rem;
+            /* 2 1 Layout: Centered 3rd item without stretching */
+            .feature-item:nth-child(3) {
+                grid-column: 1 / span 2;
+                justify-self: center;
+                width: 100%;
+                max-width: 480px;
+                /* Same size as others */
+            }
+
+            .feature-img-container {
+                width: 100%;
+                height: 150px;
+                margin-bottom: 2.5rem;
+            }
+
+            .feature-item .feature-img {
+                max-width: 180px;
+                max-height: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                /* 1 1 1 Vertical Split / Stack */
+            }
+
+            .feature-item,
+            .feature-item:nth-child(3) {
+                grid-column: auto;
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .feature-img-container,
+            .feature-item:nth-child(3) .feature-img-container {
+                flex: none;
+                height: 140px;
+                margin-bottom: 1rem;
+            }
+
+            .feature-text-content h3 {
+                font-size: 1.8rem;
+                white-space: normal;
             }
         }
 
@@ -972,7 +981,7 @@
             }
 
             .hero-visual {
-                height: 400px;
+                height: 450px;
                 width: 100%;
                 overflow: hidden;
             }
@@ -1077,76 +1086,82 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Timeline Section - Curtain Reveal Remodel */
+        /* Timeline Section - Vertical Progress Bar */
         .timeline-section {
-            padding: 0;
-            background-color: transparent;
+            padding: 8rem 0;
+            background-color: var(--bg-primary);
             position: relative;
             z-index: 2;
+            overflow: hidden;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--border);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-line-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            /* Dynamic height controlled via JS or CSS Var */
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            transition: height 0.1s ease-out;
         }
 
         .timeline-step {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+            position: relative;
+            margin-bottom: 8rem;
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            z-index: 2;
+        }
+
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 24px;
+            height: 24px;
             background-color: var(--bg-primary);
-            transition: transform 0.1s ease-out;
-            /* Smooth transition if needed */
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 -20px 50px rgba(44, 36, 32, 0.05);
-            /* Soft shadow for curtain edge */
+            border: 4px solid var(--border);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Distinct Backgrounds for each curtain */
-        .timeline-step:nth-child(1) {
-            background-color: #F9F7F2;
-            /* Cream Light */
-            z-index: 10;
+        .timeline-step.active .timeline-dot {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+            transform: translate(-50%, -50%) scale(1.3);
         }
 
-        .timeline-step:nth-child(2) {
-            background-color: #F0EDE5;
-            /* Paper Gray */
-            z-index: 20;
-            box-shadow: 0 -30px 60px rgba(44, 36, 32, 0.1);
-        }
-
-        .timeline-step:nth-child(3) {
-            background-color: #E8E4D9;
-            /* Deep Paper */
-            z-index: 30;
-            box-shadow: 0 -30px 80px rgba(44, 36, 32, 0.15);
-        }
-
-        [data-theme="dark"] .timeline-step:nth-child(1) {
-            background-color: #1A1512;
-        }
-
-        [data-theme="dark"] .timeline-step:nth-child(2) {
-            background-color: #252019;
-        }
-
-        [data-theme="dark"] .timeline-step:nth-child(3) {
-            background-color: #1A1512;
-        }
-
-
-        .timeline-step .container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-        }
 
         .timeline-content-wrapper {
-            width: 100%;
             display: flex;
             align-items: center;
             gap: 4rem;
+            width: 100%;
         }
 
         .timeline-text-side {
@@ -1157,55 +1172,71 @@
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
 
         .timeline-img {
             max-width: 100%;
             height: auto;
-            border-radius: 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px var(--shadow);
+            transition: all 0.6s ease;
         }
 
-        .timeline-step:hover .timeline-img {
-            transform: scale(1.05) rotate(1deg);
+        .timeline-step.active .timeline-img {
+            box-shadow: 0 30px 60px var(--shadow);
         }
 
         .timeline-step h2 {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
-            line-height: 1.1;
         }
 
         .timeline-step p {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            max-width: 500px;
+            line-height: 1.7;
         }
 
+        /* Directional Alternating */
+        /* Step 1 is the 2nd child, Step 2 is the 3rd child, Step 3 is the 4th child */
+        .timeline-step:nth-child(odd) .timeline-content-wrapper {
+            flex-direction: row-reverse;
+        }
 
+        .timeline-step:nth-child(odd) .timeline-text-side {
+            text-align: right;
+        }
 
         @media (max-width: 992px) {
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
             .timeline-content-wrapper {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 70px;
                 gap: 2rem;
             }
 
-            .timeline-step h2 {
-                font-size: 2.5rem;
+            .timeline-text-side {
+                text-align: left !important;
+                width: 100%;
             }
 
-            .timeline-step p {
-                font-size: 1.1rem;
-                margin: 0 auto;
+            .timeline-step h2 {
+                font-size: 2.2rem;
             }
 
             .timeline-img {
-                max-height: 300px;
+                max-width: 100%;
+                max-height: 350px;
             }
         }
 
@@ -1368,59 +1399,71 @@
             </div>
         </section>
 
-        <!-- Timeline Storytelling Section - Curtain Reveal -->
+        <!-- Timeline Storytelling Section - Vertical Progress Bar -->
         <section class="timeline-section" id="story">
-            <!-- Step 1 -->
-            <div class="timeline-step">
-                <div class="container">
-                    <div class="timeline-content-wrapper" data-aos="fade-up">
-                        <div class="timeline-text-side">
-                            <h2>The Loss of the Art of Reading</h2>
-                            <p>In today's fast-paced world, finding time to sit down with a good book feels impossible.
-                                Between busy work days and endless distractions, the joy of reading often gets left
-                                behind.
-                            </p>
-                        </div>
-                        <div class="timeline-image-side">
-                            <img src="./timeline1.png"
-                                alt="Person overwhelmed by a tall stack of books, representing a busy modern lifestyle"
-                                class="timeline-img">
+            <div class="timeline-container">
+                <div class="timeline-line">
+                    <div class="timeline-line-progress"></div>
+                </div>
+
+                <!-- Step 1 -->
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div class="container">
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-text-side" data-aos="fade-right">
+                                <h2>The Loss of the Art of Reading</h2>
+                                <p>In today's fast-paced world, finding time to sit down with a good book feels
+                                    impossible.
+                                    Between busy work days and endless distractions, the joy of reading often gets left
+                                    behind.
+                                </p>
+                            </div>
+                            <div class="timeline-image-side" data-aos="fade-left">
+                                <img src="./timeline1.png"
+                                    alt="Person overwhelmed by a tall stack of books, representing a busy modern lifestyle"
+                                    class="timeline-img">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 2 -->
-            <div class="timeline-step">
-                <div class="container">
-                    <div class="timeline-content-wrapper" data-aos="fade-up">
-                        <div class="timeline-image-side">
-                            <img src="./timeline2.png"
-                                alt="Smartphone displaying the AutoBrief app interface with a book summary"
-                                class="timeline-img">
-                        </div>
-                        <div class="timeline-text-side">
-                            <h2>Discover AutoBrief</h2>
-                            <p>Your smart reading companion that transforms lengthy books into bite-sized insights. Read
-                                anywhere, anytime directly from your mobile phone—no more excuses.</p>
+                <!-- Step 2 -->
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div class="container">
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-text-side" data-aos="fade-left">
+                                <h2>Discover AutoBrief</h2>
+                                <p>Your smart reading companion that transforms lengthy books into bite-sized insights.
+                                    Read
+                                    anywhere, anytime directly from your mobile phone—no more excuses.</p>
+                            </div>
+                            <div class="timeline-image-side" data-aos="fade-right">
+                                <img src="./timeline2.png"
+                                    alt="Smartphone displaying the AutoBrief app interface with a book summary"
+                                    class="timeline-img">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 3 -->
-            <div class="timeline-step">
-                <div class="container">
-                    <div class="timeline-content-wrapper" data-aos="fade-up">
-                        <div class="timeline-text-side">
-                            <h2>Enjoy Your Reading</h2>
-                            <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export your
-                                summaries to read later. Reading is no longer a chore—it's a joy.</p>
-                        </div>
-                        <div class="timeline-image-side">
-                            <img src="./timeline3.png"
-                                alt="Relaxed person enjoying a focused reading session with AutoBrief insights"
-                                class="timeline-img">
+                <!-- Step 3 -->
+                <div class="timeline-step">
+                    <div class="timeline-dot"></div>
+                    <div class="container">
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-text-side" data-aos="fade-right">
+                                <h2>Enjoy Your Reading</h2>
+                                <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export
+                                    your
+                                    summaries to read later. Reading is no longer a chore—it's a joy.</p>
+                            </div>
+                            <div class="timeline-image-side" data-aos="fade-left">
+                                <img src="./timeline3.png"
+                                    alt="Relaxed person enjoying a focused reading session with AutoBrief insights"
+                                    class="timeline-img">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1435,9 +1478,9 @@
                     <div class="header-underline"></div>
                 </div>
 
-                <div class="features-bento">
-                    <!-- Large Vertical Card -->
-                    <div class="feature-item feature-vertical" data-aos="fade-right">
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-item" data-aos="fade-up">
                         <div class="feature-img-container">
                             <img src="deep_context.png"
                                 alt="Illustration representing AI deep context analysis of literature"
@@ -1445,33 +1488,35 @@
                         </div>
                         <div class="feature-text-content">
                             <h3>Deep Context</h3>
-                            <p>We go beyond simple summaries. Our AI understands the nuance, captures the heart of each
-                                argument, and reflects the author’s voice with precision.</p>
+                            <p>We go beyond simple summaries. It understands the context, captures the heart of each
+                                argument, and reflects the author's voice with care and precision.</p>
                         </div>
                     </div>
 
-                    <!-- Horizontal Card 1 -->
-                    <div class="feature-item feature-horizontal" data-aos="fade-left">
+                    <!-- Feature 2 -->
+                    <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
                         <div class="feature-img-container">
                             <img src="core_understanding.png"
                                 alt="Icon depicting the extraction of core concepts from a book" class="feature-img">
                         </div>
                         <div class="feature-text-content">
                             <h3>Core Understanding</h3>
-                            <p>Focus on insights that matter. Thoughtful summaries save you time without losing depth.
+                            <p>Get past long chapters and focus on the insights that matter. Clear, thoughtful
+                                summaries save you time without losing the depth of the original work.
                             </p>
                         </div>
                     </div>
 
-                    <!-- Horizontal Card 2 -->
-                    <div class="feature-item feature-horizontal" data-aos="fade-left" data-aos-delay="200">
+                    <!-- Feature 3 -->
+                    <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
                         <div class="feature-img-container">
                             <img src="clean_export.png" alt="Preview of an elegant PDF export document from AutoBrief"
                                 class="feature-img">
                         </div>
                         <div class="feature-text-content">
                             <h3>Clean Export</h3>
-                            <p>Export to PDF with elegant typography, perfect for your personal library or reference.
+                            <p>Beautiful summaries deserve beautiful presentation. Export to PDF with elegant
+                                typography, perfect for your personal library or professional reference.
                             </p>
                         </div>
                     </div>
@@ -1822,7 +1867,7 @@
                 <li><a href="#faq">FAQs</a></li>
                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
             </ul>
-            <p class="footer-copyright">&copy; 2024 AutoBrief. All rights reserved.</p>
+            <p class="footer-copyright">&copy; 2025 AutoBrief. All rights reserved.</p>
         </div>
     </footer>
 
@@ -2036,7 +2081,7 @@
                 baseY = 0; // 0 = Center Aligned Vertically
             } else if (window.innerWidth < 992) {
                 // Tablet
-                camera.position.set(0, 0, 12);
+                camera.position.set(0, 0, 10.5);
                 baseY = 0;
             } else {
                 // Desktop
@@ -2113,22 +2158,39 @@
                 }
             }
 
-            // --- 8. Timeline Curtain Reveal Enhancement (Optional) ---
-            // The sticky positioning handles the core reveal. 
-            // We can add a slight opacity/parallax effect here if needed.
-            const steps = document.querySelectorAll('.timeline-step');
-            steps.forEach((step, index) => {
-                const rect = step.getBoundingClientRect();
-                if (rect.top <= 0 && rect.bottom > 0) {
-                    const progress = Math.abs(rect.top) / rect.height;
-                    // Optional: scale or fade out the content as it gets covered
-                    const content = step.querySelector('.timeline-content-wrapper');
-                    if (content) {
-                        content.style.opacity = 1 - (progress * 0.5);
-                        content.style.transform = `translateY(${progress * 50}px)`;
+            // --- 8. Timeline Vertical Progress ---
+            const timelineSection = document.getElementById('story');
+            const progressLine = document.querySelector('.timeline-line-progress');
+            const timelineSteps = document.querySelectorAll('.timeline-step');
+            const timelineContainer = document.querySelector('.timeline-container');
+
+            if (timelineSection && progressLine && timelineSteps.length > 0) {
+                const containerRect = timelineContainer.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // Trigger point is the middle of the screen
+                const triggerPoint = windowHeight * 0.5;
+                const containerTop = containerRect.top;
+                const containerHeight = containerRect.height;
+
+                // Calculate progress based on the entire container height
+                let progressPercentage = ((triggerPoint - containerTop) / containerHeight) * 100;
+                progressPercentage = Math.max(0, Math.min(100, progressPercentage));
+
+                // Update progress bar height from the very top (0) to bottom
+                progressLine.style.top = '0';
+                progressLine.style.height = progressPercentage + '%';
+
+                timelineSteps.forEach(step => {
+                    const stepCenter = containerTop + step.offsetTop + (step.offsetHeight / 2);
+
+                    if (stepCenter < triggerPoint) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
                     }
-                }
-            });
+                });
+            }
         });
     </script>
 
