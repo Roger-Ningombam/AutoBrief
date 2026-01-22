@@ -988,6 +988,17 @@
         }
 
         @media (max-width: 768px) {
+
+            html,
+            body {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .navbar-custom {
+                width: 90%;
+            }
+
             html {
                 font-size: 12px;
             }
@@ -1023,34 +1034,7 @@
                 overflow: hidden;
             }
 
-            /* Force Center Alignment for Timeline on Mobile */
-            .timeline-line {
-                left: 50% !important;
-            }
 
-            .timeline-dot {
-                left: 50% !important;
-            }
-
-            .timeline-content-wrapper {
-                padding-left: 0 !important;
-                align-items: center !important;
-                text-align: center !important;
-            }
-
-            .timeline-text-side {
-                text-align: center !important;
-                width: 100%;
-            }
-
-            .timeline-image-side {
-                justify-content: center !important;
-                width: 100%;
-            }
-
-            .timeline-step h2 {
-                text-align: center;
-            }
 
             /* About Section Centering */
             .bento-box {
