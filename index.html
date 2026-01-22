@@ -1136,8 +1136,18 @@
 
         @media (max-width: 768px) {
             .testimonial-card-slide {
-                width: 300px;
-                padding: 1.5rem;
+                width: 260px;
+                padding: 1rem 1rem 0.5rem 1rem;
+            }
+
+            .testimonial-text {
+                font-size: 0.95rem;
+                line-height: 1.4;
+                margin-bottom: 0.8rem;
+            }
+
+            .author-info h3 {
+                font-size: 1rem;
             }
 
             @keyframes scroll {
@@ -1146,7 +1156,7 @@
                 }
 
                 100% {
-                    transform: translateX(calc(-300px * 5 - 2rem * 5));
+                    transform: translateX(calc(-260px * 5 - 2rem * 5));
                 }
             }
         }
@@ -1743,7 +1753,7 @@
                                 </div>
                                 <div class="author-info">
                                     <h3>Sarah Jenkins</h3>
-                                    <p>PhD Candidate, Literature</p>
+                                    <p>PhD Literature</p>
                                 </div>
                             </div>
                         </div>
