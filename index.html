@@ -999,6 +999,14 @@
                 padding-bottom: 4rem;
             }
 
+            .hero-content {
+                width: 100%;
+                padding: 0 1.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
             .hero-content h1 {
                 font-size: 3.5rem;
             }
@@ -1012,12 +1020,66 @@
                 height: 350px;
                 width: 100%;
                 margin-top: 1rem;
+                overflow: hidden;
             }
 
-            @media (max-width: 576px) {
-                .hero-content h1 {
-                    font-size: 2.5rem;
-                }
+            /* Force Center Alignment for Timeline on Mobile */
+            .timeline-line {
+                left: 50% !important;
+            }
+
+            .timeline-dot {
+                left: 50% !important;
+            }
+
+            .timeline-content-wrapper {
+                padding-left: 0 !important;
+                align-items: center !important;
+                text-align: center !important;
+            }
+
+            .timeline-text-side {
+                text-align: center !important;
+                width: 100%;
+            }
+
+            .timeline-image-side {
+                justify-content: center !important;
+                width: 100%;
+            }
+
+            .timeline-step h2 {
+                text-align: center;
+            }
+
+            /* About Section Centering */
+            .bento-box {
+                text-align: center;
+                align-items: center;
+            }
+
+            .bento-box h3,
+            .bento-box p {
+                text-align: center;
+            }
+
+            .bento-label {
+                align-self: center;
+            }
+
+            /* Ensure Feature items are centered */
+            .feature-item {
+                align-items: center !important;
+                text-align: center !important;
+            }
+
+            /* Generic Utils overrides */
+            .text-md-end {
+                text-align: center !important;
+            }
+
+            .text-md-start {
+                text-align: center !important;
             }
         }
 
