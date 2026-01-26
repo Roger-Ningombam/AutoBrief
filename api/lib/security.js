@@ -127,7 +127,7 @@ const VALIDATION_SCHEMAS = {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: /^[a-z0-9\-]+$/, // Lowercase alphanumeric + hyphens only
+        pattern: /^[a-z0-9\-_]+$/, // Lowercase alphanumeric + hyphens/underscores
         required: true
     },
     artifactType: {

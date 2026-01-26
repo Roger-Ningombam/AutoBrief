@@ -10,6 +10,7 @@ export default async function handler(request, response) {
     if (!sanitizedBody) return; // Request rejected
 
     const { slug, artifactType } = sanitizedBody;
+    console.log(`DEBUG: Generating ${artifactType} for slug: "${slug}"`);
 
     try {
         // 1. Fetch Knowledge from DB
@@ -20,6 +21,7 @@ export default async function handler(request, response) {
             .single();
 
         if (error || !book) {
+            console.error("Supabase Lookup Error:", error, "Slug sought:", slug);
             return response.status(404).json({ error: 'Book not found. Please ingest first.' });
         }
 
