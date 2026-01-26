@@ -1,5 +1,6 @@
 import Groq from "groq-sdk";
 import dotenv from 'dotenv';
+import { secureEndpoint } from './lib/security.js';
 
 // Load environment variables
 dotenv.config();
@@ -7,29 +8,14 @@ dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export default async function handler(request, response) {
-    // Add CORS headers
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    // SECURITY CHECK: Wraps CORS, Rate Limiting, Validation
+    const sanitizedBody = await secureEndpoint(request, response, ['bookTitle']);
+    if (!sanitizedBody) return;
 
-    // Handle preflight OPTIONS request
-    if (request.method === 'OPTIONS') {
-        return response.status(200).end();
-    }
-
-    // Only allow POST requests
-    if (request.method !== 'POST') {
-        return response.status(405).json({ error: 'Method Not Allowed' });
-    }
-
-    let bookTitle = "";
+    let { bookTitle } = sanitizedBody;
 
     try {
-        bookTitle = request.body.bookTitle;
-
-        if (!bookTitle) {
-            return response.status(400).json({ error: 'Book title is required' });
-        }
+        // bookTitle is already validated and sanitised by secureEndpoint
 
         if (!process.env.GROQ_API_KEY) {
             console.error("DEBUG: GROQ_API_KEY is missing in environment variables.");

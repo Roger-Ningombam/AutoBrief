@@ -44,1363 +44,13 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
 
-    <style>
-        :root {
-            --bg-primary: #F9F7F2;
-            --bg-secondary: #F0EDE5;
-            --text-primary: #2C2420;
-            --text-secondary: #5A4E47;
-            --accent: #8F5C3B;
-            --accent-hover: #7D5236;
-            --border: rgba(44, 36, 32, 0.1);
-            --shadow: rgba(44, 36, 32, 0.08);
-            --card-bg: #FFFFFF;
-            --bg-glass: rgba(249, 247, 242, 0.85);
-        }
 
-        [data-theme="dark"] {
-            --bg-primary: #1A1512;
-            --bg-secondary: #252019;
-            --text-primary: #E6E0D4;
-            --text-secondary: #B8AFA0;
-            --accent: #C9956B;
-            --accent-hover: #D4A67D;
-            --border: rgba(230, 224, 212, 0.15);
-            --shadow: rgba(201, 149, 107, 0.15);
-            --card-bg: #211C17;
-            --bg-glass: rgba(26, 21, 18, 0.85);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Noise & Paper Texture Overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.035;
-            filter: contrast(150%) brightness(100%);
-        }
-
-        [data-theme="dark"] body::before {
-            opacity: 0.05;
-            filter: invert(1) contrast(150%);
-        }
-
-        /* Paper-like subtle gradient */
-        body {
-            background-image:
-                radial-gradient(at 0% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(156, 102, 68, 0.03) 0, transparent 50%);
-            background-attachment: fixed;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        /* Navbar */
-        .navbar-custom {
-            background-color: var(--bg-primary);
-            /* Initial State */
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1.5rem;
-            /* Pill Padding */
-            border: 1px solid var(--border);
-            /* Full border */
-            transition: all 0.3s ease;
-
-            /* Permanent Floating Pill */
-            border-radius: 100px;
-            width: 90%;
-            max-width: 1000px;
-            top: 1.5rem;
-
-            /* Centering (AOS Safe) */
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-        }
-
-        .navbar-custom.scrolled {
-            background-color: var(--bg-glass);
-            /* Glass Effect */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 10px 40px var(--shadow);
-            /* Shape properties inherited from base */
-        }
-
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
-        }
-
-        .navbar-brand:hover {
-            color: var(--accent);
-        }
-
-        .navbar-brand img {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            overflow: hidden;
-            object-fit: cover;
-            margin-right: 12px;
-            vertical-align: middle;
-            transition: transform 0.3s ease;
-        }
-
-        .navbar-brand:hover img {
-            transform: rotate(15deg) scale(1.1);
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: 2px solid var(--border);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-            font-size: 1.2rem;
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--accent);
-            background-color: var(--accent);
-            color: var(--bg-primary);
-            transform: rotate(180deg);
-        }
-
-        /* Buttons */
-        .btn-primary-hero {
-            background-color: var(--accent);
-            color: var(--bg-primary);
-            border: none;
-            padding: 1.25rem 4.5rem;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.35rem;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 15px var(--shadow);
-            display: inline-block;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary-hero:hover {
-            background-color: var(--accent-hover);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 10px 40px rgba(156, 102, 68, 0.3);
-            color: var(--bg-primary);
-        }
-
-        .btn-primary-hero:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 10px var(--shadow);
-        }
-
-        .btn-secondary-hero {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border);
-            padding: 0.75rem 2.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-left: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary-hero:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .btn-secondary-hero:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .btn-nav-cta {
-            background-color: var(--accent);
-            color: var(--bg-primary);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 15px var(--shadow);
-        }
-
-        .btn-nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(156, 102, 68, 0.3);
-            color: var(--bg-primary);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            padding: 0 0 2rem;
-            position: relative;
-            background-color: var(--bg-primary);
-            /* Ensure opacity for curtain effect */
-            z-index: 2;
-            /* Sit above the fixed image */
-        }
-
-        .hero-content h1 {
-            font-size: 5.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 0.8s ease;
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        .hero-content p {
-            font-size: 1.4rem;
-            color: var(--text-secondary);
-            margin-bottom: 3.5rem;
-            max-width: 650px;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
-            line-height: 1.6;
-        }
-
-        .hero-cta {
-            animation: fadeInUp 0.8s ease 0.4s backwards;
-        }
-
-        /* 3D Canvas Preserved */
-        .hero-visual {
-            height: 850px;
-            width: 100%;
-            position: relative;
-        }
-
-        #heroCanvas {
-            width: 100%;
-            height: 100%;
-            outline: none;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUpWord {
-            from {
-                opacity: 0;
-                transform: translateY(40px) skewY(10deg);
-                filter: blur(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) skewY(0);
-                filter: blur(0);
-            }
-        }
-
-        .reveal-word {
-            display: inline-block;
-            opacity: 0;
-            will-change: transform, opacity;
-            animation: fadeInUpWord 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            animation-delay: var(--delay);
-            margin-right: 0.2em;
-            /* Spacing for inline-blocks */
-        }
-
-        .reveal-word:last-child {
-            margin-right: 0;
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 6rem 0;
-            background-color: var(--bg-secondary);
-            position: relative;
-            z-index: 2;
-            /* Sit above image */
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .section-header h2,
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.2rem;
-            color: var(--text-primary);
-            text-align: center;
-        }
-
-        .section-title {
-            margin-bottom: 4rem;
-        }
-
-        .header-underline {
-            width: 80px;
-            height: 4px;
-            background: var(--accent);
-            margin: 0 auto;
-            border-radius: 10px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
-            background: rgba(253, 249, 240, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(156, 102, 68, 0.1);
-            border-radius: 32px;
-            padding: 4rem 2.5rem;
-            display: flex;
-            flex-direction: column;
-            /* Vertical cards as per image */
-            align-items: center;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 10px 30px rgba(156, 102, 68, 0.05);
-            height: 100%;
-        }
-
-        [data-theme="dark"] .feature-item {
-            background: rgba(30, 25, 20, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .feature-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(156, 102, 68, 0.1);
-        }
-
-        .feature-img-container {
-            width: 100%;
-            height: 160px;
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feature-img {
-            max-width: 200px;
-            max-height: 150px;
-            object-fit: contain;
-            transition: transform 0.5s ease;
-        }
-
-        .feature-item:hover .feature-img {
-            transform: scale(1.1);
-        }
-
-        .feature-text-content {
-            width: 100%;
-        }
-
-        .feature-text-content h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1.2rem;
-            color: var(--text-primary);
-            white-space: nowrap;
-        }
-
-        .feature-text-content p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        .features-cta-container {
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        .btn-journey {
-            background-color: #9C6644;
-            color: #fff;
-            padding: 1.2rem 3.5rem;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(156, 102, 68, 0.3);
-            border: none;
-        }
-
-        .btn-journey:hover {
-            background-color: #7E5135;
-            transform: translateY(-3px);
-            color: #fff;
-            box-shadow: 0 15px 40px rgba(156, 102, 68, 0.4);
-        }
-
-        @media (max-width: 1200px) {
-            .feature-text-content h3 {
-                font-size: 1.9rem;
-                /* Slightly smaller to help fit on one line */
-                white-space: nowrap;
-                /* Keep on one line as requested */
-            }
-        }
-
-        @media (max-width: 992px) {
-            .features-grid {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(380px, 480px));
-                /* Wider cards to avoid squeezing */
-                justify-content: center;
-                gap: 2.5rem;
-                max-width: 100%;
-            }
-
-            .feature-item {
-                flex-direction: column;
-                text-align: center;
-                padding: 3.5rem 2rem;
-                width: 100%;
-                max-width: 480px;
-                margin: 0 auto;
-            }
-
-            /* 2 1 Layout: Centered 3rd item without stretching */
-            .feature-item:nth-child(3) {
-                grid-column: 1 / span 2;
-                justify-self: center;
-                width: 100%;
-                max-width: 480px;
-                /* Same size as others */
-            }
-
-            .feature-img-container {
-                width: 100%;
-                height: 150px;
-                margin-bottom: 2.5rem;
-            }
-
-            .feature-item .feature-img {
-                max-width: 180px;
-                max-height: 120px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-                /* 1 1 1 Vertical Split / Stack */
-            }
-
-            .feature-item,
-            .feature-item:nth-child(3) {
-                grid-column: auto;
-                flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
-            }
-
-            .feature-img-container,
-            .feature-item:nth-child(3) .feature-img-container {
-                flex: none;
-                height: 140px;
-                margin-bottom: 1rem;
-            }
-
-            .feature-text-content h3 {
-                font-size: 1.8rem;
-                white-space: normal;
-            }
-        }
-
-        /* About Section */
-        /* About Section - Bento Grid Remodel with Parallax */
-        .about-section {
-            padding: 8rem 0;
-            background-image: url('library_bg.png');
-            background-attachment: fixed;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Dark Overlay for Readability */
-        .about-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            /* Darken the library background */
-            z-index: 1;
-        }
-
-        .about-section .container {
-            position: relative;
-            z-index: 2;
-            /* Sit above the overlay */
-        }
-
-        .about-header {
-            margin-bottom: 4rem;
-            text-align: center;
-        }
-
-        .about-header h2 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            color: #FFFFFF;
-            /* White text for better contrast on background */
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .about-underline {
-            width: 100px;
-            height: 4px;
-            background-color: var(--accent);
-            margin: 0 auto;
-            border-radius: 2px;
-            box-shadow: 0 0 15px var(--accent);
-        }
-
-        /* Bento Grid Layout */
-        .bento-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, minmax(280px, auto));
-            gap: 1.5rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* Glassmorphism Cards - High Transparency */
-        .bento-box {
-            background: rgba(255, 255, 255, 0.1);
-            /* Very subtle translucent layer */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="dark"] .bento-box {
-            background: rgba(0, 0, 0, 0.4);
-            /* Darker tint for dark mode coherence */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-        }
-
-        .bento-box:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent);
-        }
-
-        /* Gradient Glass for Large Box */
-        .bento-large {
-            grid-column: 1 / span 2;
-            grid-row: 1 / span 2;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-        }
-
-        [data-theme="dark"] .bento-large {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0.2) 100%);
-        }
-
-        .bento-box h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #FFFFFF;
-            /* Force White Text */
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .bento-large h3 {
-            font-size: 2.5rem;
-        }
-
-        .bento-box p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.85);
-            /* Light Gray Text */
-            margin-bottom: 0;
-            line-height: 1.6;
-            font-weight: 300;
-        }
-
-        .bento-large p {
-            font-size: 1.25rem;
-            line-height: 1.8;
-        }
-
-        .bento-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            color: var(--accent);
-            /* Accent remains */
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-
-
-        @media (max-width: 992px) {
-            .bento-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-            }
-
-            .bento-large {
-                grid-column: auto;
-                grid-row: auto;
-            }
-        }
-
-        /* Interactive Parallax Hint */
-        .hero-section:hover .hero-visual canvas {
-            cursor: default;
-            /* Will update to interactive later */
-        }
-
-        .about-cta-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        .btn-sample {
-            background-color: var(--accent);
-            color: var(--bg-primary);
-            padding: 0.75rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 15px var(--shadow);
-            border: none;
-            font-family: 'Inter', sans-serif;
-            display: inline-block;
-        }
-
-        .btn-sample:hover {
-            background-color: var(--accent-hover);
-            color: var(--bg-primary);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(156, 102, 68, 0.25);
-        }
-
-        .btn-sample:active {
-            transform: scale(0.98);
-        }
-
-        @media (max-width: 992px) {
-            .about-glass-box {
-                padding: 2rem;
-                margin-bottom: 3rem;
-            }
-
-            .about-text {
-                font-size: 1.25rem;
-                text-align: center;
-            }
-        }
-
-        /* Testimonials Section */
-        .testimonials-section {
-            padding: 6rem 0;
-            background-color: var(--bg-secondary);
-            position: relative;
-            z-index: 2;
-        }
-
-        .testimonial-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 2.5rem;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px var(--shadow);
-        }
-
-        .testimonial-text {
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bg-primary);
-            font-weight: 700;
-            font-size: 1.2rem;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 2px solid var(--accent);
-        }
-
-        .author-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .author-info h5 {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
-        }
-
-        .author-info p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin: 0;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 6rem 0;
-            background-color: var(--bg-primary);
-            position: relative;
-            z-index: 2;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-control {
-            background-color: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .form-control:focus {
-            background-color: var(--card-bg);
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(156, 102, 68, 0.15);
-            color: var(--text-primary);
-            transform: scale(1.01);
-            outline: none;
-        }
-
-        .form-control::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .form-control:focus::placeholder {
-            opacity: 0.4;
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--bg-secondary);
-            padding: 3rem 0 2rem;
-            border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 2;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .footer-copyright {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 992px) {
-
-            /* Tablet Layout: Keep side-by-side but shrink content */
-            .hero-section {
-                padding-top: 8rem;
-                /* Fix navbar exclusion on tablet */
-            }
-
-            .hero-content h1 {
-                font-size: 4rem;
-                /* Shrink title */
-            }
-
-            .hero-content p {
-                font-size: 1.1rem;
-                /* Shrink text */
-            }
-
-            .hero-visual {
-                height: 450px;
-                width: 100%;
-                overflow: hidden;
-            }
-        }
-
-        @media (max-width: 768px) {
-
-            html,
-            body {
-                max-width: 100%;
-                overflow-x: hidden;
-            }
-
-            .navbar-custom {
-                width: 95%;
-                padding: 0.3rem 0.8rem;
-                /* Tighter padding */
-            }
-
-            .navbar-brand {
-                font-size: 1.1rem;
-            }
-
-            .navbar-brand img {
-                width: 28px;
-                height: 28px;
-                margin-right: 6px;
-            }
-
-            .btn-nav-cta {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.75rem;
-            }
-
-            .theme-toggle {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-                border-width: 1px;
-            }
-
-            .navbar-toggler {
-                padding: 0.2rem 0.5rem;
-                font-size: 1rem;
-            }
-
-            /* Phone Layout: Stack and Hide Canvas */
-            .hero-section {
-                text-align: center;
-                padding-top: 9.5rem;
-                padding-bottom: 4rem;
-            }
-
-            .hero-content {
-                width: 100%;
-                padding: 0 1.5rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-
-            .hero-content p {
-                margin: 0 auto 2.5rem auto;
-            }
-
-            .hero-visual {
-                display: block;
-                height: 350px;
-                width: 100%;
-                margin-top: 1rem;
-                overflow: hidden;
-            }
-
-
-
-            /* About Section Centering */
-            .bento-box {
-                text-align: center;
-                align-items: center;
-            }
-
-            .bento-box h3,
-            .bento-box p {
-                text-align: center;
-            }
-
-            .bento-label {
-                align-self: center;
-            }
-
-            /* Ensure Feature items are centered */
-            .feature-item {
-                align-items: center !important;
-                text-align: center !important;
-            }
-
-            /* Generic Utils overrides */
-            .text-md-end {
-                text-align: center !important;
-            }
-
-            .text-md-start {
-                text-align: center !important;
-            }
-        }
-
-        /* Testimonials Slider */
-        .testimonial-slider-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .testimonial-track {
-            display: flex;
-            gap: 2rem;
-            width: max-content;
-            animation: scroll 40s linear infinite;
-        }
-
-        .testimonial-card-slide {
-            width: 400px;
-            flex-shrink: 0;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 2.5rem;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card-slide:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px var(--shadow);
-            border-color: var(--accent);
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(calc(-400px * 5 - 2rem * 5));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .testimonial-card-slide {
-                width: 260px;
-                padding: 1rem 1rem 0.5rem 1rem;
-            }
-
-            .testimonial-text {
-                font-size: 0.95rem;
-                line-height: 1.4;
-                margin-bottom: 0.8rem;
-            }
-
-            .author-info h3 {
-                font-size: 1rem;
-            }
-
-            @keyframes scroll {
-                0% {
-                    transform: translateX(0);
-                }
-
-                100% {
-                    transform: translateX(calc(-260px * 5 - 2rem * 5));
-                }
-            }
-        }
-
-        /* Modal Styles */
-        [data-theme="dark"] .modal-content .btn-close {
-            filter: invert(1) grayscale(100%) brightness(200%);
-        }
-
-        .modal-content {
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        /* Timeline Section - Vertical Progress Bar */
-        .timeline-section {
-            padding: 8rem 0;
-            background-color: var(--bg-primary);
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .timeline-container {
-            position: relative;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background-color: var(--border);
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        .timeline-line-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            /* Dynamic height controlled via JS or CSS Var */
-            background: var(--accent);
-            box-shadow: 0 0 15px var(--accent);
-            transition: height 0.1s ease-out;
-        }
-
-        .timeline-step {
-            position: relative;
-            margin-bottom: 8rem;
-            width: 100%;
-            z-index: 2;
-        }
-
-        .timeline-step:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 24px;
-            height: 24px;
-            background-color: var(--bg-primary);
-            border: 4px solid var(--border);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .timeline-step.active .timeline-dot {
-            background-color: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent);
-            transform: translate(-50%, -50%) scale(1.3);
-        }
-
-
-        .timeline-content-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-            width: 100%;
-        }
-
-        .timeline-text-side {
-            flex: 1;
-        }
-
-        .timeline-image-side {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .timeline-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px var(--shadow);
-            transition: all 0.6s ease;
-        }
-
-        .timeline-step.active .timeline-img {
-            box-shadow: 0 30px 60px var(--shadow);
-        }
-
-        .timeline-step h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-        }
-
-        .timeline-step p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Directional Alternating */
-        /* Step 1 is the 2nd child, Step 2 is the 3rd child, Step 3 is the 4th child */
-        .timeline-step:nth-child(odd) .timeline-content-wrapper {
-            flex-direction: row-reverse;
-        }
-
-        .timeline-step:nth-child(odd) .timeline-text-side {
-            text-align: right;
-        }
-
-        @media (max-width: 992px) {
-            .timeline-line {
-                left: 30px;
-            }
-
-            .timeline-dot {
-                left: 30px;
-            }
-
-            .timeline-content-wrapper {
-                flex-direction: column !important;
-                align-items: flex-start;
-                padding-left: 70px;
-                gap: 2rem;
-            }
-
-            .timeline-text-side {
-                text-align: left !important;
-                width: 100%;
-            }
-
-            .timeline-step h2 {
-                font-size: 2.2rem;
-            }
-
-            .timeline-img {
-                max-width: 100%;
-                max-height: 350px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .text-md-end {
-                text-align: left !important;
-            }
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 8rem 0;
-            background-color: var(--bg-primary);
-            position: relative;
-            z-index: 2;
-        }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .accordion-item {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px !important;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .accordion-item:hover {
-            border-color: var(--accent);
-            box-shadow: 0 8px 30px var(--shadow);
-        }
-
-        .accordion-button {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            padding: 1.5rem 2rem;
-            box-shadow: none !important;
-            transition: all 0.3s ease;
-        }
-
-        .accordion-button:not(.collapsed) {
-            background-color: var(--card-bg);
-            color: var(--accent);
-        }
-
-        .accordion-button::after {
-            background-image: none;
-            content: '\f067';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 1rem;
-            color: var(--text-secondary);
-            transform: rotate(0deg);
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-button:not(.collapsed)::after {
-            background-image: none;
-            content: '\f068';
-            color: var(--accent);
-            transform: rotate(180deg);
-        }
-
-        .accordion-body {
-            padding: 0 2rem 2rem;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            background-color: var(--card-bg);
-        }
-    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
+
 
 <body>
     <!-- Navbar -->
@@ -1467,10 +117,10 @@
                                 into Bite-Sized<br>
                                 <span style="color: var(--accent);">Brilliance.</span>
                             </h1>
-                            <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Get key insights from any
-                                book in minutes.<br>AI-powered summaries for the modern reader.</p>
+                            <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Break down any book into
+                                clear ideas.<br>Create flashcards and slides when you need them.</p>
                             <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
-                                <a href="read.html" class="btn btn-primary-hero">Start Reading</a>
+                                <a href="read.html" class="btn btn-primary-hero">Start Learning</a>
                             </div>
                         </div>
                     </div>
@@ -1483,76 +133,65 @@
             </div>
         </section>
 
-        <!-- Timeline Storytelling Section - Vertical Progress Bar -->
-        <section class="timeline-section" id="story">
-            <div class="timeline-container">
-                <div class="timeline-line">
-                    <div class="timeline-line-progress"></div>
+
+        <!-- Demo Section -->
+        <section class="demo-section">
+            <div class="container">
+                <div class="demo-header text-center" data-aos="fade-up">
+                    <h2>How It Works</h2>
+                    <p class="demo-subtitle">Search for a book. We break it down. You decide what to create.</p>
                 </div>
 
-                <!-- Step 1 -->
-                <div class="timeline-step">
-                    <div class="timeline-dot"></div>
-                    <div class="container">
-                        <div class="timeline-content-wrapper">
-                            <div class="timeline-text-side" data-aos="fade-right">
-                                <h2>The Loss of the Art of Reading</h2>
-                                <p>In today's fast-paced world, finding time to sit down with a good book feels
-                                    impossible.
-                                    Between busy work days and endless distractions, the joy of reading often gets left
-                                    behind.
-                                </p>
-                            </div>
-                            <div class="timeline-image-side" data-aos="fade-left">
-                                <img src="./timeline1.png"
-                                    alt="Person overwhelmed by a tall stack of books, representing a busy modern lifestyle"
-                                    class="timeline-img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="demo-tablet-container" data-aos="zoom-in" data-aos-delay="200">
+                    <!-- Tablet Frame SVG (Landscape) -->
+                    <svg viewBox="0 0 1024 768" class="tablet-frame" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="tablet-shadow">
+                                <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+                                <feOffset dx="0" dy="10" result="offsetblur" />
+                                <feComponentTransfer>
+                                    <feFuncA type="linear" slope="0.3" />
+                                </feComponentTransfer>
+                                <feMerge>
+                                    <feMergeNode />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
 
-                <!-- Step 2 -->
-                <div class="timeline-step">
-                    <div class="timeline-dot"></div>
-                    <div class="container">
-                        <div class="timeline-content-wrapper">
-                            <div class="timeline-text-side" data-aos="fade-left">
-                                <h2>Discover AutoBrief</h2>
-                                <p>Your smart reading companion that transforms lengthy books into bite-sized insights.
-                                    Read
-                                    anywhere, anytime directly from your mobile phone—no more excuses.</p>
-                            </div>
-                            <div class="timeline-image-side" data-aos="fade-right">
-                                <img src="./timeline2.png"
-                                    alt="Smartphone displaying the AutoBrief app interface with a book summary"
-                                    class="timeline-img">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <!-- Tablet Body -->
+                        <rect x="20" y="20" width="984" height="728" rx="30" fill="#2C2C2C"
+                            filter="url(#tablet-shadow)" />
 
-                <!-- Step 3 -->
-                <div class="timeline-step">
-                    <div class="timeline-dot"></div>
-                    <div class="container">
-                        <div class="timeline-content-wrapper">
-                            <div class="timeline-text-side" data-aos="fade-right">
-                                <h2>Enjoy Your Reading</h2>
-                                <p>Rediscover the pleasure of learning. Dive into key takeaways instantly and export
-                                    your
-                                    summaries to read later. Reading is no longer a chore—it's a joy.</p>
-                            </div>
-                            <div class="timeline-image-side" data-aos="fade-left">
-                                <img src="./timeline3.png"
-                                    alt="Relaxed person enjoying a focused reading session with AutoBrief insights"
-                                    class="timeline-img">
-                            </div>
+                        <!-- Screen Bezel -->
+                        <rect x="80" y="40" width="880" height="688" rx="10" fill="#1A1A1A" />
+
+                        <!-- Screen (Where video will go) -->
+                        <rect x="90" y="50" width="860" height="668" rx="5" fill="#000000" class="tablet-screen" />
+
+                        <!-- Home Button (centered on right edge) -->
+                        <circle cx="990" cy="384" r="15" fill="#1A1A1A" stroke="#444" stroke-width="2" />
+
+                        <!-- Camera (centered on top edge) -->
+                        <circle cx="512" cy="50" r="8" fill="#0A0A0A" />
+                    </svg>
+
+                    <!-- Video Container (to be filled later) -->
+                    <div class="demo-video-container">
+                        <div class="demo-placeholder">
+                            <i class="fas fa-play-circle"></i>
+                            <p>Demo video coming soon</p>
                         </div>
+                        <!-- Video will be inserted here later:
+                        <video controls>
+                            <source src="demo-video.mp4" type="video/mp4">
+                        </video>
+                        -->
                     </div>
                 </div>
             </div>
         </section>
+
 
         <!-- Features Section -->
         <section class="features-section" id="features">
@@ -1571,9 +210,9 @@
                                 class="feature-img">
                         </div>
                         <div class="feature-text-content">
-                            <h3>Deep Context</h3>
-                            <p>We go beyond simple summaries. It understands the context, captures the heart of each
-                                argument, and reflects the author's voice with care and precision.</p>
+                            <h3>Understand the Ideas</h3>
+                            <p>We explain what the book is actually saying. The main ideas, the important concepts, and
+                                the frameworks you can use. No fluff, no shortcuts.</p>
                         </div>
                     </div>
 
@@ -1584,9 +223,9 @@
                                 alt="Icon depicting the extraction of core concepts from a book" class="feature-img">
                         </div>
                         <div class="feature-text-content">
-                            <h3>Core Understanding</h3>
-                            <p>Get past long chapters and focus on the insights that matter. Clear, thoughtful
-                                summaries save you time without losing the depth of the original work.
+                            <h3>Create What You Need</h3>
+                            <p>Turn ideas into flashcards when you want to remember them. Generate slides when you want
+                                to teach them. Everything is built from the same understanding of the book.
                             </p>
                         </div>
                     </div>
@@ -1598,16 +237,16 @@
                                 class="feature-img">
                         </div>
                         <div class="feature-text-content">
-                            <h3>Clean Export</h3>
-                            <p>Beautiful summaries deserve beautiful presentation. Export to PDF with elegant
-                                typography, perfect for your personal library or professional reference.
+                            <h3>Export and Save</h3>
+                            <p>Turn your flashcards or slides into clean PDFs. Print them, share them, or save them to
+                                your library. Everything you create stays with you.
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <div class="features-cta-container" data-aos="fade-up">
-                    <a href="read.html" class="btn-journey">Begin your Journey</a>
+                    <a href="read.html" class="btn-journey">Try It Now</a>
                 </div>
             </div>
         </section>
@@ -1625,33 +264,34 @@
                     <!-- Large Box: Philosophy -->
                     <div class="bento-box bento-large" data-aos="fade-right">
 
-                        <span class="bento-label">The Faith</span>
-                        <h3>Knowledge Belongs to Everyone</h3>
-                        <p>Reading shouldn’t feel like a luxury only for people with extra time.
-                            Books carry ideas, stories, and lessons that shape the way we think — and everyone deserves
-                            access to that value.
-                            We believe knowledge should feel simple to reach, easy to absorb, and naturally fit into
-                            daily
-                            life.</p>
+                        <span class="bento-label">The Problem</span>
+                        <h3>Books Are Long, Time Is Short</h3>
+                        <p>Most people want to read more but don't have the time. Even when you finish a book, the ideas
+                            fade away. You need a way to understand what matters and remember it.</p>
+                        <p>That's why we built AutoBrief. It's not a shortcut. It's a tool that helps you understand
+                            what matters and keep it with you. Search for any book, and we break it down into the core
+                            ideas, mental models, and practical concepts. Then you decide what to do with it—create
+                            flashcards to memorize, generate slides to teach, or just come back and review whenever you
+                            need a reminder.</p>
+                        <p>Every book you search is saved. Your library grows with you. The understanding stays.</p>
                     </div>
 
                     <!-- Box 2: The Logic -->
                     <div class="bento-box" data-aos="fade-up" data-aos-delay="100">
 
-                        <span class="bento-label">The Friction</span>
-                        <h3>Modern Barriers</h3>
-                        <p>In a fast-paced world, distractions are endless. The desire to read is there, but the time is
-                            often missing.</p>
+                        <span class="bento-label">How It Works</span>
+                        <h3>Search Once, Use Forever</h3>
+                        <p>Search for any book. We break it down into the main ideas, concepts, and frameworks. Every
+                            book is saved so you can come back anytime.</p>
                     </div>
 
                     <!-- Box 3: The Solution -->
                     <div class="bento-box" data-aos="fade-left" data-aos-delay="200">
 
-                        <span class="bento-label">The AutoBrief Way</span>
-                        <h3>Essence & Clarity</h3>
-                        <p>We take out the extra stuff and focus on what matters most. You get the heart of the book —
-                            clear, simple, and easy to
-                            understand.</p>
+                        <span class="bento-label">What You Get</span>
+                        <h3>Learn, Remember, Apply</h3>
+                        <p>Create flashcards when you want to memorize. Generate slides when you want to teach. Export
+                            PDFs when you want to save. Everything is built from the same understanding of the book.</p>
                     </div>
                 </div>
             </div>
@@ -1874,10 +514,9 @@
                             </h3>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    We generate every summary fresh using a real-time AI engine rather than pulling from
-                                    a
-                                    database. This ensures you get deep, specific insights, but it takes about 10-15
-                                    seconds.
+                                    The first time you search a book, we analyze it with AI and save it. This takes
+                                    10-15 seconds. The second time you search the same book, it loads instantly from
+                                    your library.
                                 </div>
                             </div>
                         </div>
@@ -1892,8 +531,8 @@
                             </h3>
                             <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    Absolutely! Every summary includes a clean, beautifully formatted PDF export option.
-                                    Perfect for offline reading, printing, or building your digital library.
+                                    Yes! After you create flashcards or slides, click "Export to PDF" in the modal.
+                                    You'll get a clean, formatted document you can print, save, or share.
                                 </div>
                             </div>
                         </div>
@@ -1908,11 +547,8 @@
                             </h3>
                             <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    AutoBrief works best with non-fiction books including business, self-help,
-                                    psychology,
-                                    history, and science. We're constantly expanding our capabilities to include more
-                                    genres
-                                    and complex literary works.
+                                    AutoBrief works best with non-fiction books like business, self-help, psychology,
+                                    history, and science. Fiction and poetry are not supported yet.
                                 </div>
                             </div>
                         </div>
