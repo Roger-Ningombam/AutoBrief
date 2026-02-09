@@ -134,6 +134,10 @@ const VALIDATION_SCHEMAS = {
         type: 'string',
         enum: ['slides', 'flashcards'], // Whitelist of allowed values
         required: true
+    },
+    bookData: {
+        type: 'object',
+        required: true
     }
 };
 
