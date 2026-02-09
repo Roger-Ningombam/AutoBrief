@@ -87,38 +87,18 @@
     color: white;
 }
 
-.theme-toggle {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-}
 
-.theme-toggle:hover {
-    background-color: var(--bg-secondary);
-    color: var(--accent);
-    border-color: var(--accent);
-    transform: rotate(15deg);
-}
 
 /* --- Hero Section --- */
 .hero-section {
-    padding: 0 0 2rem;
+    padding: 6rem 0 6rem;
+    /* Added top padding to clear fixed navbar */
     position: relative;
     z-index: 2;
 }
 
 .hero-content h1 {
-    font-size: 5.5rem;
+    font-size: 5rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.1;
@@ -128,7 +108,7 @@
 .hero-content p {
     font-size: 1.4rem;
     color: var(--text-secondary);
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
     max-width: 650px;
     line-height: 1.6;
 }
@@ -154,109 +134,23 @@
 }
 
 .hero-visual {
-    height: 850px;
     width: 100%;
-}
-
-#heroCanvas {
-    width: 100%;
-    height: 100%;
-    outline: none;
-}
-
-
-/* --- Demo Section --- */
-.demo-section {
-    padding: 3rem 0 var(--space-xl);
-    background-color: var(--bg-primary);
-    position: relative;
-    overflow: hidden;
-}
-
-.demo-header h2 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-}
-
-.demo-subtitle {
-    font-size: 1.3rem;
-    color: var(--text-secondary);
-    margin-bottom: 4rem;
-}
-
-.demo-tablet-container {
-    position: relative;
-    max-width: 800px;
+    /* Let the SVG define the aspect ratio, but limit width if needed */
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding-top: 4rem;
 }
 
-.tablet-frame {
+.hero-tablet-svg {
     width: 100%;
     height: auto;
-    display: block;
 }
 
-.demo-video-container {
-    position: absolute;
-    top: 6.5%;
-    left: 8.8%;
-    width: 84%;
-    height: 87%;
-    border-radius: 5px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.demo-video-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
-.demo-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-    width: 100%;
-    height: 100%;
-}
-
-.demo-placeholder i {
-    font-size: 4rem;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    opacity: 0.7;
-    animation: pulse-play 2s infinite;
-}
-
-.demo-placeholder p {
-    font-size: 1.1rem;
-    margin: 0;
-    opacity: 0.8;
-}
-
-@keyframes pulse-play {
-
-    0%,
-    100% {
-        opacity: 0.7;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.1);
-    }
-}
 
 /* --- Features Bento Grid --- */
 .features-section {
@@ -298,18 +192,17 @@
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.feature-item {
+.feature-card {
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border);
-    border-radius: 32px;
-    padding: 4rem 2.5rem;
+    border-radius: 12px;
+    padding: 3.5rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -317,30 +210,42 @@
     transition: all 0.4s ease;
     box-shadow: var(--shadow-sm);
     height: 100%;
+    position: relative;
 }
 
-.feature-item:hover {
+.feature-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-md);
+    border-color: var(--accent);
 }
 
-.feature-img {
-    max-width: 200px;
-    max-height: 150px;
-    object-fit: contain;
-    transition: transform 0.5s ease;
-    margin-bottom: 2.5rem;
+.feature-icon {
+    font-size: 2.8rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
 }
 
-.feature-item:hover .feature-img {
+.feature-card:hover .feature-icon {
     transform: scale(1.1);
+    color: var(--accent);
 }
 
-.feature-text-content h3 {
+.feature-card h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.feature-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 90%;
 }
 
 .btn-journey {
@@ -610,23 +515,20 @@
     border-top: 1px solid var(--border);
 }
 
-.footer-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-}
-
-.footer-links a {
+.footer-link {
     color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.3s ease;
+    font-weight: 500;
 }
 
-.footer-links a:hover {
+.footer-link:hover {
     color: var(--accent);
+}
+
+.footer-copyright {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
 }
 
 /* --- Mobile / Responsive --- */
@@ -654,11 +556,7 @@
     }
 
     /* Shrink buttons on mobile */
-    .theme-toggle {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
-    }
+
 
     .btn-nav-cta {
         padding: 0.4rem 1rem;
@@ -688,4 +586,114 @@
     }
 
 
+}
+
+/* About Section New Design */
+
+/* Feature Circles */
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    background-color: var(--accent-light);
+    color: var(--accent);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.card-lift:hover .icon-circle {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* Library Box */
+.library-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.library-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--accent);
+}
+
+.card-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-light) !important;
+}
+
+
+/* Dark overlay for contrast - Top Level Headers Only */
+.about-section h2,
+.about-section .lead {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.about-section .lead strong {
+    color: #d4e1c2;
+    /* Light accent for dark background */
+}
+
+/* The Left Text Block - Now a White Card */
+.about-text-block {
+    background-color: var(--card-bg);
+    padding: 3rem;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    height: 100%;
+    /* Match height of right column */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Reset colors inside the white box to dark */
+.about-text-block h4,
+.about-text-block h4.fw-bold {
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+}
+
+.about-text-block p,
+.about-text-block .text-muted {
+    color: var(--text-secondary) !important;
+    text-shadow: none !important;
+}
+
+/* Ensure inline styles for primary text work again */
+.about-text-block span {
+    color: var(--text-primary) !important;
+}
+
+/* Cards on the right are already white, ensure consistency */
+.bg-white h5,
+.bg-white h6,
+.bg-white p {
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+}
+
+.bg-white p.text-muted {
+    color: var(--text-secondary) !important;
 }

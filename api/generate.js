@@ -1,40 +1,29 @@
 import Groq from "groq-sdk";
-import { supabase } from './lib/supabase.js';
 import { secureEndpoint } from './lib/security.js';
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export default async function handler(request, response) {
     // SECURITY CHECK: Rate Limiting, Headers, Validation
-    const sanitizedBody = await secureEndpoint(request, response, ['slug', 'artifactType']);
+    const sanitizedBody = await secureEndpoint(request, response, ['artifactType', 'bookData']);
     if (!sanitizedBody) return; // Request rejected
 
-    const { slug, artifactType } = sanitizedBody;
-    console.log(`DEBUG: Generating ${artifactType} for slug: "${slug}"`);
+    const { artifactType, bookData } = sanitizedBody;
+
+    if (!bookData || !bookData.title) {
+        return response.status(400).json({ error: 'Book data is required' });
+    }
+
+    console.log(`DEBUG: Generating ${artifactType} for book: "${bookData.title}"`);
 
     try {
-        // 1. Fetch Knowledge from DB
-        const { data: book, error } = await supabase
-            .from('books')
-            .select('knowledge, title')
-            .eq('slug', slug)
-            .single();
-
-        if (error || !book) {
-            console.error("Supabase Lookup Error:", error, "Slug sought:", slug);
-            return response.status(404).json({ error: 'Book not found. Please ingest first.' });
-        }
-
-        const knowledge = book.knowledge;
-        console.log(`Generating ${artifactType} for "${book.title}"...`);
-
         // 2. define Artifact Prompts
         let prompt = "";
 
         const context = `
-            Book: "${book.title}"
-            Core Thesis: ${knowledge.core_thesis}
-            Key Concepts: ${JSON.stringify(knowledge.key_concepts)}
+            Book: "${bookData.title}"
+            Core Thesis: ${bookData.core_thesis}
+            Key Concepts: ${JSON.stringify(bookData.key_concepts)}
         `;
 
         const antiHallucination = `

@@ -49,6 +49,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/landing.css">
+
 </head>
 
 
@@ -63,9 +64,7 @@
 
             <!-- Theme Toggle & CTA (Always Visible) -->
             <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <i class="fas fa-moon"></i>
-                </button>
+
                 <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
             </div>
 
@@ -92,9 +91,7 @@
                     </ul>
                     <!-- Theme Toggle & CTA (Desktop Only) -->
                     <div class="d-none d-lg-flex align-items-center gap-3">
-                        <button class="theme-toggle" id="themeToggleDesktop" aria-label="Toggle theme">
-                            <i class="fas fa-moon"></i>
-                        </button>
+
                         <a href="read.html" class="btn-nav-cta">SUMMARIZE</a>
                     </div>
                 </div>
@@ -120,13 +117,23 @@
                             <p class="mx-auto mx-md-0" data-aos="fade-up" data-aos-delay="300">Break down any book into
                                 clear ideas.<br>Create flashcards and slides when you need them.</p>
                             <div class="hero-cta" data-aos="fade-up" data-aos-delay="600">
-                                <a href="read.html" class="btn btn-primary-hero">Start Learning</a>
+                                <a href="read.html" class="btn btn-primary-hero">Get Started - It's Free</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6" data-aos="fade-left" data-aos-delay="300">
                         <div class="hero-visual">
-                            <canvas id="heroCanvas"></canvas>
+                            <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" class="hero-tablet-svg">
+                                <g>
+                                    <!-- Tablet Bezel/Frame - Maximized Scale -->
+                                    <rect x="10" y="50" width="580" height="380" rx="32" fill="white" stroke="#eeeeee"
+                                        stroke-width="1.5"></rect>
+                                    <!-- Tablet Screen -->
+                                    <rect x="30" y="70" width="540" height="340" rx="20" fill="#fafafa"></rect>
+                                    <!-- Tablet Home Button / Detail -->
+                                    <circle cx="300" cy="415" r="5" fill="#eeeeee"></circle>
+                                </g>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -135,119 +142,62 @@
 
 
         <!-- Demo Section -->
-        <section class="demo-section">
-            <div class="container">
-                <div class="demo-header text-center" data-aos="fade-up">
-                    <h2>How It Works</h2>
-                    <p class="demo-subtitle">Search for a book. We break it down. You decide what to create.</p>
-                </div>
 
-                <div class="demo-tablet-container" data-aos="zoom-in" data-aos-delay="200">
-                    <!-- Tablet Frame SVG (Landscape) -->
-                    <svg viewBox="0 0 1024 768" class="tablet-frame" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <filter id="tablet-shadow">
-                                <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
-                                <feOffset dx="0" dy="10" result="offsetblur" />
-                                <feComponentTransfer>
-                                    <feFuncA type="linear" slope="0.3" />
-                                </feComponentTransfer>
-                                <feMerge>
-                                    <feMergeNode />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-                        </defs>
-
-                        <!-- Tablet Body -->
-                        <rect x="20" y="20" width="984" height="728" rx="30" fill="#2C2C2C"
-                            filter="url(#tablet-shadow)" />
-
-                        <!-- Screen Bezel -->
-                        <rect x="80" y="40" width="880" height="688" rx="10" fill="#1A1A1A" />
-
-                        <!-- Screen (Where video will go) -->
-                        <rect x="90" y="50" width="860" height="668" rx="5" fill="#000000" class="tablet-screen" />
-
-                        <!-- Home Button (centered on right edge) -->
-                        <circle cx="990" cy="384" r="15" fill="#1A1A1A" stroke="#444" stroke-width="2" />
-
-                        <!-- Camera (centered on top edge) -->
-                        <circle cx="512" cy="50" r="8" fill="#0A0A0A" />
-                    </svg>
-
-                    <!-- Video Container (to be filled later) -->
-                    <div class="demo-video-container">
-                        <div class="demo-placeholder">
-                            <i class="fas fa-play-circle"></i>
-                            <p>Demo video coming soon</p>
-                        </div>
-                        <!-- Video will be inserted here later:
-                        <video controls>
-                            <source src="demo-video.mp4" type="video/mp4">
-                        </video>
-                        -->
-                    </div>
-                </div>
-            </div>
-        </section>
 
 
         <!-- Features Section -->
         <section class="features-section" id="features">
             <div class="container">
+                <!-- Kept the header as it provides context, even if not explicitly in the cropped image -->
                 <div class="section-header" data-aos="fade-up">
                     <h2>Improve Your Reading Experience</h2>
                     <div class="header-underline"></div>
                 </div>
 
                 <div class="features-grid">
-                    <!-- Feature 1 -->
-                    <div class="feature-item" data-aos="fade-up">
-                        <div class="feature-img-container">
-                            <img src="deep_context.png"
-                                alt="Illustration representing AI deep context analysis of literature"
-                                class="feature-img">
+                    <!-- Feature 1: Summaries -->
+                    <div class="feature-card" data-aos="fade-up">
+                        <div class="feature-icon">
+                            <i class="far fa-file-alt"></i>
                         </div>
-                        <div class="feature-text-content">
-                            <h3>Understand the Ideas</h3>
-                            <p>We explain what the book is actually saying. The main ideas, the important concepts, and
-                                the frameworks you can use. No fluff, no shortcuts.</p>
-                        </div>
+                        <h3>Summaries</h3>
+                        <p>Concise key points that capture the essence of the book in a structured format.</p>
                     </div>
 
-                    <!-- Feature 2 -->
-                    <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
-                        <div class="feature-img-container">
-                            <img src="core_understanding.png"
-                                alt="Icon depicting the extraction of core concepts from a book" class="feature-img">
+                    <!-- Feature 2: Slides -->
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fas fa-desktop"></i>
                         </div>
-                        <div class="feature-text-content">
-                            <h3>Create What You Need</h3>
-                            <p>Turn ideas into flashcards when you want to remember them. Generate slides when you want
-                                to teach them. Everything is built from the same understanding of the book.
-                            </p>
-                        </div>
+                        <h3>Slides</h3>
+                        <p>Presentation-ready content organized into visual slides for easy sharing.</p>
                     </div>
 
-                    <!-- Feature 3 -->
-                    <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
-                        <div class="feature-img-container">
-                            <img src="clean_export.png" alt="Preview of an elegant PDF export document from AutoBrief"
-                                class="feature-img">
+                    <!-- Feature 3: Flashcards -->
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="far fa-window-restore"></i>
                         </div>
-                        <div class="feature-text-content">
-                            <h3>Export and Save</h3>
-                            <p>Turn your flashcards or slides into clean PDFs. Print them, share them, or save them to
-                                your library. Everything you create stays with you.
-                            </p>
+                        <h3>Flashcards</h3>
+                        <p>Interactive Q&A cards perfect for revision and knowledge retention.</p>
+                    </div>
+
+                    <!-- Feature 4: PDF Export -->
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
                         </div>
+                        <h3>PDF Export</h3>
+                        <p>Download any format as a beautifully formatted PDF for offline access.</p>
                     </div>
                 </div>
 
-                <div class="features-cta-container" data-aos="fade-up">
-                    <a href="read.html" class="btn-journey">Try It Now</a>
-                </div>
+                <!-- CTA Removed -->
             </div>
         </section>
 
@@ -255,43 +205,120 @@
 
         <section class="about-section" id="about">
             <div class="container">
-                <div class="about-header" data-aos="fade-up">
-                    <h2>Our Mission</h2>
-                    <div class="about-underline"></div>
+                <!-- Updated About Section Layout -->
+                <div class="row justify-content-center mb-5" data-aos="fade-up">
+                    <div class="col-lg-10 text-center">
+                        <h2 class="display-4 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">About
+                            AutoBrief
+                        </h2>
+                        <p class="lead" style="font-size: 1.25rem; line-height: 1.8; color: var(--text-secondary);">
+                            AutoBrief is a free tool built for people who
+                            want to get real value from non-fiction books without spending weeks reading them.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="bento-container">
-                    <!-- Large Box: Philosophy -->
-                    <div class="bento-box bento-large" data-aos="fade-right">
+                <div class="row g-5 align-items-center mb-5">
+                    <!-- Text Content -->
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <div class="about-text-block">
+                            <div class="mb-5">
+                                <h4 class="fw-bold mb-3" style="color: var(--text-primary);">For the Curious Minds</h4>
+                                <p class="text-muted" style="line-height: 1.7; font-size: 1.1rem;">
+                                    Designed for students, professionals, and curious learners, AutoBrief helps you
+                                    quickly
+                                    understand the core ideas, practical insights, and mental models from books in <span
+                                        style="color: var(--text-primary); font-weight: 600;">business,
+                                        self-development, psychology, and science</span>.
+                                </p>
+                            </div>
 
-                        <span class="bento-label">The Problem</span>
-                        <h3>Books Are Long, Time Is Short</h3>
-                        <p>Most people want to read more but don't have the time. Even when you finish a book, the ideas
-                            fade away. You need a way to understand what matters and remember it.</p>
-                        <p>That's why we built AutoBrief. It's not a shortcut. It's a tool that helps you understand
-                            what matters and keep it with you. Search for any book, and we break it down into the core
-                            ideas, mental models, and practical concepts. Then you decide what to do with it—create
-                            flashcards to memorize, generate slides to teach, or just come back and review whenever you
-                            need a reminder.</p>
-                        <p>Every book you search is saved. Your library grows with you. The understanding stays.</p>
+                            <div>
+                                <h4 class="fw-bold mb-3" style="color: var(--text-primary);">Retain What Matters</h4>
+                                <p class="text-muted" style="line-height: 1.7; font-size: 1.1rem;">
+                                    Most people want to read more, but time is limited and key lessons fade. AutoBrief
+                                    helps you hold on to what matters. Search for a book, and it’s broken down into
+                                    clear, structured concepts you can return to anytime.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Box 2: The Logic -->
-                    <div class="bento-box" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Visual/Feature Cards -->
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <!-- Feature 1: Non-Fiction Focus -->
+                        <div class="bg-white p-4 rounded-4 border border-light shadow-sm card-lift mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-circle me-4">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="font-family: 'Playfair Display', serif;">Non-Fiction
+                                        Only</h5>
+                                    <p class="mb-0 text-muted">Everything you explore is meant to be useful in real
+                                        life.</p>
+                                </div>
+                            </div>
+                        </div>
 
-                        <span class="bento-label">How It Works</span>
-                        <h3>Search Once, Use Forever</h3>
-                        <p>Search for any book. We break it down into the main ideas, concepts, and frameworks. Every
-                            book is saved so you can come back anytime.</p>
+                        <!-- Grid for Usage Types -->
+                        <div class="row g-4">
+                            <!-- Flashcards -->
+                            <div class="col-6">
+                                <div
+                                    class="bg-white p-4 rounded-4 border border-light shadow-sm card-lift h-100 text-center d-flex flex-column align-items-center justify-content-center">
+                                    <div class="icon-circle mb-3">
+                                        <i class="far fa-window-restore"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-1">Memorize</h6>
+                                    <p class="mb-0 small text-muted">Create flashcards</p>
+                                </div>
+                            </div>
+                            <!-- Slides -->
+                            <div class="col-6">
+                                <div
+                                    class="bg-white p-4 rounded-4 border border-light shadow-sm card-lift h-100 text-center d-flex flex-column align-items-center justify-content-center">
+                                    <div class="icon-circle mb-3">
+                                        <i class="far fa-images"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-1">Teach</h6>
+                                    <p class="mb-0 small text-muted">Generate slides</p>
+                                </div>
+                            </div>
+                            <!-- Export (New Card based on copy) -->
+                            <div class="col-12">
+                                <div class="bg-white p-4 rounded-4 border border-light shadow-sm card-lift">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-circle me-4">
+                                            <i class="far fa-file-pdf"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Save for Later</h6>
+                                            <p class="mb-0 small text-muted">Export summaries anytime.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Box 3: The Solution -->
-                    <div class="bento-box" data-aos="fade-left" data-aos-delay="200">
-
-                        <span class="bento-label">What You Get</span>
-                        <h3>Learn, Remember, Apply</h3>
-                        <p>Create flashcards when you want to memorize. Generate slides when you want to teach. Export
-                            PDFs when you want to save. Everything is built from the same understanding of the book.</p>
+                <!-- Footer Box: Library -->
+                <div class="row" data-aos="fade-up">
+                    <div class="col-12">
+                        <div
+                            class="library-box d-flex flex-column flex-md-row align-items-center text-center text-md-start gap-4">
+                            <div class="icon-circle" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-2" style="font-family: 'Playfair Display', serif;">Start Learning
+                                    Instantly</h4>
+                                <p class="mb-0 text-muted" style="font-size: 1.1rem;">No barriers, paywalls, or
+                                    sign-ups.
+                                    AutoBrief is designed for immediate, friction-free learning.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -514,9 +541,9 @@
                             </h3>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    The first time you search a book, we analyze it with AI and save it. This takes
-                                    10-15 seconds. The second time you search the same book, it loads instantly from
-                                    your library.
+                                    Every time you search for a book, we analyze it fresh with our AI powered by Groq.
+                                    This takes 10-15 seconds and ensures you always get the most up-to-date analysis
+                                    tailored to your current needs.
                                 </div>
                             </div>
                         </div>
@@ -579,15 +606,9 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <ul class="footer-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#faq">FAQs</a></li>
-                <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
-            </ul>
-            <p class="footer-copyright">&copy; 2025 AutoBrief. All rights reserved.</p>
+        <div class="container d-flex justify-content-between align-items-center flex-column flex-md-row gap-3">
+            <p class="footer-copyright mb-0">&copy; 2025 AutoBrief. All rights reserved.</p>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="footer-link">Privacy Policy</a>
         </div>
     </footer>
 
@@ -595,230 +616,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // ==========================================
-        // USER CONFIGURATION
-        // ==========================================
-        const userImageURL = 'mock-up-image.svg';
-        // ==========================================
-
-        // --- Scene Setup ---
-        const canvas = document.getElementById('heroCanvas');
-        const scene = new THREE.Scene();
-
-        // Camera
-        const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-        camera.position.set(0, 0, 16); // Moved back for larger orbits
-
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.outputEncoding = THREE.sRGBEncoding;
-
-        // --- 1. Tablet & Image Texture ---
-        const mainGroup = new THREE.Group();
-        scene.add(mainGroup);
-
-        // Texture
-        const textureLoader = new THREE.TextureLoader();
-        const paperTexture = textureLoader.load(userImageURL);
-        paperTexture.encoding = THREE.sRGBEncoding;
-        paperTexture.minFilter = THREE.LinearFilter;
-
-        // Tablet Body
-        const tabletGeometry = new THREE.BoxGeometry(4.2, 5.8, 0.15);
-        const tabletMaterial = new THREE.MeshStandardMaterial({
-            color: 0xF9F7F2,
-            roughness: 0.2,
-            metalness: 0.1
-        });
-        const tablet = new THREE.Mesh(tabletGeometry, tabletMaterial);
-        tablet.castShadow = true;
-        tablet.receiveShadow = true;
-        mainGroup.add(tablet);
-
-        // Screen
-        const screenGeometry = new THREE.PlaneGeometry(3.8, 5.2);
-        const screenMaterial = new THREE.MeshBasicMaterial({
-            map: paperTexture,
-            transparent: true
-        });
-        const screen = new THREE.Mesh(screenGeometry, screenMaterial);
-        screen.position.z = 0.08;
-        mainGroup.add(screen);
-
-
-        // --- 2. The Gold Atom Rings (React Logo Style) ---
-
-        const goldMaterial = new THREE.MeshStandardMaterial({
-            color: 0x8B5A3A,
-            roughness: 0.2,
-            metalness: 0.5
-        });
-
-        const animatedOrbits = [];
-
-        function createFlatOrbit(radius, zRot, speed, startAngle) {
-            // We use a nested group structure to handle the specific "Atom" tilt
-            const orbitPivot = new THREE.Group(); // Handles the Z-rotation (Diagonal alignment)
-            const ringTilt = new THREE.Group();   // Handles the X-rotation (Flattening)
-
-            // 1. The Ring
-            const lineGeo = new THREE.TorusGeometry(radius, 0.005, 64, 100);
-            const line = new THREE.Mesh(lineGeo, goldMaterial);
-            ringTilt.add(line);
-
-            // 2. The Ball
-            const ballGeo = new THREE.SphereGeometry(0.1, 32, 32);
-            const ball = new THREE.Mesh(ballGeo, goldMaterial);
-            ringTilt.add(ball);
-
-            // Apply Flattening Tilt (The key to center intersection)
-            ringTilt.rotation.x = 1.3; // ~75 degrees flat
-
-            orbitPivot.add(ringTilt);
-
-            // Apply Diagonal Angle
-            orbitPivot.rotation.z = zRot;
-
-            mainGroup.add(orbitPivot);
-
-            animatedOrbits.push({
-                ball: ball,
-                radius: radius,
-                speed: speed,
-                angle: startAngle
-            });
-        }
-
-        // CREATE ORBITS
-        // Radius 5.5: Large enough to wrap around.
-        // X-Tilt 1.3: Flattens them so they cross in the middle.
-
-        // Orbit 1 (Diagonal /)
-        createFlatOrbit(3, 0.7, 0.004, 0);
-
-        // Orbit 2 (Diagonal \)
-        createFlatOrbit(3, -0.7, -0.005, 3);
-
-
-        // --- 3. Lighting ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-
-        const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-        dirLight.position.set(5, 5, 10);
-        scene.add(dirLight);
-
-        const backLight = new THREE.DirectionalLight(0xFFD700, 0.5);
-        backLight.position.set(-5, 0, -10);
-        scene.add(backLight);
-
-
-        // --- 4. Animation ---
-
-        // Tablet Angle (Tilted Right)
-        const baseRotZ = -0.35;
-        const baseRotX = 0.1;
-        const baseRotY = -0.1;
-
-        // Interactive Parallax Targets
-        let targetRotX = baseRotX;
-        let targetRotY = baseRotY;
-
-        document.addEventListener('mousemove', (e) => {
-            // Normalized coordinates (-1 to 1)
-            const x = (e.clientX / window.innerWidth) * 2 - 1;
-            const y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-            // Parallax strength (0.15 radians)
-            targetRotY = baseRotY + (x * 0.15);
-            targetRotX = baseRotX - (y * 0.15);
-        });
-
-        let time = 0;
-        let baseY = 0;
-
-        // Entrance variables
-        let entranceProgress = 0;
-        const entranceSpeed = 0.012; // Controls reveal duration
-        mainGroup.scale.set(0.01, 0.01, 0.01); // Start nearly invisible
-
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.01;
-
-            if (entranceProgress < 1) {
-                entranceProgress += entranceSpeed;
-                // Smooth easing
-                const p = 1 - Math.pow(1 - entranceProgress, 3);
-
-                // 1. Rotation: Rise from flat 90 degrees
-                const startRotX = -Math.PI / 1.5;
-                mainGroup.rotation.x = startRotX + (baseRotX - startRotX) * p;
-                mainGroup.rotation.y = baseRotY * p;
-                mainGroup.rotation.z = baseRotZ * p;
-
-                // 2. Scale: Pop in effect
-                const s = 0.01 + 0.99 * p;
-                mainGroup.scale.set(s, s, s);
-
-                // 3. Position: Emerge from below
-                mainGroup.position.y = (baseY - 4) + 4 * p;
-            } else {
-                // Interactive Parallax + Float
-                // Smoothly interpolate to mouse target (Linear Interpolation)
-                mainGroup.rotation.x += (targetRotX - mainGroup.rotation.x) * 0.05;
-                mainGroup.rotation.y += (targetRotY - mainGroup.rotation.y) * 0.05;
-
-                mainGroup.rotation.z = baseRotZ;
-                mainGroup.position.y = baseY + Math.sin(time * 0.5) * 0.08;
-            }
-
-            // Move Pearls
-            animatedOrbits.forEach(orbit => {
-                orbit.angle += orbit.speed;
-                orbit.ball.position.x = orbit.radius * Math.cos(orbit.angle);
-                orbit.ball.position.y = orbit.radius * Math.sin(orbit.angle);
-                orbit.ball.position.z = 0;
-            });
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // --- 5. Resize ---
-        function updateCamera() {
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-            // Responsive Camera Adjustment
-            // SETTINGS: Adjust the 3rd number (Z) to change Size/Zoom. Higher = Smaller.
-            if (window.innerWidth < 768) {
-                // Mobile Portrait
-                camera.position.set(0, 0, 10);
-                baseY = 0; // 0 = Center Aligned Vertically
-            } else if (window.innerWidth < 992) {
-                // Tablet
-                camera.position.set(0, 0, 10.5);
-                baseY = 0;
-            } else {
-                // Desktop
-                camera.position.set(0, 0, 16);
-                baseY = 0;
-            }
-
-            // Force re-render just in case
-            renderer.render(scene, camera);
-        }
-
-        window.addEventListener('resize', updateCamera);
-
-        // Call once on load to ensure correct initial state
-        updateCamera();
-
-        // --- 6. Navbar Scroll Effect ---
+        // --- Navbar Scroll Effect ---
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar-custom');
             if (window.scrollY > 50) {
@@ -828,57 +626,8 @@
             }
         });
 
-        // Theme Toggle (Mobile + Desktop)
-        const themeToggle = document.getElementById('themeToggle');
-        const themeToggleDesktop = document.getElementById('themeToggleDesktop');
-        const savedTheme = localStorage.getItem('theme') || 'light';
-
-        // Set initial theme
-        document.body.setAttribute('data-theme', savedTheme);
-        if (themeToggle) {
-            themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-        if (themeToggleDesktop) {
-            themeToggleDesktop.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-
-        // Toggle handler
-        function toggleTheme() {
-            const current = document.body.getAttribute('data-theme');
-            const next = current === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-
-            const iconClass = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            if (themeToggle) themeToggle.querySelector('i').className = iconClass;
-            if (themeToggleDesktop) themeToggleDesktop.querySelector('i').className = iconClass;
-        }
-
-        if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-        if (themeToggleDesktop) themeToggleDesktop.addEventListener('click', toggleTheme);
-
-        // --- 7. Parallax & Scroll Effects (New) ---
-        const aboutBox = document.querySelector('.about-glass-box');
-        const aboutImg = document.querySelector('.about-illustration');
-
+        // --- Timeline Vertical Progress ---
         window.addEventListener('scroll', () => {
-            // About Section Parallax
-            if (aboutBox && aboutImg && window.innerWidth > 992) {
-                const rect = aboutBox.getBoundingClientRect();
-                const viewHeight = window.innerHeight;
-
-                // If section is in view
-                if (rect.top < viewHeight && rect.bottom > 0) {
-                    const scrollProgress = (viewHeight - rect.top) / viewHeight;
-                    // Slower movement for image for depth
-                    const moveY = scrollProgress * -30;
-                    aboutImg.style.transform = `scale(1.1) translateY(${moveY}px)`;
-                    // Faster/Slower for box
-                    aboutBox.style.transform = `translateY(${moveY * 0.5}px)`;
-                }
-            }
-
-            // --- 8. Timeline Vertical Progress ---
             const timelineSection = document.getElementById('story');
             const progressLine = document.querySelector('.timeline-line-progress');
             const timelineSteps = document.querySelectorAll('.timeline-step');

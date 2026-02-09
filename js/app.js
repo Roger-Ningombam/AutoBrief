@@ -14,7 +14,7 @@ const inputs = {
 const successContainer = document.querySelector('.success-state');
 
 // State
-let currentBookSlug = null;
+let currentBookData = null;
 
 // Event Listeners
 inputs.submitBtn.addEventListener('click', handleSearch);
@@ -57,7 +57,7 @@ async function handleSearch() {
                 renderBook(data.data);
                 views.loading.classList.add('d-none');
                 views.success.classList.remove('d-none');
-                currentBookSlug = data.slug;
+                currentBookData = data.data; // Store the full book data
             }, 600); // Slight delay for smooth transition
         } else {
             throw new Error(data.error || 'Failed to ingest book');
@@ -163,7 +163,7 @@ function renderBook(book) {
 
 // Artifact Generation
 window.generateArtifact = async (type) => {
-    if (!currentBookSlug) return;
+    if (!currentBookData) return;
 
     // Show Modal
     const modalEl = document.getElementById('artifactModal');
@@ -183,7 +183,7 @@ window.generateArtifact = async (type) => {
         const response = await fetch('/api/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ slug: currentBookSlug, artifactType: type })
+            body: JSON.stringify({ bookData: currentBookData, artifactType: type })
         });
 
         const result = await response.json();

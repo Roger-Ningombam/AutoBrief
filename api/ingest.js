@@ -1,5 +1,4 @@
 import Groq from "groq-sdk";
-import { supabase } from './lib/supabase.js';
 import { secureEndpoint } from './lib/security.js';
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -21,24 +20,8 @@ export default async function handler(request, response) {
     const slug = createSlug(bookTitle);
 
     try {
-        // 1. Check Supabase (Cache Hit)
-        const { data: existingBook, error: dbError } = await supabase
-            .from('books')
-            .select('*')
-            .eq('slug', slug)
-            .single();
-
-        if (existingBook) {
-            console.log(`CACHE HIT: Found "${bookTitle}" in DB.`);
-            return response.status(200).json({
-                source: 'database',
-                data: existingBook.knowledge,
-                slug: existingBook.slug
-            });
-        }
-
-        // 2. Groq Extraction (Cache Miss)
-        console.log(`CACHE MISS: Ingesting "${bookTitle}" via AI...`);
+        // Generate summary from Groq API
+        console.log(`Generating summary for "${bookTitle}" via Groq AI...`);
 
         const prompt = `
       You are an intelligent literary assistant. 
@@ -101,20 +84,7 @@ export default async function handler(request, response) {
             return response.status(404).json({ error: "Sorry, I couldn't find that book. Please check the title." });
         }
 
-        // 3. Save to Supabase (Write-Once)
-        const { error: insertError } = await supabase
-            .from('books')
-            .insert([{
-                title: bookTitle,
-                slug: slug,
-                knowledge: knowledgeObject
-            }]);
-
-        if (insertError) {
-            console.error("Supabase Save Error:", insertError);
-            // We still return the data to the user even if caching failed
-        }
-
+        // Return the generated summary directly (no database storage)
         return response.status(200).json({
             source: 'ai_generated',
             data: knowledgeObject,

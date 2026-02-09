@@ -1,75 +1,71 @@
 :root {
     /* --- Color Palette: "The Scholar's Study" --- */
-    
+
     /* Base Backgrounds */
-    --bg-primary: #F9F7F2;   /* Warm Paper / Cream */
-    --bg-secondary: #F0EDE5; /* Slightly darker paper for sections */
-    --card-bg: #FFFFFF;      /* Clean White for distinct cards */
-    --bg-glass: rgba(249, 247, 242, 0.92); /* High-blur glass */
+    --bg-primary: #F9F7F2;
+    /* Warm Paper / Cream */
+    --bg-secondary: #F0EDE5;
+    /* Slightly darker paper for sections */
+    --card-bg: #FFFFFF;
+    /* Clean White for distinct cards */
+    --bg-glass: rgba(249, 247, 242, 0.92);
+    /* High-blur glass */
 
     /* Typography Colors */
-    --text-primary: #1A1512;   /* Jet Black (almost) for max contrast */
-    --text-secondary: #5A4E47; /* Warm Grey for subtitles */
-    --text-tertiary: #8C8279;  /* Muted metadata */
+    --text-primary: #1A1512;
+    /* Jet Black (almost) for max contrast */
+    --text-secondary: #5A4E47;
+    /* Warm Grey for subtitles */
+    --text-tertiary: #8C8279;
+    /* Muted metadata */
 
-    /* Accent System: "International Rust" */
-    --accent: #A0400B;       /* Deep, rich Rust/Orange */
-    --accent-hover: #823308; /* Darker interaction state */
-    --accent-light: rgba(160, 64, 11, 0.08); /* Subtle tints */
-    
+    /* Accent System: "Moss Green" */
+    --accent: #4A5D23;
+    /* Deep, rich Moss Green */
+    --accent-hover: #334018;
+    /* Darker interaction state */
+    --accent-light: rgba(74, 93, 35, 0.08);
+    /* Subtle tints */
+
     /* Status Colors */
     --success: #2E5C3D;
     --error: #B02C2C;
 
     /* --- Elevation & Depth (Shadows) --- */
     --border: rgba(26, 21, 18, 0.08);
-    
+
     /* Level 1: Subtle (Cards, Inputs) */
-    --shadow-sm: 
+    --shadow-sm:
         0 2px 4px -1px rgba(26, 21, 18, 0.06),
         0 4px 8px -2px rgba(26, 21, 18, 0.04);
-        
+
     /* Level 2: Medium (Dropdowns, Hovers) */
-    --shadow-md: 
+    --shadow-md:
         0 4px 12px -2px rgba(26, 21, 18, 0.08),
         0 12px 24px -4px rgba(26, 21, 18, 0.04);
-        
+
     /* Level 3: High (Modals, Sticky Headers) */
-    --shadow-lg: 
-        0 8px 20px -4px rgba(160, 64, 11, 0.12), /* Tinge of accent */
+    --shadow-lg:
+        0 8px 20px -4px rgba(74, 93, 35, 0.12),
+        /* Tinge of accent */
         0 24px 48px -8px rgba(26, 21, 18, 0.1);
 
     /* --- Spacing System --- */
-    --space-xs: 0.5rem;   /* 8px */
-    --space-sm: 1rem;     /* 16px */
-    --space-md: 2rem;     /* 32px */
-    --space-lg: 4rem;     /* 64px */
-    --space-xl: 8rem;     /* 128px - For section gaps */
-    
+    --space-xs: 0.5rem;
+    /* 8px */
+    --space-sm: 1rem;
+    /* 16px */
+    --space-md: 2rem;
+    /* 32px */
+    --space-lg: 4rem;
+    /* 64px */
+    --space-xl: 8rem;
+    /* 128px - For section gaps */
+
     /* --- Radii --- */
     --radius-sm: 8px;
     --radius-md: 16px;
     --radius-lg: 24px;
     --radius-full: 9999px;
-}
 
-[data-theme="dark"] {
-    --bg-primary: #120F0D;
-    --bg-secondary: #1C1816;
-    --card-bg: #241F1C;
-    --bg-glass: rgba(18, 15, 13, 0.9);
-
-    --text-primary: #F2EBE6;
-    --text-secondary: #B0A69E;
-    --text-tertiary: #756C66;
-
-    --accent: #D66D35; /* Lighter Rust for dark mode */
-    --accent-hover: #E88B5A;
-    --accent-light: rgba(214, 109, 53, 0.15);
-
-    --border: rgba(242, 235, 230, 0.1);
-    
-    --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-    --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
 }
