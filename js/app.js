@@ -93,72 +93,79 @@ function renderBook(book) {
     // Clear previous
     successContainer.innerHTML = '';
 
-    // 1. Header
-    const header = document.createElement('header');
-    header.className = 'book-header';
-    header.innerHTML = `
-        <h1 class="book-title">${book.title}</h1>
-        <div class="book-thesis">"${book.core_thesis}"</div>
+    // Create split-panel container
+    const splitContainer = document.createElement('div');
+    splitContainer.className = 'split-panel-container';
+
+    // LEFT PANEL - Fixed Brief Summary
+    const leftPanel = document.createElement('aside');
+    leftPanel.className = 'left-panel-fixed';
+    leftPanel.innerHTML = `
+        <div class="summary-card">
+            <h1 class="book-title-sidebar">${book.title}</h1>
+            <span class="section-label-sidebar">Brief Summary</span>
+            <div class="brief-summary">${book.core_thesis}</div>
+            
+            <!-- Quick Actions in Sidebar -->
+            <div class="sidebar-actions">
+                <button class="btn-sidebar-action" onclick="generateArtifact('slides')">
+                    <i class="fas fa-layer-group"></i> Create Slides
+                </button>
+                <button class="btn-sidebar-action" onclick="generateArtifact('flashcards')">
+                    <i class="fas fa-bolt"></i> Flashcards
+                </button>
+                <button class="btn-sidebar-action btn-secondary" onclick="location.reload()">
+                    <i class="fas fa-search"></i> New Search
+                </button>
+            </div>
+        </div>
     `;
-    successContainer.appendChild(header);
 
-    // 2. Key Concepts
+    // RIGHT PANEL - Scrollable Content
+    const rightPanel = document.createElement('main');
+    rightPanel.className = 'right-panel-scroll';
+
+    // Core Concepts Section
     const conceptsSection = document.createElement('section');
-    conceptsSection.className = 'editorial-section';
-    conceptsSection.innerHTML = `<span class="section-label">Core Concepts</span>`;
-
-    // Create a single container for all concepts
-    const conceptsContainer = document.createElement('article');
-    conceptsContainer.className = 'concept-card concepts-unified';
+    conceptsSection.className = 'content-section';
+    conceptsSection.innerHTML = `<h2 class="section-title-main">Core Concepts</h2>`;
 
     let conceptsHTML = '';
     book.key_concepts.forEach((concept, index) => {
         conceptsHTML += `
-            <div class="concept-item ${index > 0 ? 'mt-4 pt-4' : ''}" style="${index > 0 ? 'border-top: 1px solid var(--border);' : ''}">
-                <h3 class="concept-title">${concept.title}</h3>
-                <div class="concept-body">${concept.explanation}</div>
+            <div class="concept-card-main">
+                <h3 class="concept-title-main">${concept.title}</h3>
+                <div class="concept-body-main">${concept.explanation}</div>
             </div>
         `;
     });
+    conceptsSection.innerHTML += conceptsHTML;
+    rightPanel.appendChild(conceptsSection);
 
-    conceptsContainer.innerHTML = conceptsHTML;
-    conceptsSection.appendChild(conceptsContainer);
-    successContainer.appendChild(conceptsSection);
-
-    // 3. Mental Models
+    // Mental Models Section
     if (book.mental_models && book.mental_models.length > 0) {
         const modelsSection = document.createElement('section');
-        modelsSection.className = 'editorial-section';
+        modelsSection.className = 'content-section';
         modelsSection.innerHTML = `
-            <span class="section-label">Mental Models</span>
-            <div class="models-grid">
+            <h2 class="section-title-main">Mental Models</h2>
+            <div class="models-grid-main">
                 ${book.mental_models.map(model => `
-                    <div class="model-card">
+                    <div class="model-card-main">
                         <h3>${model.name}</h3>
                         <p>${model.description}</p>
                     </div>
                 `).join('')}
             </div>
         `;
-        successContainer.appendChild(modelsSection);
+        rightPanel.appendChild(modelsSection);
     }
 
-    // 4. Artifacts Toolbar
-    const artifactsToolbar = document.createElement('div');
-    artifactsToolbar.className = 'artifacts-container';
-    artifactsToolbar.innerHTML = `
-        <button class="btn-artifact" onclick="generateArtifact('slides')">
-            <i class="fas fa-layer-group"></i> Create Slides
-        </button>
-        <button class="btn-artifact" onclick="generateArtifact('flashcards')">
-            <i class="fas fa-bolt"></i> Flashcards
-        </button>
-        <button class="btn-artifact" onclick="location.reload()">
-            <i class="fas fa-search"></i> New Search
-        </button>
-    `;
-    successContainer.appendChild(artifactsToolbar);
+    // Assemble
+    splitContainer.appendChild(leftPanel);
+    splitContainer.appendChild(rightPanel);
+    successContainer.appendChild(splitContainer);
 }
+
 
 
 // Artifact Generation
